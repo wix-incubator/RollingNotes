@@ -15,6 +15,9 @@ app.set('views', path.join(__dirname, 'views'));
 //app.set('view engine', 'ejs');
 //app.engine('html', require('ejs').renderFile);
 
+////authenticating with wix
+//var auth = require('./authenticate');
+
 
 app.use(favicon());
 app.use(logger('dev'));
@@ -25,8 +28,6 @@ app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 var db = require("./data/database");
-
-var auth = require('./authenticate');
 
 app.use('/', routes);
 app.use('/users', users);
