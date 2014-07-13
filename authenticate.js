@@ -46,33 +46,33 @@ app.get('/', function(req, res) {
 });
 
 app.get('/settings', function (req, res) {
-//    // The GET request to your app endpoint will contain an instance parameter for you to parse
-//    var instance = req.query.instance;
-//
-//    var title = 'Home - Not Verified';
-//
-//    try {
-//        // Parse the instance parameter
-//        var wixInstance = wix.getConnect();
-//        var wixParse = wixInstance.parseInstance(instance, APP_SECRET);
-//
-//        var instanceId = wixParse.instanceId;
-//
-//        // Get a shortcut for the Wix RESTful API
-//        var wixAPI = wix.getAPI(APP_SECRET, APP_ID, instanceId);
-//
-//        console.log("Once you've reached this point you're good to use the Wix API, otherwise an exception will be thrown.");
-//
-//
-//        title = 'Home - instance verified';
+    // The GET request to your app endpoint will contain an instance parameter for you to parse
+    var instance = req.query.instance;
+
+    var title = 'Home - Not Verified';
+
+    try {
+        // Parse the instance parameter
+        var wixInstance = wix.getConnect();
+        var wixParse = wixInstance.parseInstance(instance, APP_SECRET);
+
+        var instanceId = wixParse.instanceId;
+
+        // Get a shortcut for the Wix RESTful API
+        var wixAPI = wix.getAPI(APP_SECRET, APP_ID, instanceId);
+
+        console.log("Once you've reached this point you're good to use the Wix API, otherwise an exception will be thrown.");
+
+        title = 'Home - instance verified';
 //        res.send( title );
-//
-//    } catch(e) {
-//        console.log(e);
-//        title = "Wix API init failed. Check your app key, secret and instance Id";
-//        console.log( title );
-//        res.send( title );
-//    }
+        res.sendfile('./views/helloworld.html');
+
+    } catch(e) {
+        console.log(e);
+        title = "Wix API init failed. Check your app key, secret and instance Id";
+        console.log( title );
+        res.send( title );
+    }
 });
 
 app.listen(8000);
