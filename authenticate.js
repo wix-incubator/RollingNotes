@@ -41,7 +41,8 @@ app.get('/widget', function (req, res) {
 });
 
 app.get('/', function(req, res) {
-    res.render('helloworld.ejs');
+//    res.render('helloworld.ejs');
+     res.sendFile('helloworld.html');
 });
 
 app.get('/settings', function (req, res) {
