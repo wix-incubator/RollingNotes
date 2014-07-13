@@ -30,7 +30,7 @@ app.get('/widget', function (req, res) {
 
         title = 'Home - instance verified';
 //        res.send( title );
-        res.render('helloworld.ejs');
+        res.sendfile('./views/helloworld.html');
 
     } catch(e) {
         console.log(e);
@@ -42,7 +42,7 @@ app.get('/widget', function (req, res) {
 
 app.get('/', function(req, res) {
 //    res.render('helloworld.ejs');
-     res.sendFile('helloworld.html');
+     res.sendfile('./views/helloworld.html');
 });
 
 app.get('/settings', function (req, res) {
