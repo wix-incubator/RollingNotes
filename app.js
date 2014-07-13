@@ -22,6 +22,8 @@ app.use(cookieParser());
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
+var db = require("./data/database");
+
 app.use('/', routes);
 app.use('/users', users);
 
