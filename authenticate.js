@@ -10,6 +10,7 @@ var APP_ID = '137f851f-ed9d-9e85-4e0a-b73bc11455e4';
 
 exports.authenticate = function authenticate(req, res) {
     var instance = req.query.instance;
+
     try {
         // Parse the instance parameter
         var wixInstance = wix.getConnect();
@@ -18,7 +19,7 @@ exports.authenticate = function authenticate(req, res) {
         var instanceId = wixParse.instanceId;
 
         // Get a shortcut for the Wix RESTful API
-        var wixAPI = wix.getAPI(APP_SECRET, APP_ID, instanceId);
+        wixAPI = wix.getAPI(APP_SECRET, APP_ID, instanceId);
 
         console.log("Once you've reached this point you're good to use the Wix API, otherwise an exception will be thrown.");
 
@@ -26,6 +27,9 @@ exports.authenticate = function authenticate(req, res) {
 
         console.log('Authentication Successful');
 
+        // save instanceId and compId in request
+        req.instanceId = instanceId;
+        req.compId = req.query.compId;
     } catch(e) {
         console.log(e);
         title = "Wix API init failed. Check your app key, secret and instance Id";
