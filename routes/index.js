@@ -4,10 +4,30 @@ var auth = require('../authenticate');;
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  console.log('testing');
-//  auth.authenticate(req, res);
-  console.log('testing');
-//  res.sendfile('./views/helloworld.html');
+
+    //view
+    res.sendfile('./views/helloworld.html');
+
+});
+
+/* GET widget. */
+router.get('/widget', function(req, res) {
+    //widget authentication
+    auth.authenticate(req, res);
+
+    //view
+    res.sendfile('./views/helloworld.html');
+
+});
+
+/* GET settings. */
+router.get('/settings', function(req, res) {
+    //settings authentication
+    auth.authenticate(req, res);
+
+    //view
+    res.sendfile('./views/helloworld.html');
+
 });
 
 module.exports = router;
