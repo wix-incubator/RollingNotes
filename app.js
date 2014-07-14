@@ -10,6 +10,12 @@ var users = require('./routes/users');
 
 var app = express();
 
+//database setup
+var db = require("./data/database");
+
+//authenticate with wix
+var auth = require('./authenticate');
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 
@@ -22,7 +28,10 @@ app.use(cookieParser());
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-var db = require("./data/database");
+app.use(function(req, res, next){
+    auth.authenticate(req, res);
+    next();
+});
 
 app.use('/', routes);
 app.use('/users', users);
