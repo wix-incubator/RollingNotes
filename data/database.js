@@ -38,7 +38,7 @@ function updateSettings(updatedSettings, callback) {
         if (err)  {
             console.log("err while updating settings");
         } else {
-            callback(data); //should update widget ui
+            if (callback && typeof(callback) == "function") callback(data); //should update widget ui
         }
     });
     console.log("update didn't crash");
