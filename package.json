@@ -16,7 +16,8 @@
     "less-middleware": "1.0.x",
     "mongodb" : "*",
     "mongojs": "*",
-    "openapi-node" : "*"
+    "openapi-node" : "*",
+    "ejs" : "*"
 
   }
 }

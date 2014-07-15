@@ -34,7 +34,7 @@ function getCompByKey(key, callback) {
     });
 };
 
-function updateCompByKey(updatedComp, callback) {
+function updateComponent(updatedComp, callback) {
     db.rollingnotes.save(updatedComp, function(err, data) {
         if (err)  {
             console.log("err while updating comp");
@@ -59,7 +59,8 @@ var updateCompTest = {
     "test" : "we changed the comp"
 }
 
-updateCompByKey(updateCompTest);
+updateComponent(updateCompTest);
 
 
 exports.getCompByKey = getCompByKey;
+exports.updateComponent = updateComponent;
