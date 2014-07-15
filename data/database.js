@@ -12,44 +12,38 @@ var db = mongojs("db",["rollingnotes"]);
 var defaults = require("./defaults");
 
 //inserts new widget instance or loads existing one
-function getSettings(key, callback) {
+function getCompByKey(key, callback) {
     // search for instance of setting in databse by unique key
     db.rollingnotes.findOne({_id: key}, function(err, doc) {
-        var settings;
+        var comp;
         if(err || !doc) {
-            console.log('Settings Doc did not exist, was created and returned');
-            // if doc doesn't exist, assign default settings and unique key
-            settings = defaults.settings;
-            settings._id = key;
-            // insert new settings instance in db
-            db.rollingnotes.insert(settings);
+            console.log('Component did not exist, was created and returned');
+            // if doc doesn't exist, assign default component
+            comp = defaults.component;
+            // assign new component unique key
+            comp._id = key;
+            // insert new comp instance in db
+            db.rollingnotes.insert(comp);
         } else {
             // if doc exists, assign existing setting
-            console.log('Settings Doc existed and returned');
-            settings = doc;
+            console.log('Comp Doc existed and returned');
+            comp = doc;
         }
-        // do something with settings object
-        callback(settings);
+        // do something with comp object
+        callback(comp);
     });
 };
 
-function updateSettings(updatedSettings, callback) {
-    db.rollingnotes.save(updatedSettings, function(err, data) {
+function updateCompByKey(updatedComp, callback) {
+    db.rollingnotes.save(updatedComp, function(err, data) {
         if (err)  {
-            console.log("err while updating settings");
+            console.log("err while updating comp");
         } else {
             if (callback && typeof(callback) == "function") callback(data); //should update widget ui
         }
     });
     console.log("update didn't crash");
 }
-
-// TODO: write function that sends settings to UI/css
-function printSettings(settings) {
-    console.log("PRINT SETTINGS: " + JSON.stringify(settings));
-};
-
-// TODO: replicate for widget endpoint
 
 // for testing purposes
 function loadDB() {
@@ -60,12 +54,12 @@ function loadDB() {
 }
 
 
-var updateSettingsTest = {
+var updateCompTest = {
     "_id" : "1380ce7a-023d-46b3-0248-66b7f44b0bd7hxlx65qa",
-    "test" : "we changed the settings"
+    "test" : "we changed the comp"
 }
 
-updateSettings(updateSettingsTest);
+updateCompByKey(updateCompTest);
 
 
-exports.getSettings = getSettings;
+exports.getCompByKey = getCompByKey;

@@ -4,10 +4,6 @@
 
 // returns default settings/widget instance
 
-exports.settings = {
-    "test" : "0"
-};
-
-exports.widget = {
+exports.component = {
     "test" : "0"
 };
