@@ -35,9 +35,9 @@ router.get('/settings', function(req, res) {
 
 /* Update component. */
 router.post('/updateComponent', function(req, res) {
-    console.log('Posting component updates.');
-
-    //db.updateComponent();
+    var body = "";
+    console.log(req.body);
+    db.updateComponent(req.body);
 });
 
 function getKey(req) {

@@ -8,7 +8,7 @@
 <body ng-app="settingsApp">
 
     <div ng-controller="settingsController as ctrl"  >
-        <form ng-submit="ctrl.testing()">
+        <form ng-submit="ctrl.updateComponent()">
             Enter text and hit enter:
             <input type="text" ng-model="ctrl.settings.test" name="test" />
             <input type="submit" id="submit" value="Submit" />

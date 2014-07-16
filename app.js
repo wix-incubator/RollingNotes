@@ -31,6 +31,7 @@ app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(req, res, next){
+    console.log('This is when I fail ' + req.url);
     auth.authenticate(req, res);
     next();
 

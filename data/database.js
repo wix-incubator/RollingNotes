@@ -34,16 +34,27 @@ function getCompByKey(key, callback) {
     });
 };
 
-function updateComponent(updatedComp, callback) {
+function updateComponent(updatedComp) {
     db.rollingnotes.save(updatedComp, function(err, data) {
         if (err)  {
-            console.log("err while updating comp");
+            console.log(err);
         } else {
-            if (callback && typeof(callback) == "function") callback(data); //should update widget ui
+                console.log('worked');
         }
     });
     console.log("update didn't crash");
 }
+
+//function updateComponent(updatedComp, callback) {
+//    db.rollingnotes.save(updatedComp, function(err, data) {
+//        if (err)  {
+//            console.log(err);
+//        } else {
+//            if (callback && typeof(callback) == "function") callback(data); //should update widget ui
+//        }
+//    });
+//    console.log("update didn't crash");
+//}
 
 // for testing purposes
 function loadDB() {

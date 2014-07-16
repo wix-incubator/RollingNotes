@@ -5,19 +5,17 @@
 (function(){
     var app = angular.module("settingsApp", []);
 
-    app.controller('settingsController', ['$window', '$scope', function($window, $scope) {
+    app.controller('settingsController', ['$window', '$scope', '$http', function($window, $scope, $http) {
         this.settings = $window.settings;
-
-            this.test = "Hi Adam";
-        this.testing = function() {
-
-            console.log(this.settings);
-
-        };
 
         this.getSettings = function(settings) {
             console.log(settings);
         };
+
+        this.updateComponent = function() {
+            $http.post('/updateComponent', this.settings);
+        };
+
     }]);
 
 })();
