@@ -26,7 +26,7 @@ router.get('/settings', function(req, res) {
     // get settings object from db based on key
     db.getCompByKey(key, function (data) {
         console.log("Returning settings to angular: " + JSON.stringify(data));
-        res.render('settings.ejs', { settings:  data});
+        res.render('settings.ejs', { settings:  JSON.stringify(data)});
     });
 
     // load
