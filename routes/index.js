@@ -41,8 +41,7 @@ router.post('/updateComponent', function(req, res) {
 });
 
 function getKey(req) {
-  //  return req.instanceId  + req.compId;
-    return req.instanceId;
+    return req.instanceId  + req.origCompId;
 }
 
 module.exports = router;

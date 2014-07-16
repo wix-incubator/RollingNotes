@@ -29,7 +29,7 @@ exports.authenticate = function authenticate(req, res) {
 
         // save instanceId and compId in request
         req.instanceId = instanceId;
-        req.compId = req.query.compId;
+        req.origCompId = req.query.origCompId;
     } catch(e) {
         console.log(e);
         title = "Wix API init failed. Check your app key, secret and instance Id";

@@ -5,5 +5,5 @@
 // returns default settings/widget instance
 
 exports.component = {
-    "test" : "0"
+    "test" : "default"
 };
