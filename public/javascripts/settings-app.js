@@ -7,8 +7,8 @@
 
    app.controller('settingsController', function() {
         this.test = "Hi Adam";
-       this.testing = function() {
-             console.log('angular is working!!!!!!!!!!!!!!!!!!!!!!!!');
+        this.testing = function() {
+             console.log(this.test);
          };
    });
 
