@@ -4,10 +4,20 @@
         <meta charset="UTF-8">
         <title>Settings</title>
     </head>
-    <body>
+    <body ng-app="settingsApp">
         <div class="title">
             <h1><%= title %></h1>
+            <!--<form action="/action" method="post">-->
+                <!--<input type="text" name="val"><br>-->
+                <!--<button type="submit">Save</button>-->
+            <!--</form>-->
+        </div>
+        <div ng-controller="settingsController as settings">
+            {{settings.testing()}}
+            {{settings.test}}
         </div>
         <script type="text/javascript" src="//sslstatic.wix.com/services/js-sdk/1.33.0/js/Wix.js"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.20/angular.min.js"></script>
+        <script type="text/javascript" src="/javascripts/settings-app.js"></script>
     </body>
 </html>

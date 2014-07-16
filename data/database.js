@@ -59,7 +59,7 @@ var updateCompTest = {
     "test" : "we changed the comp"
 }
 
-updateComponent(updateCompTest);
+//updateComponent(updateCompTest);
 
 
 exports.getCompByKey = getCompByKey;
