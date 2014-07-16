@@ -3,20 +3,21 @@
  */
 
 (function(){
-   var app = angular.module("settingsApp", []);
+    var app = angular.module("settingsApp", []);
 
-   app.controller('settingsController', ['$window', '$scope', function($window, $scope) {
-        this.test = "Hi Adam";
+    app.controller('settingsController', ['$window', '$scope', function($window, $scope) {
+        this.settings = $window.settings;
+
+            this.test = "Hi Adam";
         this.testing = function() {
-             console.log(this.test);
 
-            console.log("THIS WORKS!!!!!" + $window.settings.test);
+            console.log(this.settings);
 
-         };
+        };
 
-       this.getSettings = function(settings) {
-           console.log(settings);
-       };
-   }]);
+        this.getSettings = function(settings) {
+            console.log(settings);
+        };
+    }]);
 
 })();
