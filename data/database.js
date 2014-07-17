@@ -58,7 +58,7 @@ function updateComponent(updatedComp) {
 
 // for testing purposes
 function loadDB() {
- //  db.rollingnotes.remove();
+ //   db.rollingnotes.remove();
 //    db.rollingnotes.insert({'test': '2'});
 //    db.rollingnotes.insert({'test': '3'});
 //    db.rollingnotes.insert({'test': '4'});
