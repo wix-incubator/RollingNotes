@@ -12,9 +12,20 @@
             console.log(settings);
         };
 
+        var parseCompId = function(key){
+            return key.substring(key.indexOf(".") + 1);
+        }
+
         this.updateComponent = function() {
-            $http.post('/updateComponent', this.settings);
+            $http.post('/updateComponent', this.settings).success(function() {
+                ;
+                //may need to add a .failure(function) method
+                var compId = parseCompId(settings._id);
+                Wix.Settings.refreshAppByCompIds([compId]);
+                console.log('the callback has callbacked!')
+            });
         };
+
 
     }]);
 

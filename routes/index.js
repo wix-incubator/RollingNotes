@@ -12,20 +12,22 @@ router.get('/', function(req, res) {
 
 /* GET widget. */
 router.get('/widget', function(req, res) {
-    console.log("you loaded the widget");
-    res.render('widget.ejs', {title: 'The notes widget!'});
+    var key = req.instanceId  + '.' + req.compId;
+    // get settings object from db based on key
+    db.getCompByKey(key, function (data) {
+        console.log('Data: ' + JSON.stringify(data));
+        res.render('widget.ejs', { settings:  data});
+    });
 
 
 });
 
 /* GET settings. */
 router.get('/settings', function(req, res) {
-    console.log("you loaded the settings");
     // get db key
-    var key = getKey(req);
+    var key = req.instanceId  + '.' + req.origCompId;
     // get settings object from db based on key
     db.getCompByKey(key, function (data) {
-        console.log("Returning settings to angular: " + JSON.stringify(data));
         res.render('settings.ejs', { settings:  JSON.stringify(data)});
     });
 
@@ -40,8 +42,8 @@ router.post('/updateComponent', function(req, res) {
     db.updateComponent(req.body);
 });
 
-function getKey(req) {
-    return req.instanceId  + req.origCompId;
-}
+//function getKey(req) {
+//    return req.instanceId  + req.origCompId;
+//}
 
 module.exports = router;
