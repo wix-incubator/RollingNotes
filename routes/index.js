@@ -16,7 +16,7 @@ router.get('/widget', function(req, res) {
     // get settings object from db based on key
     db.getCompByKey(key, function (data) {
         console.log('Data: ' + JSON.stringify(data));
-        res.render('widget.ejs', { settings:  data});
+        res.render('widget.ejs', { settings:  JSON.stringify(data)});
     });
 
 
