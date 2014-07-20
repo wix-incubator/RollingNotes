@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>Settings</title>
     <link rel="stylesheet" href="/wix-ui/ui-lib.min.css"/>
+    <link rel="stylesheet" href="/stylesheets/settings-styles.css"/>
 
 </head>
 <body wix-ui ng-app="settingsApp">
@@ -24,6 +25,29 @@
         </div>
     </header>
 
+    <div class="feature" wix-ctrl="Tabs" wix-options="{value:0}"  style="margin: 0px">
+        <ul>
+            <li data-tab="tab0"><div>Design</div></li>
+            <li data-tab="tab1"><div>Setting</div></li>
+        </ul>
+        <div class="tab-content">
+            <div data-tab="tab0" class="tab-pane">
+                <ui class="list">
+                    <li class="li-group">choose background note layout</li>
+                    <li class="li-group">
+                        <div wix-label="Text"> Text losts of texts </div>
+                        <!--<div wix-param="bgColor" wix-ctrl="ColorPicker" wix-options="{startWithColor: 'color-3'}"></div>-->
+                    </li>
+                </ui>
+            </div>
+            <div data-tab="tab1" class="tab-pane">
+                <ui class="list">
+                    <li class="li-group">choose transition</li>
+                    <li class="li-group">duration options</li>
+                </ui>
+            </div>
+        </div>
+    </div>
 
     <!-- angular -->
     <div ng-controller="settingsController as ctrl"  >
