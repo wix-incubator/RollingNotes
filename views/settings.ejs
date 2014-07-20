@@ -4,9 +4,28 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>Settings</title>
-</head>
-<body ng-app="settingsApp">
+    <link rel="stylesheet" href="/wix-ui/ui-lib.min.css"/>
 
+</head>
+<body wix-ui ng-app="settingsApp">
+
+
+    <header class="box">
+        <div class="logo">
+            <img width="86" src="/wix-ui/images/wix_icon.png" alt="logo"/>
+        </div>
+        <div class="loggedOut">
+            <p><!-- App Description --></p>
+            <div class="login-panel"><!-- App login panel --></div>
+        </div>
+        <div class="loggedIn hidden">
+            <!-- App Logged in information -->
+            <div class="premium-panel"><!-- Premium features --></div>
+        </div>
+    </header>
+
+
+    <!-- angular -->
     <div ng-controller="settingsController as ctrl"  >
         <form ng-submit="ctrl.updateComponent()">
             Enter text and hit enter:
@@ -19,13 +38,31 @@
         </form>
     </div>
 
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <script type="text/javascript" src="//sslstatic.wix.com/services/js-sdk/1.33.0/js/Wix.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.20/angular.min.js"></script>
     <script type="text/javascript" src="/javascripts/settings-app.js"></script>
+    <script type="text/javascript" src="/wix-ui/ui-lib.min.js"></script>
 
+    <!-- get global settings JSON -->
     <script type="text/javascript">
         var settings = <%- settings %>;
     </script>
+
+    <!-- initilaize wix settings ui -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            Wix.UI.initialize({
+                numOfImages: 100,
+                isIconShown: true,
+                imageVisibility: 'show',
+                imagesToSync: 0,
+                imageLink: false
+            });
+        });
+    </script>
+
 </body>
 </html>
 
