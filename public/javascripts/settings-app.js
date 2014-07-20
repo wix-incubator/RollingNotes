@@ -17,12 +17,12 @@
         }
 
         this.updateComponent = function() {
+            Wix.Settings.triggerSettingsUpdatedEvent(settings, parseCompId(settings._id));
             $http.post('/updateComponent', this.settings).success(function() {
                 ;
                 //may need to add a .failure(function) method
                 var compId = parseCompId(settings._id);
                 Wix.Settings.refreshAppByCompIds([compId]);
-                console.log('the callback has callbacked!')
             });
         };
 

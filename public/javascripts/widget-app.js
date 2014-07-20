@@ -5,4 +5,8 @@ var HelloMessage = React.createClass({
     }
 });
 
+Wix.addEventListener(Wix.Events.SETTINGS_UPDATED, function(json){
+    console.log(json.test);
+});
+
 React.renderComponent(<HelloMessage settings={window.settings} />, document.getElementById('content'));
