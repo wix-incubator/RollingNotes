@@ -1,1 +1,26 @@
-.tab-pane .list .li-group{list-style:none;border-bottom:1px solid #d4d4d4;padding:10px 0 10px 28px}.tab-pane .list .li-group:last-child{list-style:none;border-bottom:none;padding:10px 0 10px 28px}
+/****************************
+Tab content styles
+****************************/
+.tab-pane .list .li-group {
+  list-style: none;
+  padding: 10px 0 10px 28px;
+}
+.tab-pane .list .settings-group {
+  border-bottom: 1px solid #d4d4d4;
+}
+/****************************
+Wix UI lib component styles
+****************************/
+.uilib-color-box {
+  display: inline-block;
+  margin-right: 55px;
+}
+.picker-with-opacity {
+  display: inline-block;
+}
+.picker-with-opacity .uilib-color-box {
+  margin-right: 96px;
+}
+.picker-with-opacity .uilib-slider .uilib-slider-preLabel {
+  left: -62px;
+}

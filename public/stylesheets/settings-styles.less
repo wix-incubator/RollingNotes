@@ -1,14 +1,48 @@
 
-
+/****************************
+Tab content styles
+****************************/
 .tab-pane .list .li-group {
   list-style: none;
+  padding: 10px 0 10px 28px;
+}
+
+.tab-pane .list .settings-group {
   border-bottom: 1px solid #d4d4d4;
-  padding: 10px 0 10px 28px;
 }
 
+//.tab-pane .list:last-child .settings-group {
+//  border-bottom:  none;
+//}
 
-.tab-pane .list .li-group:last-child {
-  list-style: none;
-  border-bottom: none;
-  padding: 10px 0 10px 28px;
+
+/****************************
+Wix UI lib component styles
+****************************/
+@colorMarginRight: 55px;
+@colorSliderMarginRight: 96px;
+
+
+.uilib-color-box {
+  display: inline-block;
+  margin-right: @colorMarginRight;
 }
+
+.picker-with-opacity {
+  display: inline-block;
+}
+
+.picker-with-opacity .uilib-color-box {
+  margin-right: @colorSliderMarginRight;
+}
+
+.picker-with-opacity .uilib-slider .uilib-slider-preLabel {
+  left: -62px;
+}
+
+//
+//.uilib-text{
+//  line-height: 17px;
+//  color: #484848;
+//  font-size: 12px;
+//}

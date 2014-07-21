@@ -30,16 +30,28 @@
             <li data-tab="tab0"><div>Design</div></li>
             <li data-tab="tab1"><div>Setting</div></li>
         </ul>
+        <!--All Tab Content-->
         <div class="tab-content">
+            <!--First Tab (Design) Content-->
             <div data-tab="tab0" class="tab-pane">
-                <ui class="list">
-                    <li class="li-group">choose background note layout</li>
-                    <li class="li-group">
-                        <div wix-label="Text"> Text losts of texts </div>
-                        <!--<div wix-param="bgColor" wix-ctrl="ColorPicker" wix-options="{startWithColor: 'color-3'}"></div>-->
-                    </li>
+                <ui class="list uilib-text">
+                     <div class = "settings-group">
+                        <li class="li-group">
+                            <div> Skins </div>
+                        </li>
+                    </div>
+                    <div>
+                        <li class="li-group" wix-label="Text">
+                            <div wix-param="textColor" wix-ctrl="ColorPicker"  wix-options="{startWithColor:'color-5'}"></div>
+                            <div wix-param="myFont" wix-ctrl="FontStylePicker"></div>
+                        </li>
+                        <li class="li-group" wix-label="Background Color">
+                            <div wix-param="colorWOpacity" wix-ctrl="ColorPickerWithOpacity" wix-options="{startWithColor: 'color-3', startWithOpacity:90}"></div>
+                        </li>
+                    </div>
                 </ui>
             </div>
+            <!--Second Tab (Settings Tab)Content-->
             <div data-tab="tab1" class="tab-pane">
                 <ui class="list">
                     <li class="li-group">choose transition</li>
@@ -47,6 +59,7 @@
                 </ui>
             </div>
         </div>
+
     </div>
 
     <!-- angular -->
