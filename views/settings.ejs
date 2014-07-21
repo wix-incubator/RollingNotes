@@ -13,7 +13,7 @@
 
     <header class="box">
         <div class="logo">
-            <img width="86" src="/wix-ui/images/wix_icon.png" alt="logo"/>
+            <img width="86" src="/images/settings-logo.png" alt="logo"/>
         </div>
         <div class="loggedOut">
             <p><!-- App Description --></p>
@@ -37,10 +37,15 @@
                 <ui class="list uilib-text">
                      <div class = "settings-group">
                         <li class="li-group">
-                            <div> Skins </div>
+                            <div class="skins-group" wix-model="multiSize" wix-ctrl="ButtonGroup">
+                                <button value="first"></button>
+                                <button value="second"></button>
+                                <button value="third"></button>
+                                <button value="fourth"></button>
+                            </div>
                         </li>
                     </div>
-                    <div>
+                    <div class="lower-settings">
                         <li class="li-group" wix-label="Text">
                             <div wix-param="textColor" wix-ctrl="ColorPicker"  wix-options="{startWithColor:'color-5'}"></div>
                             <div wix-param="myFont" wix-ctrl="FontStylePicker"></div>
@@ -69,9 +74,24 @@
             </div>
             <!--Second Tab (Settings Tab)Content-->
             <div data-tab="tab1" class="tab-pane">
-                <ui class="list">
-                    <li class="li-group">choose transition</li>
-                    <li class="li-group">duration options</li>
+                <ui class="list uilib-text">
+                    <div class = "settings-group">
+                        <li class="li-group">
+                            <div class="dur-group" wix-model="multiSize" wix-ctrl="ButtonGroup">
+                                <button value="first"></button>
+                                <button value="second"></button>
+                                <button value="third"></button>
+                                <button value="fourth"></button>
+                            </div>
+                        </li>
+                    </div>
+                    <div class="lower-settings">
+                        <li class="li-group durationGroup" wix-label="Duration (seconds)">
+                            <!--<span class="radius-slider-label">Radius</span>-->
+                            <div  wix-model="Duration" wix-ctrl="Slider" wix-options="{ maxValue:10, preLabel:'0', postLabel:'10'}"></div>
+                            <div class="durationSpinner" wix-model="myInt" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:100 }"></div>
+                        </li>
+                    </div>
                 </ui>
             </div>
         </div>
