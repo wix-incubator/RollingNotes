@@ -55,7 +55,28 @@ Wix UI lib component styles
   margin-bottom: 14px;
 }
 
-.skins-group .btn, .dur-group .btn {
+.transitionButtonBlock {
+  margin-left: 40px!important;
+  width: 76px;
+  height: 100px;
+  display: inline-block;
+  text-align: center;
+}
+.transitionButtonBlock p {
+  text-align: center;
+  margin-left: -2px;
+}
+
+.dur-group .btn {
+  width: 76px;
+  height: 63px;
+  border-radius: 0px;
+  padding: 1px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.skins-group .btn {
   margin-left: 40px!important;
   width: 76px;
   height: 63px;
@@ -64,6 +85,7 @@ Wix UI lib component styles
   background-position: center;
   background-repeat: no-repeat;
 }
+
 
 .skins-group .btn:first-child {
   background-image: url("../images/skin1.png")
@@ -142,19 +164,19 @@ Wix UI lib component styles
 }
 
 
-.dur-group .btn:first-child {
+.dur-group .transitionButtonBlock .btn:first-child {
   background-image: url("../images/trans1.png")
 }
 
-.dur-group .btn:nth-child(2) {
+.dur-group .transitionButtonBlock:nth-child(2) .btn {
   background-image: url("../images/trans2.png")
 }
 
-.dur-group .btn:nth-child(3) {
+.dur-group .transitionButtonBlock:nth-child(3) .btn {
   background-image: url("../images/trans3.png")
 }
 
-.dur-group .btn:nth-child(4) {
+.dur-group .transitionButtonBlock:nth-child(4) .btn {
   background-image: url("../images/trans4.png")
 }
 //
