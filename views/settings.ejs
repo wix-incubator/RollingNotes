@@ -46,7 +46,20 @@
                             <div wix-param="myFont" wix-ctrl="FontStylePicker"></div>
                         </li>
                         <li class="li-group" wix-label="Background Color">
-                            <div wix-param="colorWOpacity" wix-ctrl="ColorPickerWithOpacity" wix-options="{startWithColor: 'color-3', startWithOpacity:90}"></div>
+                            <div wix-param="bcolorWOpacity" wix-ctrl="ColorPickerWithOpacity" wix-options="{startWithColor: 'color-3', startWithOpacity:90}"></div>
+                            <div wix-model="myInt" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:100 }"></div>
+                        </li>
+                        <li class="li-group" wix-label="Hover Color">
+                            <div wix-param="hcolorWOpacity" wix-ctrl="ColorPickerWithOpacity" wix-options="{startWithColor: 'color-3', startWithOpacity:90}"></div>
+                        </li>
+                        <li class="li-group" wix-label="Border">
+                            <div wix-param="=" wix-ctrl="ColorPicker"  wix-options="{startWithColor:'color-5'}"></div>
+                            <span class="width-slider-label">Width</span>
+                            <div  wix-model="BorderWidth" wix-ctrl="Slider" wix-options="{ maxValue:10, preLabel:'0', postLabel:'10'}"></div>
+                        </li>
+                        <li class="li-group" wix-label="Corner">
+                            <span class="radius-slider-label">Radius</span>
+                            <div  wix-model="Radius" wix-ctrl="Slider" wix-options="{ maxValue:10, preLabel:'0', postLabel:'10'}"></div>
                         </li>
                     </div>
                 </ui>

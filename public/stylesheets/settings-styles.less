@@ -22,10 +22,18 @@ Wix UI lib component styles
 @colorMarginRight: 55px;
 @colorSliderMarginRight: 96px;
 
+[data-wix-label]:before, [wix-label]:before {
+  font-weight: 400;
+}
 
 .uilib-color-box {
   display: inline-block;
   margin-right: @colorMarginRight;
+}
+
+.uilib-spinner.default {
+  display: inline-block;
+  margin-left: 50px;
 }
 
 .picker-with-opacity {
@@ -38,6 +46,19 @@ Wix UI lib component styles
 
 .picker-with-opacity .uilib-slider .uilib-slider-preLabel {
   left: -62px;
+}
+
+.uilib-slider.default-uilib-slider-ui {
+  display: inline-block;
+}
+
+.width-slider-label {
+  margin-right: 13px;
+}
+
+.radius-slider-label {
+  margin-left:101px;
+  margin-right: 9px;
 }
 
 //
