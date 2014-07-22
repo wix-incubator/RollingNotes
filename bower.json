@@ -15,6 +15,9 @@
     "tests"
   ],
   "dependencies": {
-      "wix-ui-lib2" : "latest"
+      "wix-ui-lib2" : "latest",
+      "react" : "latest",
+      "angular" : "latest",
+      "jquery" : "latest"
   }
 }
