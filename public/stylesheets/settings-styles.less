@@ -1,4 +1,14 @@
 
+
+/****************************
+global styles
+****************************/
+
+body {
+  background-color: #f6f6f6;
+}
+
+
 /****************************
 Tab content styles
 ****************************/
@@ -196,28 +206,55 @@ Wix UI lib component styles
 /****************************
 Manage Notes Screen Styles
 ****************************/
+@manageNotesWidth: 576px;
 
 .manage-notes-screen {
-  background-color: #00B7FF;
+//  background-color: #00B7FF;
+  //background-image: url('/images/rob.jpg');
+  //background-position: center;
+  background-color: white;
   left: 0px;
   top: 10px;
   height: 530px;
   right: 0px;
   bottom: 0px;
-  border: 1px solid #bdd;
   border-radius: 6px;
   margin: 0px;
   opacity: 1;
-  width: 100%;
   display: block;
   z-index: 9999;
   position: absolute;
   transition: opacity .4s ease,margin-left .4s ease,margin-right .4s ease;
 }
 
+
+
 .hidden-manage-notes {
   margin-left:100%;
   margin-right: -100%;
   opacity: 0;
   transition: opacity .4s ease,margin-left .4s ease,margin-right .4s ease;
+}
+
+#manage-notes-header {
+  background-color: #ffffff;
+  border-bottom: 1px solid #ccc;
+  position: fixed;
+  width: @manageNotesWidth;
+  height: 72px;
+  border-radius: 6px 6px 0 0;
+}
+
+#manage-notes-content {
+  overflow: auto;
+//  background-color: green;
+  width: @manageNotesWidth;
+  height: 90%;
+  margin-top: 73px;
+}
+
+.back-to-settings-button {
+  color: #3291e3;
+  background: none;
+  font-size: 12px;
 }

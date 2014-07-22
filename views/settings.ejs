@@ -118,25 +118,39 @@
         </div>
 
         <div id="manage-notes" class="manage-notes-screen hidden-manage-notes">
+            <div id="manage-notes-header">
+               <a class="back-to-settings-button" ng-click="ctrl.hideManageNotes()" href="#"> < Back to Settings</a>
+               <button class="uilib-btn" ng-click="#">Add a note</button>
+            </div>
+            <div id="manage-notes-content">
+                <h1>This is the manage notes screen!</h1>
+                <h1>This is the manage notes screen!</h1>
+                <h1>This is the manage notes screen!</h1>
+                <h1>This is the manage notes screen!</h1>
+                <h1>This is the manage notes screen!</h1>
+                <h1>This is the manage notes screen!</h1>
+                <h1>This is the manage notes screen!</h1>
+                <h1>This is the manage notes screen!</h1>
+                <h1>This is the manage notes screen!</h1>
+                <h1>This is the manage notes screen!</h1>
 
-               <h1>This is the manage notes screen!</h1>
-               <button class="uilib-btn manage-btn" ng-click="ctrl.hideManageNotes()"> < Back to Settings</button>
+            </div>
         </div>
 
     </div>
 
-    <!-- angular -->
-    <div ng-controller="settingsController as ctrl"  >
-        <form ng-submit="ctrl.updateComponent()">
-            Enter text and hit enter:
-            <input type="text" ng-model="ctrl.settings.test" name="test" />
-            <input type="submit" id="submit" value="Submit" />
-            <!--<pre>list={{list}}</pre>-->
+    <!-- angular + connection to DB -->
+    <!--<div ng-controller="settingsController as ctrl"  >-->
+        <!--<form ng-submit="ctrl.updateComponent()">-->
+            <!--Enter text and hit enter:-->
+            <!--<input type="text" ng-model="ctrl.settings.test" name="test" />-->
+            <!--<input type="submit" id="submit" value="Submit" />-->
+            <!--&lt;!&ndash;<pre>list={{list}}</pre>&ndash;&gt;-->
 
-            <!--{{ctrl.test}}-->
+            <!--&lt;!&ndash;{{ctrl.test}}&ndash;&gt;-->
 
-        </form>
-    </div>
+        <!--</form>-->
+    <!--</div>-->
 
     <script type="text/javascript" src="javascripts/bower_components/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="//sslstatic.wix.com/services/js-sdk/1.33.0/js/Wix.js"></script>
@@ -168,31 +182,3 @@
 </html>
 
 
-
-<!--ng-init="ctrl.test = #{JSON.stringify(settings)}"-->
-
-
-
-<!--<!DOCTYPE html>-->
-<!--<html>-->
-    <!--<head lang="en">-->
-        <!--<meta charset="UTF-8">-->
-        <!--<title>Settings</title>-->
-    <!--</head>-->
-    <!--<body ng-app="settingsApp">-->
-        <!--<div ng-controller="settingsController as ctrl">-->
-            <!--<h1></h1>-->
-            <!--<form action="/action" method="post" ng-submit="ctrl.testing()">-->
-                <!--<input ng-model="ctrl.test" type="text" name="val"><br>-->
-                <!--<input value="Submit" type='button'/>-->
-            <!--</form>-->
-        <!--</div>-->
-        <!--<div ng-controller="settingsController as settings">-->
-            <!--{{settings.testing()}}-->
-            <!--{{settings.test}}-->
-        <!--</div>-->
-        <!--<script type="text/javascript" src="//sslstatic.wix.com/services/js-sdk/1.33.0/js/Wix.js"></script>-->
-        <!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.20/angular.min.js"></script>-->
-        <!--<script type="text/javascript" src="/javascripts/settings-app.js"></script>-->
-    <!--</body>-->
-<!--</html>-->
