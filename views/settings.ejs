@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html>
+<html ng-app="settingsApp">
 <head lang="en">
     <meta charset="UTF-8">
     <title>Settings</title>
@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/stylesheets/settings-styles.css"/>
 
 </head>
-<body wix-ui ng-app="settingsApp">
+<body wix-ui ng-controller="settingsController as ctrl">
 
 
     <header class="box">
@@ -20,7 +20,7 @@
                 Wix's 3rd Party SDK, compatible with Wix's product requirements.
             </p>
 
-            <button class="uilib-btn manage-btn">Manage notes</button>
+            <button class="uilib-btn manage-btn" ng-click="ctrl.showManageNotes()">Manage notes</button>
         </div>
 
         <!--<div class="loggedOut">-->
@@ -115,6 +115,12 @@
                     </div>
                 </ui>
             </div>
+        </div>
+
+        <div id="manage-notes" class="manage-notes-screen hidden-manage-notes">
+
+               <h1>This is the manage notes screen!</h1>
+               <button class="uilib-btn manage-btn" ng-click="ctrl.hideManageNotes()"> < Back to Settings</button>
         </div>
 
     </div>

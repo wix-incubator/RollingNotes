@@ -191,3 +191,33 @@ Wix UI lib component styles
 //  color: #484848;
 //  font-size: 12px;
 //}
+
+
+/****************************
+Manage Notes Screen Styles
+****************************/
+
+.manage-notes-screen {
+  background-color: #00B7FF;
+  left: 0px;
+  top: 10px;
+  height: 530px;
+  right: 0px;
+  bottom: 0px;
+  border: 1px solid #bdd;
+  border-radius: 6px;
+  margin: 0px;
+  opacity: 1;
+  width: 100%;
+  display: block;
+  z-index: 9999;
+  position: absolute;
+  transition: opacity .4s ease,margin-left .4s ease,margin-right .4s ease;
+}
+
+.hidden-manage-notes {
+  margin-left:100%;
+  margin-right: -100%;
+  opacity: 0;
+  transition: opacity .4s ease,margin-left .4s ease,margin-right .4s ease;
+}

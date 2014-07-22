@@ -26,6 +26,18 @@
             });
         };
 
+        this.showManageNotes = function() {
+
+            $('#manage-notes').removeClass('hidden-manage-notes');
+
+        };
+
+        this.hideManageNotes = function() {
+
+            $('#manage-notes').addClass('hidden-manage-notes');
+
+        };
+
 
     }]);
 
