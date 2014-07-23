@@ -120,21 +120,24 @@
         <div id="manage-notes" class="manage-notes-screen hidden-manage-notes">
             <div id="manage-notes-header">
                <a class="back-to-settings-button" ng-click="ctrl.hideManageNotes()" href="#"> < Back to Settings</a>
-               <button class="uilib-btn" ng-click="#">Add a note</button>
+               <button class="uilib-btn add-note-btn" ng-click="#">Add a note</button>
             </div>
             <div id="manage-notes-content" class="box" wix-scroll="{height:456}">
                 <div class="note-container">
-                    where will this be?
-                </div>
-                <h1>This is the manage notes screen 2!</h1>
-                <h1>This is the manage notes screen 3!</h1>
-                <h1>This is the manage notes screen 4!</h1>
-                <h1>This is the manage notes screen 5!</h1>
-                <h1>This is the manage notes screen 6!</h1>
-                <h1>This is the manage notes screen 7!</h1>
-                <h1>This is the manage notes screen 8!</h1>
-                <h1>This is the manage notes screen 9!</h1>
-                <h1>This is the manage notes screen 10!</h1>
+                    <div class="content-row">
+                        <img class="drag-img" src="/images/drag-icon.png" />
+                        <textarea rows="2" class="note-text" type="text" maxlength="140"
+                                placeholder="This is a note. Click to edit"></textarea>
+                        <div class="edit-icons">
+                            <span class="icon-edit"></span>
+                            <img id="trash-icon" src="/images/trash-icon.png" />
+                            <span class="icon-unwatch"></span>
+                        </div>
+
+
+                    </div>
+
+
 
             </div>
         </div>
@@ -147,9 +150,9 @@
             <!--Enter text and hit enter:-->
             <!--<input type="text" ng-model="ctrl.settings.test" name="test" />-->
             <!--<input type="submit" id="submit" value="Submit" />-->
-            <!--<!--<pre>list={{list}}</pre>-->-->
+            <!--<!--<pre>list={{list}}</pre>-->
 
-            <!--<!--{{ctrl.test}}-->-->
+            <!--<!--{{ctrl.test}}-->
 
         <!--</form>-->
     <!--</div>-->
