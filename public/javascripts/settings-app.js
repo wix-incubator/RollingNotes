@@ -37,9 +37,6 @@
             $('#manage-notes').addClass('hidden-manage-notes');
 
         };
-
-        this.testList = ["one", "two", "three", "four", "five", "six"];;
-
     }]);
 
 })();
