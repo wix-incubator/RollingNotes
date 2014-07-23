@@ -125,16 +125,24 @@
             <div id="manage-notes-content" class="box" wix-scroll="{height:456}">
                 <div class="note-container">
                     <div class="content-row">
-                        <img class="drag-img" src="/images/drag-icon.png" />
-                        <textarea rows="2" class="note-text" type="text" maxlength="140"
-                                placeholder="This is a note. Click to edit"></textarea>
-                        <div class="edit-icons">
+                        <div class="drag-container">
+                            <img class="drag-img" src="/images/drag-icon.png" />
+                        </div>
+                        <div class="note-text-container">
+                            <textarea rows="0" class="note-text" type="text" maxlength="140"
+                                    placeholder="This is a note. Click to edit"></textarea>
+                        </div>
+                        <div class="edit-icons-container">
                             <span class="icon-edit"></span>
                             <img id="trash-icon" src="/images/trash-icon.png" />
                             <span class="icon-unwatch"></span>
                         </div>
-
-
+                    </div>
+                    <div class="link-row">
+                        <div class="link-container">
+                            <img class="link-icon" src="/images/link-icon.png"/>
+                            <a href="#">Add a link</a>
+                        </div>
                     </div>
 
 

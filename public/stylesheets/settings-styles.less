@@ -289,12 +289,13 @@ Manage Notes Screen Styles
 }
 
 
+
 .note-container {
   border: 1px solid #ccc;
   margin-top: 10px;
   margin-left: 15px;
   width: 540px;
-  height: 56px;
+  height: 75px;
 }
 
 .content-row {
@@ -302,11 +303,26 @@ Manage Notes Screen Styles
 
 }
 
+.drag-container {
+  display: inline-block;
+  position: relative;
+  float: left;
+  margin-left: 10px;
+  margin-top: 27px;
+}
+
 .drag-img {
   display: inline-block;
-  margin-left: 13px;
-  vertical-align: text-top;
+}
 
+.note-text-container {
+  display: inline-block;
+  position: relative;
+  float: left;
+  height: 30px;
+  width: 400px;
+  margin-left: 13px;
+  margin-top: 11px;
 }
 
 .note-text {
@@ -314,20 +330,36 @@ Manage Notes Screen Styles
   height: 30px;
   border: none;
   width: 400px;
-  font-size: 10px;
-  margin-left: 10px;
+  font-size: 11px;
   resize: none;
-  margin-top: 5px;
-
 }
 
-.edit-icons {
+.edit-icons-container {
   display: inline-block;
+  position: relative;
+  float: left;
   vertical-align: bottom;
   margin-left: 27px;
-
+  margin-top: 31px;
 }
 
 #trash-icon {
+  position: relative;
+  top: 1px;
   margin-right: 3px;
+}
+
+.link-row {
+  margin-top: -2px;
+}
+
+.link-container {
+  margin-left: 35px;
+}
+
+.link-container a {
+  display: inline-block;
+  font-size: 10px;
+  text-decoration: none;
+  color: #3291e3;
 }
