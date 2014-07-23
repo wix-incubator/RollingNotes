@@ -18,6 +18,8 @@
       "wix-ui-lib2" : "latest",
       "react" : "latest",
       "angular" : "latest",
-      "jquery" : "latest"
+      "jquery" : "latest",
+      "jqueryui" : "latest",
+      "angular-ui-sortable" : "latest"
   }
 }

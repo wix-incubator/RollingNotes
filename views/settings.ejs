@@ -33,7 +33,6 @@
         <!--</div>-->
         <!--<button class="uilib-btn manage-btn">Manage notes</button>-->
     </header>
-
     <div class="feature" wix-ctrl="Tabs" wix-options="{value:0}"  style="margin: 0px">
         <ul>
             <li data-tab="tab0"><div>Design</div></li>
@@ -122,9 +121,9 @@
                <a class="back-to-settings-button" ng-click="ctrl.hideManageNotes()" href="#"> < Back to Settings</a>
                <button class="uilib-btn add-note-btn" >Add a note</button>
             </div>
-            <div id="manage-notes-content" class="box" wix-scroll="{height:456}">
+            <ul ui:sortable id="manage-notes-content" class="box" wix-scroll="{height:456}">
 
-                <div class="note-container">
+                <li class="note-container">
                     <div class="content-row">
                         <div class="drag-container">
                             <img class="drag-img" src="/images/drag-icon.png" />
@@ -145,9 +144,9 @@
                             <a href="#">Add a link</a>
                         </div>
                     </div>
-                </div>
+                </li>
 
-                <div class="note-container">
+                <li class="note-container">
                     <div class="content-row">
                         <div class="drag-container">
                             <img class="drag-img" src="/images/drag-icon.png" />
@@ -168,9 +167,9 @@
                             <a href="#">Add a link</a>
                         </div>
                     </div>
-                </div>
+                </li>
 
-                <div class="note-container">
+                <li class="note-container">
                     <div class="content-row">
                         <div class="drag-container">
                             <img class="drag-img" src="/images/drag-icon.png" />
@@ -191,262 +190,9 @@
                             <a href="#">Add a link</a>
                         </div>
                     </div>
-                </div>
+                </li>
 
-                <div class="note-container">
-                    <div class="content-row">
-                        <div class="drag-container">
-                            <img class="drag-img" src="/images/drag-icon.png" />
-                        </div>
-                        <div class="note-text-container">
-                            <textarea rows="0" class="note-text" type="text" maxlength="140"
-                                      placeholder="This is a note. Click to edit"></textarea>
-                        </div>
-                        <div class="edit-icons-container">
-                            <span class="icon-edit"></span>
-                            <img id="trash-icon" src="/images/trash-icon.png" />
-                            <span class="icon-unwatch"></span>
-                        </div>
-                    </div>
-                    <div class="link-row">
-                        <div class="link-container">
-                            <img class="link-icon" src="/images/link-icon.png"/>
-                            <a href="#">Add a link</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="note-container">
-                    <div class="content-row">
-                        <div class="drag-container">
-                            <img class="drag-img" src="/images/drag-icon.png" />
-                        </div>
-                        <div class="note-text-container">
-                            <textarea rows="0" class="note-text" type="text" maxlength="140"
-                                      placeholder="This is a note. Click to edit"></textarea>
-                        </div>
-                        <div class="edit-icons-container">
-                            <span class="icon-edit"></span>
-                            <img id="trash-icon" src="/images/trash-icon.png" />
-                            <span class="icon-unwatch"></span>
-                        </div>
-                    </div>
-                    <div class="link-row">
-                        <div class="link-container">
-                            <img class="link-icon" src="/images/link-icon.png"/>
-                            <a href="#">Add a link</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="note-container">
-                    <div class="content-row">
-                        <div class="drag-container">
-                            <img class="drag-img" src="/images/drag-icon.png" />
-                        </div>
-                        <div class="note-text-container">
-                            <textarea rows="0" class="note-text" type="text" maxlength="140"
-                                      placeholder="This is a note. Click to edit"></textarea>
-                        </div>
-                        <div class="edit-icons-container">
-                            <span class="icon-edit"></span>
-                            <img id="trash-icon" src="/images/trash-icon.png" />
-                            <span class="icon-unwatch"></span>
-                        </div>
-                    </div>
-                    <div class="link-row">
-                        <div class="link-container">
-                            <img class="link-icon" src="/images/link-icon.png"/>
-                            <a href="#">Add a link</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="note-container">
-                    <div class="content-row">
-                        <div class="drag-container">
-                            <img class="drag-img" src="/images/drag-icon.png" />
-                        </div>
-                        <div class="note-text-container">
-                            <textarea rows="0" class="note-text" type="text" maxlength="140"
-                                      placeholder="This is a note. Click to edit"></textarea>
-                        </div>
-                        <div class="edit-icons-container">
-                            <span class="icon-edit"></span>
-                            <img id="trash-icon" src="/images/trash-icon.png" />
-                            <span class="icon-unwatch"></span>
-                        </div>
-                    </div>
-                    <div class="link-row">
-                        <div class="link-container">
-                            <img class="link-icon" src="/images/link-icon.png"/>
-                            <a href="#">Add a link</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="note-container">
-                    <div class="content-row">
-                        <div class="drag-container">
-                            <img class="drag-img" src="/images/drag-icon.png" />
-                        </div>
-                        <div class="note-text-container">
-                            <textarea rows="0" class="note-text" type="text" maxlength="140"
-                                      placeholder="This is a note. Click to edit"></textarea>
-                        </div>
-                        <div class="edit-icons-container">
-                            <span class="icon-edit"></span>
-                            <img id="trash-icon" src="/images/trash-icon.png" />
-                            <span class="icon-unwatch"></span>
-                        </div>
-                    </div>
-                    <div class="link-row">
-                        <div class="link-container">
-                            <img class="link-icon" src="/images/link-icon.png"/>
-                            <a href="#">Add a link</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="note-container">
-                    <div class="content-row">
-                        <div class="drag-container">
-                            <img class="drag-img" src="/images/drag-icon.png" />
-                        </div>
-                        <div class="note-text-container">
-                            <textarea rows="0" class="note-text" type="text" maxlength="140"
-                                      placeholder="This is a note. Click to edit"></textarea>
-                        </div>
-                        <div class="edit-icons-container">
-                            <span class="icon-edit"></span>
-                            <img id="trash-icon" src="/images/trash-icon.png" />
-                            <span class="icon-unwatch"></span>
-                        </div>
-                    </div>
-                    <div class="link-row">
-                        <div class="link-container">
-                            <img class="link-icon" src="/images/link-icon.png"/>
-                            <a href="#">Add a link</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="note-container">
-                    <div class="content-row">
-                        <div class="drag-container">
-                            <img class="drag-img" src="/images/drag-icon.png" />
-                        </div>
-                        <div class="note-text-container">
-                            <textarea rows="0" class="note-text" type="text" maxlength="140"
-                                      placeholder="This is a note. Click to edit"></textarea>
-                        </div>
-                        <div class="edit-icons-container">
-                            <span class="icon-edit"></span>
-                            <img id="trash-icon" src="/images/trash-icon.png" />
-                            <span class="icon-unwatch"></span>
-                        </div>
-                    </div>
-                    <div class="link-row">
-                        <div class="link-container">
-                            <img class="link-icon" src="/images/link-icon.png"/>
-                            <a href="#">Add a link</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="note-container">
-                    <div class="content-row">
-                        <div class="drag-container">
-                            <img class="drag-img" src="/images/drag-icon.png" />
-                        </div>
-                        <div class="note-text-container">
-                            <textarea rows="0" class="note-text" type="text" maxlength="140"
-                                      placeholder="This is a note. Click to edit"></textarea>
-                        </div>
-                        <div class="edit-icons-container">
-                            <span class="icon-edit"></span>
-                            <img id="trash-icon" src="/images/trash-icon.png" />
-                            <span class="icon-unwatch"></span>
-                        </div>
-                    </div>
-                    <div class="link-row">
-                        <div class="link-container">
-                            <img class="link-icon" src="/images/link-icon.png"/>
-                            <a href="#">Add a link</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="note-container">
-                    <div class="content-row">
-                        <div class="drag-container">
-                            <img class="drag-img" src="/images/drag-icon.png" />
-                        </div>
-                        <div class="note-text-container">
-                            <textarea rows="0" class="note-text" type="text" maxlength="140"
-                                      placeholder="This is a note. Click to edit"></textarea>
-                        </div>
-                        <div class="edit-icons-container">
-                            <span class="icon-edit"></span>
-                            <img id="trash-icon" src="/images/trash-icon.png" />
-                            <span class="icon-unwatch"></span>
-                        </div>
-                    </div>
-                    <div class="link-row">
-                        <div class="link-container">
-                            <img class="link-icon" src="/images/link-icon.png"/>
-                            <a href="#">Add a link</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="note-container">
-                    <div class="content-row">
-                        <div class="drag-container">
-                            <img class="drag-img" src="/images/drag-icon.png" />
-                        </div>
-                        <div class="note-text-container">
-                            <textarea rows="0" class="note-text" type="text" maxlength="140"
-                                      placeholder="This is a note. Click to edit"></textarea>
-                        </div>
-                        <div class="edit-icons-container">
-                            <span class="icon-edit"></span>
-                            <img id="trash-icon" src="/images/trash-icon.png" />
-                            <span class="icon-unwatch"></span>
-                        </div>
-                    </div>
-                    <div class="link-row">
-                        <div class="link-container">
-                            <img class="link-icon" src="/images/link-icon.png"/>
-                            <a href="#">Add a link</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="note-container">
-                    <div class="content-row">
-                        <div class="drag-container">
-                            <img class="drag-img" src="/images/drag-icon.png" />
-                        </div>
-                        <div class="note-text-container">
-                            <textarea rows="0" class="note-text" type="text" maxlength="140"
-                                      placeholder="This is a note. Click to edit"></textarea>
-                        </div>
-                        <div class="edit-icons-container">
-                            <span class="icon-edit"></span>
-                            <img id="trash-icon" src="/images/trash-icon.png" />
-                            <span class="icon-unwatch"></span>
-                        </div>
-                    </div>
-                    <div class="link-row">
-                        <div class="link-container">
-                            <img class="link-icon" src="/images/link-icon.png"/>
-                            <a href="#">Add a link</a>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+            </ul>
         </div>
 
     </div>
@@ -465,10 +211,15 @@
     <!--</div>-->
 
     <script type="text/javascript" src="javascripts/bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="javascripts/bower_components/jqueryui/jquery-ui.min.js"></script>
+    <!--<script type="text/javascript" src="http://cdn.jsdelivr.net/g/jquery.ui@1.10%28jquery.ui.core.min.js+jquery.ui.widget.min.js+jquery.ui.mouse.min.js+jquery.ui.sortable.min.js%29"></script>-->
     <script type="text/javascript" src="//sslstatic.wix.com/services/js-sdk/1.33.0/js/Wix.js"></script>
     <script type="text/javascript" src="javascripts/bower_components/angular/angular.min.js"></script>
     <script type="text/javascript" src="/javascripts/bower_components/wix-ui-lib2/ui-lib.min.js"></script>
     <script type="text/javascript" src="/javascripts/settings-app.js"></script>
+    <!--<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js"></script>-->
+    <script type="text/javascript" src="javascripts/bower_components/angular-ui-sortable/sortable.min.js"></script>
+
 
 
     <!-- get global settings JSON -->

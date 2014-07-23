@@ -3,7 +3,7 @@
  */
 
 (function(){
-    var app = angular.module("settingsApp", []);
+    var app = angular.module("settingsApp", ['ui.sortable']);
 
     app.controller('settingsController', ['$window', '$scope', '$http', function($window, $scope, $http) {
         this.settings = $window.settings;
@@ -37,6 +37,8 @@
             $('#manage-notes').addClass('hidden-manage-notes');
 
         };
+
+        this.testList = ["one", "two", "three", "four", "five", "six"];;
 
     }]);
 
