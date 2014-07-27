@@ -18,6 +18,7 @@
 
         this.updateComponent = function() {
             Wix.Settings.triggerSettingsUpdatedEvent(settings, parseCompId(settings._id));
+            console.log('past trigger');
             $http.post('/updateComponent', this.settings).success(function() {
                 ;
                 //may need to add a .failure(function) method
@@ -34,22 +35,19 @@
             $('#manage-notes').addClass('hidden-manage-notes');
         };
 
-//        var max = 140;
-//        $('textarea.note-text').keydown(function(e) {
-//            var key = e.keyCode || e.charCode;
-//            console.log(id);
-//            if(key === 8 || key === 46) {
-//                $('.character-max-hidden').removeClass('character-max');
-//                $('.note-text').removeClass('note-text-max-count');
-//            } else if (this.value.length >= max) {
-//                $('.character-max-hidden').addClass('character-max');
-//                var doc = document.activeElement;
-//                $(doc).addClass('note-text-max-count');
-//            } else {
-//                $('.character-max-hidden').removeClass('character-max');
-//                $('.note-text').removeClass('note-text-max-count');
-//            }
-//        });
+
+        //for wix-model widget updates
+        Wix.UI.onChange('*', function(value, key){
+            Wix.Settings.triggerSettingsUpdatedEvent(key, parseCompId(settings._id));
+        });
+
+//        this.printStyles = function() {
+//            Wix.Styles.getStyleParams( function(styleParams) {
+//                // do something with the style params
+//                console.log('Styles: ' + styleParams);
+//            });
+//        };
+
     }]);
 
 })();

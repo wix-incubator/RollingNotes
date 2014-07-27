@@ -11,8 +11,16 @@ var HelloMessage = React.createClass({
     }
 });
 
+//for wix-model updates
 Wix.addEventListener(Wix.Events.SETTINGS_UPDATED, function(json){
-    console.log(json.test);
+    console.log('Successful Update!');
+    console.log(json);
 });
+
+
+//Wix.UI.onChange('*', function(value, key){
+//    console.log('I CHANGED!!');
+//    console.log('Key: ' + key + ", val: " + value);
+//});
 
 React.renderComponent(<HelloMessage settings={window.settings} />, document.getElementById('content'));

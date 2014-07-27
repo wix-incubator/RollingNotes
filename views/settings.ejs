@@ -69,7 +69,7 @@
                         <li class="li-group borderGroup" wix-label="Border">
                             <div wix-param="borderSlider" wix-ctrl="ColorPicker"  wix-options="{startWithColor:'color-5'}"></div>
                             <span class="width-slider-label">Width</span>
-                            <div  wix-model="BorderWidth" wix-ctrl="Slider" wix-options="{ maxValue:10, preLabel:'0', postLabel:'10'}"></div>
+                            <div  wix-param="BorderWidth" wix-ctrl="Slider" wix-options="{ maxValue:10, preLabel:'0', postLabel:'10'}"></div>
                             <div class="borderSpinner"wix-model="myInt" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:100 }"></div>
                         </li>
                         <li class="li-group cornerGroup" wix-label="Corner">
@@ -224,6 +224,13 @@
     <!-- get global settings JSON -->
     <script type="text/javascript">
         var settings = <%- settings %>;
+
+        Wix.Styles.getStyleParams( function(styleParams) {
+            // do something with the style params
+            console.log('STYLE: ' + JSON.stringify(styleParams));
+//            styleParams.colors = 'red';
+//            console.log('STYLE: ' + JSON.stringify(styleParams));
+        });
     </script>
 
     <!-- initilaize wix settings ui -->
