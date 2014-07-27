@@ -1,7 +1,13 @@
 /** @jsx React.DOM */
 var HelloMessage = React.createClass({
     render: function() {
-        return <div>Hello {this.props.settings.test}</div>;
+
+        return <div className="note-widget spiral-note">
+                    <div className="note-header"></div>
+                    <div className="note-content">
+                        Hello {this.props.settings.test}
+                    </div>
+               </div>;
     }
 });
 

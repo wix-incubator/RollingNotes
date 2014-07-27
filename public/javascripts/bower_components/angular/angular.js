@@ -3979,7 +3979,7 @@ function createInjector(modulesToLoad) {
          };
        }
      </file>
-     <file name="style.css">
+     <file name="widget-styles.css">
        #scrollArea {
          height: 350px;
          overflow: auto;
@@ -4755,7 +4755,7 @@ function $BrowserProvider(){
            };
          }]);
      </file>
-     <file name="style.css">
+     <file name="widget-styles.css">
        p {
          margin: 10px 0 3px;
        }
@@ -17379,7 +17379,7 @@ var VALID_CLASS = 'ng-valid',
  * that content using the `$sce` service.
  *
  * <example name="NgModelController" module="customControl" deps="angular-sanitize.js">
-    <file name="style.css">
+    <file name="widget-styles.css">
       [contenteditable] {
         border: 1px solid black;
         background-color: white;
@@ -18409,7 +18409,7 @@ function classDirective(name, selector) {
        <input ng-model="style2" placeholder="Type: bold, strike or red"><br>
        <input ng-model="style3" placeholder="Type: bold, strike or red"><br>
      </file>
-     <file name="style.css">
+     <file name="widget-styles.css">
        .strike {
          text-decoration: line-through;
        }
@@ -18463,7 +18463,7 @@ function classDirective(name, selector) {
       <br>
       <span class="base-class" ng-class="myVar">Sample Text</span>
      </file>
-     <file name="style.css">
+     <file name="widget-styles.css">
        .base-class {
          -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
          transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
@@ -18530,7 +18530,7 @@ var ngClassDirective = classDirective('', true);
           </li>
         </ol>
      </file>
-     <file name="style.css">
+     <file name="widget-styles.css">
        .odd {
          color: red;
        }
@@ -18578,7 +18578,7 @@ var ngClassOddDirective = classDirective('Odd', 0);
           </li>
         </ol>
      </file>
-     <file name="style.css">
+     <file name="widget-styles.css">
        .odd {
          color: red;
        }
@@ -20811,7 +20811,7 @@ var ngHideDirective = ['$animate', function($animate) {
         <span ng-style="myStyle">Sample Text</span>
         <pre>myStyle={{myStyle}}</pre>
      </file>
-     <file name="style.css">
+     <file name="widget-styles.css">
        span {
          color: black;
        }
