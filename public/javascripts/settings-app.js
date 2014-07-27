@@ -27,16 +27,29 @@
         };
 
         this.showManageNotes = function() {
-
             $('#manage-notes').removeClass('hidden-manage-notes');
-
         };
 
         this.hideManageNotes = function() {
-
             $('#manage-notes').addClass('hidden-manage-notes');
-
         };
+
+//        var max = 140;
+//        $('textarea.note-text').keydown(function(e) {
+//            var key = e.keyCode || e.charCode;
+//            console.log(id);
+//            if(key === 8 || key === 46) {
+//                $('.character-max-hidden').removeClass('character-max');
+//                $('.note-text').removeClass('note-text-max-count');
+//            } else if (this.value.length >= max) {
+//                $('.character-max-hidden').addClass('character-max');
+//                var doc = document.activeElement;
+//                $(doc).addClass('note-text-max-count');
+//            } else {
+//                $('.character-max-hidden').removeClass('character-max');
+//                $('.note-text').removeClass('note-text-max-count');
+//            }
+//        });
     }]);
 
 })();
