@@ -1,20 +1,32 @@
 /** @jsx React.DOM */
 var HelloMessage = React.createClass({
-    render: function() {
 
-        return <div className="note-widget spiral-note">
-                    <div className="note-header"></div>
+    getInitialState: function() {
+        return {template: this.props.settings.template};
+    },
+
+
+    addSettingsListener: function() {
+        var that = this;
+        Wix.addEventListener(Wix.Events.SETTINGS_UPDATED, function(updatedSettings){
+            that.onTemplateChange(updatedSettings.template);
+        });
+    },
+
+    onTemplateChange: function(updatedTemplate) {
+        this.setState({template: updatedTemplate});
+    },
+
+    render: function() {
+        this.addSettingsListener();
+//        return <div className="note-widget spiral-note">
+        return <div className={"note-widget " + this.state.template}>
+            <div className="note-header"></div>
                     <div className="note-content">
                         Hello {this.props.settings.test}
                     </div>
                </div>;
     }
-});
-
-//for wix-model updates
-Wix.addEventListener(Wix.Events.SETTINGS_UPDATED, function(json){
-    console.log('Successful Update!');
-    console.log(json);
 });
 
 

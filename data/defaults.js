@@ -5,5 +5,6 @@
 // returns default settings/widget instance
 
 exports.component = {
-    "test" : "default"
+    "test" : "default",
+    "template" : 'default-note'
 };

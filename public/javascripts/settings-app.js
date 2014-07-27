@@ -16,14 +16,17 @@
             return key.substring(key.indexOf(".") + 1);
         }
 
-        this.updateComponent = function() {
-            Wix.Settings.triggerSettingsUpdatedEvent(settings, parseCompId(settings._id));
-            console.log('past trigger');
+        var updateComponent = function(value,key) {
+              settings.template = value;
+//            settings.template = 'postit-note';
+//            Wix.Settings.triggerSettingsUpdatedEvent(settings, parseCompId(settings._id));
+
             $http.post('/updateComponent', this.settings).success(function() {
-                ;
+                console.log('posting');
                 //may need to add a .failure(function) method
-                var compId = parseCompId(settings._id);
-                Wix.Settings.refreshAppByCompIds([compId]);
+//                var compId = parseCompId(settings._id);
+//                Wix.Settings.refreshAppByCompIds([compId]);
+                Wix.Settings.triggerSettingsUpdatedEvent(settings, parseCompId(settings._id));
             });
         };
 
@@ -37,8 +40,9 @@
 
 
         //for wix-model widget updates
-        Wix.UI.onChange('*', function(value, key){
-            Wix.Settings.triggerSettingsUpdatedEvent(key, parseCompId(settings._id));
+        Wix.UI.onChange('*', function(settings, key){
+//            Wix.Settings.triggerSettingsUpdatedEvent(key, parseCompId(settings._id));
+            updateComponent(settings.value, key);
         });
 
 //        this.printStyles = function() {
