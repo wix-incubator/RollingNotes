@@ -18,6 +18,12 @@
 
         var updateComponent = function(value,key) {
               settings.template = value;
+              if (key === "template") {
+                Wix.Styles.getStyleParams( function(styleParams) {
+                // do something with the style params
+                    styleParams = {};
+                });
+              }
 //            settings.template = 'postit-note';
 //            Wix.Settings.triggerSettingsUpdatedEvent(settings, parseCompId(settings._id));
 
