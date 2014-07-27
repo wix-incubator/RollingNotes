@@ -6,5 +6,7 @@
 
 exports.component = {
     "test" : "default",
-    "template" : 'default-note'
+    "template" : 'default-note',
+    "radius" : "0px"
+    //"borderWidth" : "0px"
 };

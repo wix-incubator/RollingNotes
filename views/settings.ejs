@@ -67,14 +67,14 @@
                             <div wix-model="myInt" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:100 }"></div>
                         </li>
                         <li class="li-group borderGroup" wix-label="Border">
-                            <div wix-param="borderSlider" wix-ctrl="ColorPicker"  wix-options="{startWithColor:'color-5'}"></div>
+                            <div wix-param="borderSlider" wix-ctrl="ColorPicker"  wix-options="{startWithColor:'color-5'}" ></div>
                             <span class="width-slider-label">Width</span>
-                            <div  wix-param="BorderWidth" wix-ctrl="Slider" wix-options="{ maxValue:10, preLabel:'0', postLabel:'10'}"></div>
+                            <div  wix-model="borderWidth" wix-ctrl="Slider" wix-options="{ maxValue:10, preLabel:'0', postLabel:'10'}"></div>
                             <div class="borderSpinner"wix-model="myInt" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:100 }"></div>
                         </li>
                         <li class="li-group cornerGroup" wix-label="Corner">
                             <span class="radius-slider-label">Radius</span>
-                            <div  wix-model="Radius" wix-ctrl="Slider" wix-options="{ maxValue:10, preLabel:'0', postLabel:'10'}"></div>
+                            <div  wix-model="radius" wix-ctrl="Slider" wix-options="{ maxValue:10, preLabel:'0', postLabel:'10'}"></div>
                             <div class="cornerSpinner" wix-model="myInt" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:100 }"></div>
                         </li>
                     </div>

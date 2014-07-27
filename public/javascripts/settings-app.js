@@ -16,14 +16,10 @@
             return key.substring(key.indexOf(".") + 1);
         }
 
-        var updateComponent = function(value,key) {
-              settings.template = value;
-              if (key === "template") {
-                Wix.Styles.getStyleParams( function(styleParams) {
-                // do something with the style params
-                    styleParams = {};
-                });
-              }
+        var updateComponent = function(newSettings,key) {
+            if (key === "template") settings.template = newSettings.value;
+            if (key === "radius") settings.radius = newSettings;
+            if (key === "borderWidth")  settings.borderWidth= newSettings;
 //            settings.template = 'postit-note';
 //            Wix.Settings.triggerSettingsUpdatedEvent(settings, parseCompId(settings._id));
 
@@ -48,7 +44,8 @@
         //for wix-model widget updates
         Wix.UI.onChange('*', function(settings, key){
 //            Wix.Settings.triggerSettingsUpdatedEvent(key, parseCompId(settings._id));
-            updateComponent(settings.value, key);
+            console.log(JSON.stringify(settings));
+            updateComponent(settings, key);
         });
 
 //        this.printStyles = function() {

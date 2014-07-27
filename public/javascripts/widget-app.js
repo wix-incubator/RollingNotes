@@ -2,26 +2,29 @@
 var HelloMessage = React.createClass({
 
     getInitialState: function() {
-        return {template: this.props.settings.template};
+        return {settings: this.props.settings};
     },
 
 
-    addSettingsListener: function() {
+    onSettingsChange: function() {
         var that = this;
         Wix.addEventListener(Wix.Events.SETTINGS_UPDATED, function(updatedSettings){
-            that.onTemplateChange(updatedSettings.template);
+            that.setState({settings: updatedSettings});
         });
     },
 
-    onTemplateChange: function(updatedTemplate) {
-        this.setState({template: updatedTemplate});
-    },
-
     render: function() {
-        this.addSettingsListener();
-//        return <div className="note-widget spiral-note">
-        return <div className={"note-widget " + this.state.template}>
-            <div className="note-header"></div>
+        this.onSettingsChange();
+
+
+        var widgetStyle = {};
+        widgetStyle.borderRadius = this.state.settings.radius;
+        widgetStyle.borderWidth = this.state.settings.borderWidth;
+        widgetStyle.borderStyle = "solid";
+
+
+        return <div className={"note-widget " + this.state.settings.template} style={widgetStyle}>
+                    <div  className="note-header"></div>
                     <div className="note-content">
                         Hello {this.props.settings.test}
                     </div>
