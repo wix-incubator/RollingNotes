@@ -66,6 +66,10 @@
             updateComponent(settings);
         });
 
+        this.addNote = function () {
+            settings.notes.push({"index" : 0, "msg" : ""});
+        }
+
     }]);
 
 })();

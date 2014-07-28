@@ -120,7 +120,7 @@
         <div id="manage-notes" class="manage-notes-screen hidden-manage-notes">
             <div id="manage-notes-header">
                <a class="back-to-settings-button" ng-click="ctrl.hideManageNotes()" href="#"> < Back to Settings</a>
-               <button class="uilib-btn add-note-btn" >Add a note</button>
+               <button class="uilib-btn add-note-btn" ng-click="ctrl.addNote()">Add a note</button>
             </div>
             <ul ui:sortable ng-model="ctrl.settings.notes" id="manage-notes-content" class="box" wix-scroll="{height:456}">
 
