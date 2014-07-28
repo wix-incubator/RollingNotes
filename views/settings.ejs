@@ -51,6 +51,7 @@
                                 <button value="postit-note"></button>
                                 <button value="chalkboard-note"></button>
                             </div>
+                            <button id="resetTemplateButton" class="uilib-btn btn-small" ng-click="ctrl.resetTemplate()">Reset</button>
                         </li>
                     </div>
                     <div class="lower-settings">
@@ -59,7 +60,7 @@
                             <div wix-param="myFont" wix-ctrl="FontStylePicker"></div>
                         </li>
                         <li class="li-group" wix-label="Background Color">
-                            <div wix-param="bcolorWOpacity" wix-ctrl="ColorPickerWithOpacity" wix-options="{startWithColor: 'color-24', startWithOpacity:100}"></div>
+                            <div wix-param="bcolorWOpacity" wix-ctrl="ColorPickerWithOpacity" wix-options="{startWithColor: 'color-3', startWithOpacity:100}"></div>
                             <div wix-model="myInt" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:100 }"></div>
                         </li>
                         <li class="li-group" wix-label="Hover Color">
