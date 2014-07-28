@@ -28,8 +28,9 @@
                 //may need to add a .failure(function) method
 //                var compId = parseCompId(settings._id);
 //                Wix.Settings.refreshAppByCompIds([compId]);
-                Wix.Settings.triggerSettingsUpdatedEvent(settings, parseCompId(settings._id));
             });
+
+            Wix.Settings.triggerSettingsUpdatedEvent(settings, parseCompId(settings._id));
         };
 
         this.showManageNotes = function() {

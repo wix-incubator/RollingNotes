@@ -15,18 +15,16 @@ var HelloMessage = React.createClass({
 
     render: function() {
         this.onSettingsChange();
-
-
         var widgetStyle = {};
         widgetStyle.borderRadius = this.state.settings.radius;
         widgetStyle.borderWidth = this.state.settings.borderWidth;
-        widgetStyle.borderStyle = "solid";
+        //if (widgetStyle.borderWidth) widgetStyle.borderStyle = "solid";
 
 
         return <div className={"note-widget " + this.state.settings.template} style={widgetStyle}>
                     <div  className="note-header"></div>
                     <div className="note-content">
-                        Hello {this.props.settings.test}
+                        {this.props.settings.test}
                     </div>
                </div>;
     }
