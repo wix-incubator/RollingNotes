@@ -16,10 +16,11 @@
             return key.substring(key.indexOf(".") + 1);
         }
 
-        var updateComponent = function(newSettings,key) {
-            if (key === "template") settings.template = newSettings.value;
-            if (key === "radius") settings.radius = newSettings;
-            if (key === "borderWidth")  settings.borderWidth= newSettings;
+        var updateComponent = function(newSettings) {
+              this.settings = newSettings;
+//            if (key === "template") settings.template = newSettings.value;
+//            if (key === "radius") settings.radius = newSettings;
+//            if (key === "borderWidth")  settings.borderWidth= newSettings;
 //            settings.template = 'postit-note';
 //            Wix.Settings.triggerSettingsUpdatedEvent(settings, parseCompId(settings._id));
 
@@ -28,6 +29,9 @@
                 //may need to add a .failure(function) method
 //                var compId = parseCompId(settings._id);
 //                Wix.Settings.refreshAppByCompIds([compId]);
+            }).error(function(data, status, headers, config) {
+                 console.log("OH NO! WE FAILED TO POST!!!!!");
+                 console.log("data: " + data + "; status: " + status);
             });
 
             Wix.Settings.triggerSettingsUpdatedEvent(settings, parseCompId(settings._id));
@@ -42,27 +46,30 @@
         };
 
         this.resetTemplate = function() {
-
-            Wix.UI.getStyleParams( function(styleParams) {
-                styleParams = {"test" : "me"};
-                console.log('Styles1: ' + JSON.stringify(styleParams));
-                var compId = parseCompId(settings._id);
-                Wix.Settings.refreshAppByCompIds([compId]);
-            });
-
-            Wix.UI.getStyleParams( function(styleParams) {
-                console.log('Styles2: ' + JSON.stringify(styleParams));
-                var compId = parseCompId(settings._id);
-                Wix.Settings.refreshAppByCompIds([compId]);
-            });
+            console.log('resetTemplate');
         };
 
+//
+//        //for wix-model widget updates
+//        Wix.UI.onChange('*', function(settings, key){
+////            Wix.Settings.triggerSettingsUpdatedEvent(key, parseCompId(settings._id));
+//            console.log(JSON.stringify(settings));
+//            updateComponent(settings, key);
+//        });
 
-        //for wix-model widget updates
-        Wix.UI.onChange('*', function(settings, key){
-//            Wix.Settings.triggerSettingsUpdatedEvent(key, parseCompId(settings._id));
-            console.log(JSON.stringify(settings));
-            updateComponent(settings, key);
+        Wix.UI.onChange('template', function(newSettings){
+            settings.template = newSettings.value;
+            updateComponent(settings);
+        });
+
+        Wix.UI.onChange('radius', function(newSettings){
+            settings.radius = newSettings;
+            updateComponent(settings);
+        });
+
+        Wix.UI.onChange('borderWidth', function(newSettings){
+            settings.borderWidth= newSettings;
+            updateComponent(settings);
         });
 
 //        this.printStyles = function() {
