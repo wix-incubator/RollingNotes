@@ -64,7 +64,7 @@
                             <div wix-model="myInt" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:100 }"></div>
                         </li>
                         <li class="li-group" wix-label="Hover Color">
-                            <div wix-param="hcolorWOpacity" wix-ctrl="ColorPickerWithOpacity" wix-options="{startWithColor: 'color-1', startWithOpacity:100}"></div>
+                            <div wix-param="hcolorWOpacity" wix-ctrl="ColorPickerWithOpacity" wix-options="{startWithColor: '#ffffff', startWithOpacity:100}"></div>
                             <div wix-model="myInt" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:100 }"></div>
                         </li>
                         <li class="li-group borderGroup" wix-label="Border">
@@ -122,64 +122,16 @@
                <a class="back-to-settings-button" ng-click="ctrl.hideManageNotes()" href="#"> < Back to Settings</a>
                <button class="uilib-btn add-note-btn" >Add a note</button>
             </div>
-            <ul ui:sortable id="manage-notes-content" class="box" wix-scroll="{height:456}">
+            <ul ui:sortable ng-model="ctrl.settings.notes" id="manage-notes-content" class="box" wix-scroll="{height:456}">
 
-                <li class="note-container">
+                <li ng-repeat="note in ctrl.settings.notes" class="note-container">
                     <div class="content-row">
                         <div class="drag-container">
                             <a><img class="drag-img" src="/images/drag-icon.png" /></a>
                         </div>
                         <div class="note-text-container">
-                            <textarea rows="0" class="note-text" type="text" maxlength="140"
+                            <textarea ng-model="note.msg" ng-blur="ctrl.blur()" rows="0" class="note-text" type="text" maxlength="140"
                                     placeholder="This is a note. Click to edit"></textarea>
-                            <div class="character-max-hidden">140/140</div>
-                        </div>
-                        <div class="edit-icons-container">
-                            <span class="icon-edit"></span>
-                            <img id="trash-icon" src="/images/trash-icon.png" />
-                            <span class="icon-unwatch"></span>
-                        </div>
-                    </div>
-                    <div class="link-row">
-                        <div class="link-container">
-                            <img class="link-icon" src="/images/link-icon.png"/>
-                            <a href="#">Add a link</a>
-                        </div>
-                    </div>
-                </li>
-
-                <li class="note-container">
-                    <div class="content-row">
-                        <div class="drag-container">
-                            <a><img class="drag-img" src="/images/drag-icon.png" /></a>
-                        </div>
-                        <div class="note-text-container">
-                            <textarea rows="0" class="note-text" type="text" maxlength="140"
-                                      placeholder="This is a note. Click to edit"></textarea>
-                            <div class="character-max-hidden">140/140</div>
-                        </div>
-                        <div class="edit-icons-container">
-                            <span class="icon-edit"></span>
-                            <img id="trash-icon" src="/images/trash-icon.png" />
-                            <span class="icon-unwatch"></span>
-                        </div>
-                    </div>
-                    <div class="link-row">
-                        <div class="link-container">
-                            <img class="link-icon" src="/images/link-icon.png"/>
-                            <a href="#">Add a link</a>
-                        </div>
-                    </div>
-                </li>
-
-                <li class="note-container">
-                    <div class="content-row">
-                        <div class="drag-container">
-                            <a><img class="drag-img" src="/images/drag-icon.png" /></a>
-                        </div>
-                        <div class="note-text-container">
-                            <textarea rows="0" class="note-text" type="text" maxlength="140"
-                                      placeholder="This is a note. Click to edit"></textarea>
                             <div class="character-max-hidden">140/140</div>
                         </div>
                         <div class="edit-icons-container">
@@ -225,13 +177,6 @@
     <!-- get global settings JSON -->
     <script type="text/javascript">
         var settings = <%- settings %>;
-
-        Wix.Styles.getStyleParams( function(styleParams) {
-            // do something with the style params
-            console.log('STYLE: ' + JSON.stringify(styleParams));
-//            styleParams.colors = 'red';
-//            console.log('STYLE: ' + JSON.stringify(styleParams));
-        });
     </script>
 
     <!-- initilaize wix settings ui -->

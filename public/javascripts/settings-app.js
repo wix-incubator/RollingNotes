@@ -18,22 +18,13 @@
 
         var updateComponent = function(newSettings) {
               this.settings = newSettings;
-//            if (key === "template") settings.template = newSettings.value;
-//            if (key === "radius") settings.radius = newSettings;
-//            if (key === "borderWidth")  settings.borderWidth= newSettings;
-//            settings.template = 'postit-note';
-//            Wix.Settings.triggerSettingsUpdatedEvent(settings, parseCompId(settings._id));
 
             $http.post('/updateComponent', this.settings).success(function() {
                 console.log('posting');
-                //may need to add a .failure(function) method
-//                var compId = parseCompId(settings._id);
-//                Wix.Settings.refreshAppByCompIds([compId]);
             }).error(function(data, status, headers, config) {
                  console.log("OH NO! WE FAILED TO POST!!!!!");
                  console.log("data: " + data + "; status: " + status);
             });
-
             Wix.Settings.triggerSettingsUpdatedEvent(settings, parseCompId(settings._id));
         };
 
@@ -49,13 +40,6 @@
             console.log('resetTemplate');
         };
 
-//
-//        //for wix-model widget updates
-//        Wix.UI.onChange('*', function(settings, key){
-////            Wix.Settings.triggerSettingsUpdatedEvent(key, parseCompId(settings._id));
-//            console.log(JSON.stringify(settings));
-//            updateComponent(settings, key);
-//        });
 
         Wix.UI.onChange('template', function(newSettings){
             settings.template = newSettings.value;
@@ -72,12 +56,15 @@
             updateComponent(settings);
         });
 
-//        this.printStyles = function() {
-//            Wix.Styles.getStyleParams( function(styleParams) {
-//                // do something with the style params
-//                console.log('Styles: ' + styleParams);
-//            });
-//        };
+        this.blur = function() {
+              updateComponent(settings);
+        }
+
+        $scope.settings = $window.settings;
+
+        $scope.$watchCollection('settings.notes', function(newNames, oldNames) {
+            updateComponent(settings);
+        });
 
     }]);
 
