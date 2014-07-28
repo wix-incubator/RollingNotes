@@ -41,6 +41,22 @@
             $('#manage-notes').addClass('hidden-manage-notes');
         };
 
+        this.resetTemplate = function() {
+
+            Wix.UI.getStyleParams( function(styleParams) {
+                styleParams = {"test" : "me"};
+                console.log('Styles1: ' + JSON.stringify(styleParams));
+                var compId = parseCompId(settings._id);
+                Wix.Settings.refreshAppByCompIds([compId]);
+            });
+
+            Wix.UI.getStyleParams( function(styleParams) {
+                console.log('Styles2: ' + JSON.stringify(styleParams));
+                var compId = parseCompId(settings._id);
+                Wix.Settings.refreshAppByCompIds([compId]);
+            });
+        };
+
 
         //for wix-model widget updates
         Wix.UI.onChange('*', function(settings, key){
