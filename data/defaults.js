@@ -10,5 +10,8 @@ exports.component = {
     "radius" : "0px",
     "border-color" : "transparent",
     //"borderWidth" : "0px"
-    "notes":[{"index" : 0, "msg" : "This is a note. Click to edit."}, {"index" : 1, "msg" : "This is another note. Click to edit"}, {"index" : 2, "msg" : "Click to edit"}]
+//    "notes":[{"msg" : "This is a note. Click to edit.", "url":"", "visibility":true},
+//        {"msg" : "Second Note", "url":"", "visibility":true},
+//        {"msg" : "Third note.", "url":"", "visibility":true}]
+    "notes":[]
 };

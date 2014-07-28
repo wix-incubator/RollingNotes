@@ -63,12 +63,23 @@
         $scope.settings = $window.settings;
 
         $scope.$watchCollection('settings.notes', function(newNames, oldNames) {
+            if(settings.notes.length === 0) {
+                $('#manage-notes-content').addClass('empty-notes-background');
+            } else {
+                $('#manage-notes-content').removeClass('empty-notes-background');
+            }
             updateComponent(settings);
         });
 
         this.addNote = function () {
             settings.notes.push({"index" : 0, "msg" : ""});
         }
+
+//        $('#manage-notes-content').click(function(){
+//            console.log('being clicked');
+////            $('#manage-notes-content').addClass('empty-notes-background');
+//            $('#manage-notes-content').toggleClass('empty-notes-background');
+//        });
 
     }]);
 
