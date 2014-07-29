@@ -83,6 +83,10 @@
                 $(element.target).closest('.note-container').find('textarea').focus();
             }, 0, false);
         }
+
+        this.deleteNote = function(array, index) {
+            array.splice(index, 1);
+        }
     }]);
 
 })();
