@@ -130,9 +130,10 @@
                             <a><img class="drag-img" src="/images/drag-icon.png" /></a>
                         </div>
                         <div class="note-text-container">
-                            <textarea ng-model="note.msg" ng-blur="ctrl.blur()" rows="0" class="note-text" type="text" maxlength="140"
+                            <textarea ng-model="note.msg" ng-blur="ctrl.blur()" ng-trim="false" ng-keydown="ctrl.textLength($event, note.msg)"
+                                    rows="0" class="note-text" type="text" maxlength="140"
                                     placeholder="This is a note. Click to edit"></textarea>
-                            <div class="character-max-hidden">140/140</div>
+                            <div class="character-count-normal">{{note.msg.length}}/140</div>
                         </div>
                         <div class="edit-icons-container">
                             <a class="icon-edit" ng-click="ctrl.focusText($event)"></a>
@@ -141,6 +142,7 @@
                         </div>
                     </div>
                     <div class="link-row">
+                        <div class="link-container">
                         <div class="link-container">
                             <img class="link-icon" src="/images/link-icon.png"/>
                             <a href="#">Add a link</a>

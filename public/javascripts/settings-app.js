@@ -101,6 +101,16 @@
             }
             //need to update settings settings.notes data
         }
+
+        this.textLength = function(element, msg) {
+            if (element.keyCode === 8 || element.keyCode === 44) {
+                $(element.target).parent().find('.character-count-normal').css('color','black');
+            } else if(msg.length >= 139) {
+                $(element.target).parent().find('.character-count-normal').css('color','red');
+            } else {
+                $(element.target).parent().find('.character-count-normal').css('color','black');
+            }
+        }
     }]);
 
 })();
