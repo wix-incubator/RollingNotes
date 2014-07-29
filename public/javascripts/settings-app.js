@@ -5,7 +5,7 @@
 (function(){
     var app = angular.module("settingsApp", ['ui.sortable']);
 
-    app.controller('settingsController', ['$window', '$scope', '$http', function($window, $scope, $http) {
+    app.controller('settingsController', ['$window', '$scope', '$http', '$timeout', function($window, $scope, $http, $timeout) {
         this.settings = $window.settings;
 
         this.getSettings = function(settings) {
@@ -75,12 +75,14 @@
             settings.notes.push({"index" : 0, "msg" : ""});
         }
 
-//        $('#manage-notes-content').click(function(){
-//            console.log('being clicked');
-////            $('#manage-notes-content').addClass('empty-notes-background');
-//            $('#manage-notes-content').toggleClass('empty-notes-background');
-//        });
-
+        this.focusText = function (element) {
+            $timeout(function() {
+                if (!($("textarea:focus")) ) {
+                    $("textarea:focus").blur();
+                }
+                $(element.target).closest('.note-container').find('textarea').focus();
+            }, 0, false);
+        }
     }]);
 
 })();
