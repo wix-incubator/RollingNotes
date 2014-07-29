@@ -137,7 +137,7 @@
                         <div class="edit-icons-container">
                             <a class="icon-edit" ng-click="ctrl.focusText($event)"></a>
                             <a ng-click="ctrl.deleteNote(ctrl.settings.notes, $index)"><img id="trash-icon" src="/images/trash-icon.png" /></a>
-                            <a class="icon-unwatch"></a>
+                            <a ng-click="ctrl.toggleWatch($event)" class="icon-watch"></a>
                         </div>
                     </div>
                     <div class="link-row">

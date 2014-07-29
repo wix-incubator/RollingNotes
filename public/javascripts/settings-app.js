@@ -87,6 +87,20 @@
         this.deleteNote = function(array, index) {
             array.splice(index, 1);
         }
+
+        this.toggleWatch = function(element) {
+            var el = $(element.target);
+
+            el.toggleClass('icon-watch');
+            el.toggleClass('icon-unwatch');
+
+            if(el.hasClass('icon-unwatch')) {
+                el.closest('.content-row').find('.note-text').addClass('unwatched-note');
+            } else {
+                el.closest('.content-row').find('.note-text').removeClass('unwatched-note');
+            }
+            //need to update settings settings.notes data
+        }
     }]);
 
 })();
