@@ -77,6 +77,8 @@
 
         Wix.UI.onChange('hcolorWOpacity', function(newSettings){
             settings.design.hover.color = newSettings.rgba;
+            settings.design.hover.opacity = newSettings.opacity;
+
             updateComponent(settings);
         });
 
@@ -155,6 +157,10 @@
             } else {
                 $(element.target).parent().find('.character-count-normal').css('color','black');
             }
+        }
+
+        this.printOpacity = function(o) {
+            console.log('Opacity In HTML: ' + o);
         }
     }]);
 

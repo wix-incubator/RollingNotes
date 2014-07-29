@@ -56,26 +56,28 @@
                     </div>
                     <div class="lower-settings">
                         <li class="li-group" wix-label="Text">
-                            <div wix-model="color" wix-ctrl="ColorPicker"  wix-options="{startWithColor:'color-13'}"></div>
+                            <div wix-model="color" wix-ctrl="ColorPicker"  wix-options="{startWithColor:'color-13', value:'{{ctrl.settings.radius}}' }"></div>
                             <div wix-model="font" wix-ctrl="FontStylePicker"></div>
                         </li>
                         <li class="li-group" wix-label="Background Color">
-                            <div wix-model="bcolorWOpacity" wix-ctrl="ColorPickerWithOpacity" wix-options="{startWithColor: '#ffffff', startWithOpacity:100}"></div>
+
+                            <div wix-model="bcolorWOpacity" wix-ctrl="ColorPickerWithOpacity"
+                                 wix-options="{startWithColor: '{{ctrl.settings.design.background.color || '#ffffff'}}', startWithOpacity:'{{('' + ctrl.settings.design.background.opacity*100) || '100'}}'}"></div>
                             <div wix-model="bcolorWOpacity" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:100 }"></div>
                         </li>
                         <li class="li-group" wix-label="Hover Color">
-                            <div wix-model="hcolorWOpacity" wix-ctrl="ColorPickerWithOpacity" wix-options="{startWithColor: '#ffffff', startWithOpacity:100}"></div>
+                            <div wix-model="hcolorWOpacity" wix-ctrl="ColorPickerWithOpacity" wix-options="{startWithColor: '{{ctrl.settings.design.hover.color || '#ffffff'}}', startWithOpacity:'{{('' + ctrl.settings.design.hover.opacity*100) || '100'}}'}"></div>
                             <div wix-model="hcolorWOpacity" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:100 }"></div>
                         </li>
                         <li class="li-group borderGroup" wix-label="Border">
                             <div wix-model="borderColor" wix-ctrl="ColorPicker"  wix-options="{startWithColor:'#000000'}" ></div>
                             <span class="width-slider-label">Width</span>
-                            <div  wix-model="borderWidth" wix-ctrl="Slider" wix-options="{ maxValue:10, preLabel:'0', postLabel:'10', value:'{{ctrl.settings.borderWidth}}'}"></div>
-                            <div class="borderSpinner"wix-model="borderWidth" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:10, value:'{{ctrl.settings.borderWidth}}' }"></div>
+                            <div  wix-model="borderWidth" wix-ctrl="Slider" wix-options="{ maxValue:10, preLabel:'0', postLabel:'10', value:'{{ctrl.settings.design.border.width}}'}"></div>
+                            <div class="borderSpinner"wix-model="borderWidth" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:10, value:'{{ctrl.settings.border.width}}' }"></div>
                         </li>
                         <li class="li-group cornerGroup" wix-label="Corner">
                             <span class="radius-slider-label">Radius</span>
-                            <div  wix-model="radius" wix-ctrl="Slider" wix-options="{ maxValue:10, preLabel:'0', postLabel:'10', value:'{{ctrl.settings.radius}}'}"></div>
+                            <div  wix-model="radius" wix-ctrl="Slider" wix-options="{ maxValue:10, preLabel:'0', postLabel:'10', value:'{{ctrl.settings.design.border.radius}}'}"></div>
                             <div class="cornerSpinner" wix-model="radius" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:10 }"></div>
                         </li>
                     </div>

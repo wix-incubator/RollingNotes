@@ -58,6 +58,12 @@ var HelloMessage = React.createClass({
         widgetStyle.borderRadius = this.state.settings.design.border.radius;
 
 
+        var headerStyle = {
+            'backgroundColor' : widgetStyle.backgroundColor
+        };
+        console.log(JSON.stringify(headerStyle.backgroundColor));
+
+
         var notecontent;
         if (this.state.settings.notes.length > 0) notecontent = this.state.settings.notes[0].msg;
         else notecontent = "This is a note. Click to edit.";

@@ -8,8 +8,8 @@ exports.component = {
     "design" : {
         "template" : "default-note",
         "text" : {
-            "color" : "#ff7766",
-            "size:" : "16px",
+            "color" : "",
+            "size:" : "",
             "family": "",
             "style" : "",
             "alignment" : "ltr"
@@ -21,7 +21,7 @@ exports.component = {
         "hover" : {
             "on" : "false",
             "color" : "#ffffff",
-            "opacity" : "100"
+            "opacity" : ""
         },
         "border" : {
             "color" : "",
