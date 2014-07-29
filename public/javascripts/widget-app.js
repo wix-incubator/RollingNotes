@@ -21,10 +21,13 @@ var HelloMessage = React.createClass({
         //if (widgetStyle.borderWidth) widgetStyle.borderStyle = "solid";
 
 
+        var notecontent;
+        if (this.state.settings.notes.length > 0) notecontent = this.state.settings.notes[0].msg;
+        else notecontent = "This is a note. Click to edit.";
         return <div className={"note-widget " + this.state.settings.template} style={widgetStyle}>
                     <div  className="note-header"></div>
                     <div className="note-content">
-                        {this.state.settings.notes[0].msg}
+                        {notecontent}
                     </div>
                </div>;
     }
