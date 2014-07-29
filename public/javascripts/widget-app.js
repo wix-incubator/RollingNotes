@@ -24,7 +24,7 @@ var HelloMessage = React.createClass({
         return <div className={"note-widget " + this.state.settings.template} style={widgetStyle}>
                     <div  className="note-header"></div>
                     <div className="note-content">
-                        {this.props.settings.test}
+                        {this.state.settings.notes[0].msg}
                     </div>
                </div>;
     }
