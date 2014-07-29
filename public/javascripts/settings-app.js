@@ -128,6 +128,34 @@
                 $(element.target).closest('.note-container').find('textarea').focus();
             }, 0, false);
         }
+
+        this.deleteNote = function(array, index) {
+            array.splice(index, 1);
+        }
+
+        this.toggleWatch = function(element) {
+            var el = $(element.target);
+
+            el.toggleClass('icon-watch');
+            el.toggleClass('icon-unwatch');
+
+            if(el.hasClass('icon-unwatch')) {
+                el.closest('.content-row').find('.note-text').addClass('unwatched-note');
+            } else {
+                el.closest('.content-row').find('.note-text').removeClass('unwatched-note');
+            }
+            //need to update settings settings.notes data
+        }
+
+        this.textLength = function(element, msg) {
+            if (element.keyCode === 8 || element.keyCode === 44) {
+                $(element.target).parent().find('.character-count-normal').css('color','black');
+            } else if(msg.length >= 139) {
+                $(element.target).parent().find('.character-count-normal').css('color','red');
+            } else {
+                $(element.target).parent().find('.character-count-normal').css('color','black');
+            }
+        }
     }]);
 
 })();
