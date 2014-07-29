@@ -10,11 +10,17 @@ var HelloMessage = React.createClass({
         var that = this;
         Wix.addEventListener(Wix.Events.SETTINGS_UPDATED, function(updatedSettings){
             that.setState({settings: updatedSettings});
+            console.log("listener listened");
         });
     },
 
-    render: function() {
+    componentDidMount: function() {
         this.onSettingsChange();
+        console.log("mounted listener");
+    },
+
+
+    render: function() {
         var widgetStyle = {};
         widgetStyle.borderRadius = this.state.settings.radius;
         widgetStyle.borderWidth = this.state.settings.borderWidth;
