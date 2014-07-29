@@ -45,7 +45,7 @@
                 <ui class="list uilib-text">
                      <div class = "settings-group">
                         <li class="li-group">
-                            <div class="skins-group" wix-model="template" wix-ctrl="ButtonGroup" wix-options="{value:'{{ctrl.settings.template}}'}">
+                            <div class="skins-group" wix-model="template" wix-ctrl="ButtonGroup" wix-options="{value:'{{ctrl.settings.design.template}}'}">
                                 <button value="default-note"></button>
                                 <button value="spiral-note"></button>
                                 <button value="postit-note"></button>
@@ -56,27 +56,27 @@
                     </div>
                     <div class="lower-settings">
                         <li class="li-group" wix-label="Text">
-                            <div wix-param="textColor" wix-ctrl="ColorPicker"  wix-options="{startWithColor:'color-13'}"></div>
-                            <div wix-param="myFont" wix-ctrl="FontStylePicker"></div>
+                            <div wix-model="color" wix-ctrl="ColorPicker"  wix-options="{startWithColor:'color-13'}"></div>
+                            <div wix-model="font" wix-ctrl="FontStylePicker"></div>
                         </li>
                         <li class="li-group" wix-label="Background Color">
-                            <div wix-param="bcolorWOpacity" wix-ctrl="ColorPickerWithOpacity" wix-options="{startWithColor: '#ffffff', startWithOpacity:100}"></div>
-                            <div wix-model="myInt" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:100 }"></div>
+                            <div wix-model="bcolorWOpacity" wix-ctrl="ColorPickerWithOpacity" wix-options="{startWithColor: '#ffffff', startWithOpacity:100}"></div>
+                            <div wix-model="bcolorWOpacity" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:100 }"></div>
                         </li>
                         <li class="li-group" wix-label="Hover Color">
-                            <div wix-param="hcolorWOpacity" wix-ctrl="ColorPickerWithOpacity" wix-options="{startWithColor: '#ffffff', startWithOpacity:100}"></div>
-                            <div wix-model="myInt" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:100 }"></div>
+                            <div wix-model="hcolorWOpacity" wix-ctrl="ColorPickerWithOpacity" wix-options="{startWithColor: '#ffffff', startWithOpacity:100}"></div>
+                            <div wix-model="hcolorWOpacity" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:100 }"></div>
                         </li>
                         <li class="li-group borderGroup" wix-label="Border">
-                            <div wix-param="borderSlider" wix-ctrl="ColorPicker"  wix-options="{startWithColor:'#000000'}" ></div>
+                            <div wix-model="borderColor" wix-ctrl="ColorPicker"  wix-options="{startWithColor:'#000000'}" ></div>
                             <span class="width-slider-label">Width</span>
                             <div  wix-model="borderWidth" wix-ctrl="Slider" wix-options="{ maxValue:10, preLabel:'0', postLabel:'10', value:'{{ctrl.settings.borderWidth}}'}"></div>
-                            <!--<div class="borderSpinner"wix-model="borderWidth" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:100, value:'{{ctrl.settings.borderWidth}}' }"></div>-->
+                            <div class="borderSpinner"wix-model="borderWidth" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:10, value:'{{ctrl.settings.borderWidth}}' }"></div>
                         </li>
                         <li class="li-group cornerGroup" wix-label="Corner">
                             <span class="radius-slider-label">Radius</span>
                             <div  wix-model="radius" wix-ctrl="Slider" wix-options="{ maxValue:10, preLabel:'0', postLabel:'10', value:'{{ctrl.settings.radius}}'}"></div>
-                            <div class="cornerSpinner" wix-model="myInt" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:100 }"></div>
+                            <div class="cornerSpinner" wix-model="radius" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:10 }"></div>
                         </li>
                     </div>
                 </ui>

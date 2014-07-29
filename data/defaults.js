@@ -5,13 +5,36 @@
 // returns default settings/widget instance
 
 exports.component = {
-    "test" : "This is a note. Click to edit.",
-    "template" : 'default-note',
-    "radius" : "0px",
-    "border-color" : "transparent",
-    //"borderWidth" : "0px"
-//    "notes":[{"msg" : "This is a note. Click to edit.", "url":"", "visibility":true},
-//        {"msg" : "Second Note", "url":"", "visibility":true},
-//        {"msg" : "Third note.", "url":"", "visibility":true}]
+    "design" : {
+        "template" : "default-note",
+        "text" : {
+            "color" : "#ff7766",
+            "size:" : "16px",
+            "family": "",
+            "style" : "",
+            "alignment" : "ltr"
+        },
+        "background" : {
+            "color" : "",
+            "opacity" : "100"
+        },
+        "hover" : {
+            "on" : "false",
+            "color" : "#ffffff",
+            "opacity" : "100"
+        },
+        "border" : {
+            "color" : "",
+            "width" : "",
+            "radius" : ""
+        }
+    },
+
+    "settings" : {
+        "effect" : "typewritter",
+        "duration" : "1"
+    },
+
+
     "notes":[]
 };

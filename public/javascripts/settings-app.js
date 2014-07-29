@@ -2,6 +2,7 @@
  * Created by elanas on 7/16/14.
  */
 
+
 (function(){
     var app = angular.module("settingsApp", ['ui.sortable']);
 
@@ -37,24 +38,68 @@
         };
 
         this.resetTemplate = function() {
-            console.log('resetTemplate');
+            console.log("curr template: " + settings.design.template);
+            var currTemplate = settings.design.template;
+            settings.design = JSON.parse(defaultDesign);
+            settings.design.template = currTemplate;
+            updateComponent(settings);
         };
 
 
         Wix.UI.onChange('template', function(newSettings){
-            settings.template = newSettings.value;
+            console.log(JSON.stringify(newSettings));
+            settings.design.template = newSettings.value;
             updateComponent(settings);
         });
 
-        Wix.UI.onChange('radius', function(newSettings){
-            settings.radius = newSettings;
+        Wix.UI.onChange('color', function(newSettings){
+            settings.design.text.color = newSettings.cssColor;
             updateComponent(settings);
         });
+
+
+        Wix.UI.onChange('font', function(newSettings){
+            console.log(JSON.stringify(newSettings));
+            settings.design.text.size = newSettings.size;
+            settings.design.text.style = newSettings.style;
+            settings.design.text.family = newSettings.family;
+
+            updateComponent(settings);
+        });
+
+
+        Wix.UI.onChange('bcolorWOpacity', function(newSettings){
+            //settings.template = newSettings.value;
+            settings.design.background.color = newSettings.rgba;
+            settings.design.background.opacity = newSettings.opacity;
+            updateComponent(settings);
+        });
+
+        Wix.UI.onChange('hcolorWOpacity', function(newSettings){
+            settings.design.hover.color = newSettings.rgba;
+            updateComponent(settings);
+        });
+
+
+        Wix.UI.onChange('borderColor', function(newSettings){
+            settings.design.border.color = newSettings.cssColor;
+            updateComponent(settings);
+        });
+
 
         Wix.UI.onChange('borderWidth', function(newSettings){
-            settings.borderWidth= newSettings;
+            settings.design.border.width = newSettings;
             updateComponent(settings);
         });
+
+
+        Wix.UI.onChange('radius', function(newSettings){
+            settings.design.border.radius = newSettings;
+            updateComponent(settings);
+        });
+
+
+
 
         this.blur = function() {
               updateComponent(settings);
@@ -86,3 +131,6 @@
     }]);
 
 })();
+
+
+var defaultDesign = '{ "template" : "", "text" : { "color" : "", "size:" : "", "family": "", "style" : "", "alignment" : "ltr" }, "background" : { "color" : "", "opacity" : "100" }, "hover" : { "on" : "false", "color" : "#ffffff", "opacity" : "100" }, "border" : { "color" : "", "width" : "", "radius" : "" } }';
