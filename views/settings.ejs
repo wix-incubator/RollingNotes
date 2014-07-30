@@ -137,23 +137,18 @@
                 <div class="link-options">
                     <div class="option web-link">
                         Insert a web address:
-                        <input class="web-text input" type="text" ng-model="text" placeholder="E.g www.wix.com">
+                        <input class="web-text input" type="text" ng-model="ctrl.noteForLink.webLink"
+                               placeholder="E.g www.wix.com">
                         <input class="radios" type="radio" ng-model="radio" ng-checked="true" ng-value="0"> Open in new window <br>
                         <input class="radios" type="radio" ng-model="radio" ng-value="1"> Open in same window
                     </div>
                     <div class="option page-link">
                         Select Page:
-                        <select>
-                            <option></option>
-                            <option>op1</option>
-                            <option>op2</option>
-                            <option>op3</option>
-                        </select>
-
+                        <select ng-model="ctrl.noteForLink.pageLink" ng-options="titles.toString() for titles in ctrl.settings.pages"></select>
                     </div>
                     <div class="option email-link">
                         Insert an email address <br>
-                        <input class="email-text input" type="text" ng-model="email" placeholder="E.g info@wix.com">
+                        <input class="email-text input" type="text" ng-model="ctrl.noteForLink.emailLink" placeholder="E.g info@wix.com">
                         Insert a subject <br>
                         <input class="email-text input" type="text" ng-model="subject" placeholder="E.g Request Information">
                     </div>
@@ -187,7 +182,7 @@
                             <a ng-click="ctrl.toggleWatch($event)" class="icon-watch"></a>
                         </div>
                     </div>
-                    <div class="link-container" ng-click="ctrl.showLinkPopup()">
+                    <div class="link-container" ng-click="ctrl.showLinkPopup(note)">
 
                             <a><img class="link-icon" src="/images/link-icon.png"/></a>
                             <a>Add a link</a>
