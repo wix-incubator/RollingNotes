@@ -125,8 +125,51 @@
                <a class="back-to-settings-button" ng-click="ctrl.hideManageNotes()" href="#"> < Back to Settings</a>
                <button class="uilib-btn add-note-btn" ng-click="ctrl.addNote()">Add a note</button>
             </div>
-            <ul ui:sortable ng-model="ctrl.settings.notes" id="manage-notes-content" class="box" wix-scroll="{height:456}">
+            <div id="link-popup">
+                <div class="link-popup-header">Link</div>
+                <a class="icon-close" ng-click="ctrl.closeLinkPopup()"></a>
+                <hr class="horizontal">
+                <div class="learn-more">
+                    <p>Choose type of link</p>
+                    <a ng-click="ctrl.backToOptions()">Learn More</a>
 
+                </div>
+                <div class="link-options">
+                    <div class="option web-link">
+                        Insert a web address:
+                        <input class="web-text input" type="text" ng-model="text" placeholder="E.g www.wix.com">
+                        <input class="radios" type="radio" ng-model="radio" ng-checked="true" ng-value="0"> Open in new window <br>
+                        <input class="radios" type="radio" ng-model="radio" ng-value="1"> Open in same window
+                    </div>
+                    <div class="option page-link">
+                        Select Page:
+                        <select>
+                            <option></option>
+                            <option>op1</option>
+                            <option>op2</option>
+                            <option>op3</option>
+                        </select>
+
+                    </div>
+                    <div class="option email-link">
+                        Insert an email address <br>
+                        <input class="email-text input" type="text" ng-model="email" placeholder="E.g info@wix.com">
+                        Insert a subject <br>
+                        <input class="email-text input" type="text" ng-model="subject" placeholder="E.g Request Information">
+                    </div>
+                    <div class="option doc-link">
+                        No Document Selected <br>
+                        <button class="uilib-btn btn-large">Choose Document</button>
+                    </div>
+                    <button class="uilib-btn btn-secondary link-btn" ng-click="ctrl.showLinkContent(1)">Web Address</button>
+                    <button class="uilib-btn btn-secondary link-btn" ng-click="ctrl.showLinkContent(2)">Page</button>
+                    <button class="uilib-btn btn-secondary link-btn" ng-click="ctrl.showLinkContent(3)">Email</button>
+                    <button class="uilib-btn btn-secondary link-btn" ng-click="ctrl.showLinkContent(4)">Document</button>
+                    <a class="remove-link">Remove link</a>
+                </div>
+                <button class="uilib-btn btn-large submit-link-btn" ng-click="ctrl.setLink()">OK</button>
+            </div>
+            <ul ui:sortable ng-model="ctrl.settings.notes" id="manage-notes-content" class="box" wix-scroll="{height:456}">
                 <li ng-repeat="note in ctrl.settings.notes" class="note-container">
                     <div class="content-row">
                         <div class="drag-container">
@@ -144,18 +187,15 @@
                             <a ng-click="ctrl.toggleWatch($event)" class="icon-watch"></a>
                         </div>
                     </div>
-                    <div class="link-row">
-                        <div class="link-container">
-                        <div class="link-container">
-                            <img class="link-icon" src="/images/link-icon.png"/>
-                            <a href="#">Add a link</a>
-                        </div>
+                    <div class="link-container" ng-click="ctrl.showLinkPopup()">
+
+                            <a><img class="link-icon" src="/images/link-icon.png"/></a>
+                            <a>Add a link</a>
                     </div>
                 </li>
 
             </ul>
         </div>
-
     </div>
 
      <!--angular + connection to DB -->

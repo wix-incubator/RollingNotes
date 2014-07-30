@@ -176,8 +176,81 @@
             }
         }
 
-        this.printOpacity = function(o) {
-            console.log('Opacity In HTML: ' + o);
+        this.showLinkPopup = function(){
+            $('#link-popup').css('visibility', 'visible');
+            makeBackInactive();
+            showButtons();
+        }
+
+        this.closeLinkPopup = function(){
+            $('#link-popup').css('visibility', 'hidden');
+            makeBackActive();
+            hideButtons();
+            hideContent();
+        }
+
+        //when OK button clicked, will construct link chosen or none
+        this.setLink = function() {
+            $('#link-popup').css('visibility', 'hidden');
+            makeBackActive();
+            hideButtons();
+            hideContent();
+        }
+
+//        this.webOptions = function() {
+//            console.log('show web options');
+//            hideButtons();
+//            $('.web-link').css('visibility','visible');
+//        }
+//        this.pageOptions = function() {
+//            console.log('show page options');
+//        }
+//        this.emailOptions = function() {
+//            console.log('show email options');
+//        }
+//        this.docOptions = function() {
+//            console.log('show docs options');
+//        }
+
+        var hideButtons = function() {
+            $('.link-options .btn-secondary').css('visibility', 'hidden');
+            $('.learn-more p').html(' ');
+            $('.learn-more a').html(' < Back to link options ');
+        }
+        var showButtons = function() {
+            $('.link-options .btn-secondary').css('visibility', 'visible');
+            //will need to change
+            $('.learn-more p').html('Choose type of link');
+            $('.learn-more a').html('Learn more');
+        }
+
+        this.backToOptions = function() {
+            hideContent();
+            showButtons();
+        }
+
+        var hideContent = function() {
+            $('.option').css('visibility', 'hidden');
+        }
+
+        var makeBackInactive = function() {
+            $('#manage-notes-content').css('pointer-events', 'none');
+        }
+        var makeBackActive = function() {
+            $('#manage-notes-content').css('pointer-events', 'auto');
+        }
+
+        this.showLinkContent = function(type) {
+            hideButtons();
+            if(type === 1) {
+                $('.web-link').css('visibility','visible');
+            } else if (type === 2) {
+                $('.page-link').css('visibility','visible');
+            } else if (type === 3) {
+                $('.email-link').css('visibility','visible');
+            } else {
+                $('.doc-link').css('visibility','visible');
+            }
         }
     }]);
 
