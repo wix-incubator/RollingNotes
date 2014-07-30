@@ -20,7 +20,7 @@ exports.component = {
         },
         "hover" : {
             "on" : "false",
-            "color" : "#ffffff",
+            "color" : "",
             "opacity" : ""
         },
         "border" : {

@@ -110,7 +110,7 @@ var HelloMessage = React.createClass({
           animation: animation,
           direction: direction,
           slideshowSpeed: 2000,
-          controlNav: true,
+          controlNav: false,
           directionNav: false,
           slideshow: true,
           animationLoop: true,
@@ -160,7 +160,7 @@ var HelloMessage = React.createClass({
 
         if (this.state.settings.notes.length > 0) noteList = this.state.settings.notes.map(function(note) {
             return (
-                 <li>
+                 <li className="note-text">
                     <a href={note.link} target="_blank">
                         {note.msg}
                     </a>
