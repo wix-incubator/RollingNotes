@@ -56,15 +56,15 @@ var HelloMessage = React.createClass({
         return messageArray;
     },
 
-    typeMessages:  function(loop) {
+    typeMessages:  function() {
         this.getMessageArray();
         var messages = this.getMessageArray();
         if (messages.length == 0) messages = ["This is a note. Click to edit!"];
+//
+//        $(".note-content").remove();
+//        $(".note-widget").append("<div class='note-content'></div>");
 
-        $(".note-content").remove();
-        $(".note-widget").append("<div class='note-content'></div>");
-
-        if (!loop) messages.push(messages[0]);
+//        if (!loop) messages.push(messages[0]);
         $(".note-content").typed({
             strings: messages,
             typespeed: 20,
@@ -72,10 +72,10 @@ var HelloMessage = React.createClass({
             backSpeed: 0,
             // time before backspacing
             backDelay: 1000,
-            loop: loop,
+            loop: true,
             callback: function () {
-                $(".note-content").remove();
-                $(".note-widget").append("<div class='note-content'></div>");
+//                $(".note-content").remove();
+//                $(".note-widget").append("<div class='note-content'></div>");
             }
         });
     },
