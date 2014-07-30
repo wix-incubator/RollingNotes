@@ -282,6 +282,8 @@
                 $('.doc-link').css('visibility','visible');
             }
         }
+
+
     }]);
 
 })();
