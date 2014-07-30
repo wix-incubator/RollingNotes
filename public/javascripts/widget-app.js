@@ -144,11 +144,13 @@ var HelloMessage = React.createClass({
         else notecontent = "This is a note. Click to edit.";
 
 
-        var noteList = this.state.settings.notes.map(function(note) {
+        if (this.state.settings.notes.length > 0) noteList = this.state.settings.notes.map(function(note) {
             return (
                  <li>{note.msg}</li>
             );
         });
+        else noteList = <li>This is a note. Click to edit.</li>;
+
         return <div className={"note-widget " + this.state.settings.design.template} style={this.updateStyles()}
                     onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} onClick={this.playSlider}>
                     <div  className="note-header"></div>
