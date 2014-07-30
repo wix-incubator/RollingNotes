@@ -2,7 +2,7 @@
 var HelloMessage = React.createClass({
 
     getInitialState: function() {
-        return {settings: this.props.settings};
+        return {settings: this.props.settings, mode: "editor"};
     },
 
 
@@ -11,20 +11,25 @@ var HelloMessage = React.createClass({
         Wix.addEventListener(Wix.Events.SETTINGS_UPDATED, function(updatedSettings){
             that.setState({settings: updatedSettings});
             if (that.state.settings.transition.preview == true) {
-                that.forceUpdate(function() {
-                    console.log("did I force the update?");
-                });
+                console.log("did we reach here");
                 that.playSlider();
+
             }
             //if (that.state.settings.transition.preview == true) that.previewTransition();
         });
     },
 
     componentDidMount: function() {
+        var that = this;
         this.onSettingsChange();
+        Wix.addEventListener(Wix.Events.EDIT_MODE_CHANGE, function(data) {
+            that.setState({mode: data.editMode});
+            that.playSlider();
+        });
         if (this.state.settings.transition.effect == "typewriter") {
         }
         this.flexSlide();
+        //$('.flexslider').flexslider('pause');
 
         // this.flexSlide();
        // this.pauseSlider();
@@ -92,9 +97,18 @@ var HelloMessage = React.createClass({
     flexSlide: function () {
       console.log("flexslide");
       var that = this;
+      var effect = this.state.settings.transition.effect;
+      var animation, direction;
+      console.log("effect in slider: " + effect);
+      if (effect == "typewriter" || effect == "fade" ) {
+            animation = "fade";
+      } else {
+          animation = "slide";
+          direction = effect;
+      }
       $('.flexslider').flexslider({
-          animation: "fade",
-          direction: "horizontal",
+          animation: animation,
+          direction: direction,
           slideshowSpeed: 2000,
           controlNav: true,
           directionNav: false,
@@ -106,7 +120,7 @@ var HelloMessage = React.createClass({
           start: function(slider) {
           },
           after: function (slider) {
-              if (slider.currentSlide == 0) {
+              if (slider.currentSlide == 0 && that.state.mode == "editor") {
                   console.log("pause slideshow");
                   slider.pause();
               }
@@ -146,7 +160,11 @@ var HelloMessage = React.createClass({
 
         if (this.state.settings.notes.length > 0) noteList = this.state.settings.notes.map(function(note) {
             return (
-                 <li>{note.msg}</li>
+                 <li>
+                    <a href={note.link} target="_blank">
+                        {note.msg}
+                    </a>
+                 </li>
             );
         });
         else noteList = <li>This is a note. Click to edit.</li>;
@@ -164,6 +182,10 @@ var HelloMessage = React.createClass({
                </div>;
     }
 });
+
+var parseCompId = function(key){
+    return key.substring(key.indexOf(".") + 1);
+}
 
 
 //Wix.UI.onChange('*', function(value, key){

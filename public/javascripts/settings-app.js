@@ -46,9 +46,10 @@
         };
 
         this.previewTransition = function() {
-          settings.transition.preview = true;
-          updateComponent(settings);
-          settings.transition.preview = false;
+          Wix.Settings.refreshAppByCompIds([parseCompId(settings._id)]);
+            settings.transition.preview = true;
+            updateComponent(settings);
+            settings.transition.preview = false;
 //          updateComponent(settings);
         };
 
@@ -117,6 +118,7 @@
 
         Wix.UI.onChange('transition', function(newSettings){
             settings.transition.effect = newSettings.value;
+            console.log("transition: "  + settings.transition.effect);
             updateComponent(settings);
         });
 
