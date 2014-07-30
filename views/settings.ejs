@@ -163,7 +163,7 @@
                     <button class="uilib-btn btn-secondary link-btn" ng-click="ctrl.showLinkContent(2)">Page</button>
                     <button class="uilib-btn btn-secondary link-btn" ng-click="ctrl.showLinkContent(3)">Email</button>
                     <button class="uilib-btn btn-secondary link-btn" ng-click="ctrl.showLinkContent(4)">Document</button>
-                    <a class="remove-link">Remove link</a>
+                    <a class="remove-link" ng-click="ctrl.removeLink()">Remove link</a>
                 </div>
                 <button class="uilib-btn btn-large submit-link-btn" ng-click="ctrl.setLink()">OK</button>
             </div>
@@ -185,10 +185,10 @@
                             <a ng-click="ctrl.toggleWatch($event)" class="icon-watch"></a>
                         </div>
                     </div>
-                    <div class="link-container" ng-click="ctrl.showLinkPopup(note)">
+                    <div class="link-container">
 
-                            <a><img class="link-icon" src="/images/link-icon.png"/></a>
-                            <a>Add a link</a>
+                            <a ng-click="ctrl.showLinkPopup(note)"><img class="link-icon" src="/images/link-icon.png"/></a>
+                            <a ng-click="ctrl.showLinkPopup(note)">{{note.link || "Add a link" }}</a>
                     </div>
                 </li>
 

@@ -240,6 +240,18 @@
             hideContent();
         }
 
+        this.removeLink = function() {
+            this.noteForLink.pageLink = "";
+            this.noteForLink.emailLink = "";
+            this.noteForLink.docLink = "";
+            this.noteForLink.webLink = "";
+            this.noteForLink.link = "";
+
+            updateComponent(settings);
+
+            this.closeLinkPopup();
+        }
+
         var hideButtons = function() {
             $('.link-options .btn-secondary').css('visibility', 'hidden');
             $('.learn-more p').html(' ');
