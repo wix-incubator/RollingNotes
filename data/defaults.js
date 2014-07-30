@@ -30,8 +30,9 @@ exports.component = {
         }
     },
 
-    "settings" : {
-        "effect" : "typewritter",
+    "transition" : {
+        "effect" : "typewriter",
+        "preview" : "false",
         "duration" : "1"
     },
 

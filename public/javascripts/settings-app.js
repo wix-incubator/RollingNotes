@@ -45,9 +45,15 @@
             updateComponent(settings);
         };
 
+        this.previewTransition = function() {
+          settings.transition.preview = true;
+          updateComponent(settings);
+          settings.transition.preview = false;
+//          updateComponent(settings);
+        };
+
 
         Wix.UI.onChange('template', function(newSettings){
-            console.log(JSON.stringify(newSettings));
             settings.design.template = newSettings.value;
             updateComponent(settings);
         });
@@ -72,8 +78,17 @@
             //settings.template = newSettings.value;
             settings.design.background.color = newSettings.rgba;
             settings.design.background.opacity = newSettings.opacity;
+            Wix.UI.set('bOpacitySpinner', settings.design.background.opacity * 100);
             updateComponent(settings);
         });
+
+
+        Wix.UI.onChange('bOpacitySpinner', function(newSettings){
+            //Wix.UI.set('bcolorWOpacity', settings.design.background.opacity / 100);
+            //updateComponent(settings);
+        });
+
+
 
         Wix.UI.onChange('hcolorWOpacity', function(newSettings){
             settings.design.hover.color = newSettings.rgba;
@@ -100,8 +115,10 @@
             updateComponent(settings);
         });
 
-
-
+        Wix.UI.onChange('transition', function(newSettings){
+            settings.transition.effect = newSettings.value;
+            updateComponent(settings);
+        });
 
         this.blur = function() {
               updateComponent(settings);

@@ -62,12 +62,12 @@
                         <li class="li-group" wix-label="Background Color">
 
                             <div wix-model="bcolorWOpacity" wix-ctrl="ColorPickerWithOpacity"
-                                 wix-options="{startWithColor: '{{ctrl.settings.design.background.color || '#ffffff'}}', startWithOpacity:'{{('' + ctrl.settings.design.background.opacity*100) || '100'}}'}"></div>
-                            <div wix-model="bcolorWOpacity" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:100 }"></div>
+                                 wix-options="{startWithColor: '{{ctrl.settings.design.background.color || '#ffffff'}}', startWithOpacity:'{{(ctrl.settings.design.background.opacity*100) || '100'}}'}"></div>
+                            <div wix-model="bOpacitySpinner" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:100, value:'{{100 *ctrl.settings.design.background.opacity || '100'}}'}"></div>
                         </li>
                         <li class="li-group" wix-label="Hover Color">
                             <div wix-model="hcolorWOpacity" wix-ctrl="ColorPickerWithOpacity" wix-options="{startWithColor: '{{ctrl.settings.design.hover.color || '#ffffff'}}', startWithOpacity:'{{('' + ctrl.settings.design.hover.opacity*100) || '100'}}'}"></div>
-                            <div wix-model="hcolorWOpacity" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:100 }"></div>
+                            <div wix-model="hOpacitySlider" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:100,  value:'{{100 *ctrl.settings.design.hover.opacity || '100'}}' }"></div>
                         </li>
                         <li class="li-group borderGroup" wix-label="Border">
                             <div wix-model="borderColor" wix-ctrl="ColorPicker"  wix-options="{startWithColor:'#000000'}" ></div>
@@ -88,24 +88,25 @@
                 <ui class="list uilib-text">
                     <div class = "settings-group">
                         <li class="li-group">
-                            <div class="dur-group" wix-model="multiSize" wix-ctrl="ButtonGroup">
+                            <div class="dur-group" wix-model="transition" wix-ctrl="ButtonGroup">
                                 <div class="transitionButtonBlock">
-                                    <button value="first"></button>
-                                    <p>Typewritter</p>
+                                    <button value="typewriter"></button>
+                                    <p>Typewriter</p>
                                 </div>
                                 <div class="transitionButtonBlock">
-                                    <button value="second"></button>
+                                    <button value="Horizontal"></button>
                                     <p>Horizontal</p>
                                 </div>
                                 <div class="transitionButtonBlock">
-                                    <button value="third"></button>
+                                    <button value="Vertical"></button>
                                     <p>Vertical</p>
                                 </div>
                                 <div class="transitionButtonBlock">
-                                    <button value="fourth"></button>
+                                    <button value="Fade"></button>
                                     <p>Fade</p>
                                 </div>
                             </div>
+                            <button id="previewTransitionButton" class="uilib-btn btn-small" ng-click="ctrl.previewTransition()">Preview</button>
                         </li>
                     </div>
                     <div class="lower-settings">

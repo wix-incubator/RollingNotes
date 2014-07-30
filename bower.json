@@ -20,6 +20,7 @@
       "angular" : "latest",
       "jquery" : "latest",
       "jqueryui" : "latest",
-      "angular-ui-sortable" : "latest"
+      "angular-ui-sortable" : "latest",
+      "FlexSlider" : "latest"
   }
 }
