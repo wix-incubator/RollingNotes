@@ -70,7 +70,7 @@
                             <div wix-model="hOpacitySlider" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:100,  value:'{{100 *ctrl.settings.design.hover.opacity || '100'}}' }"></div>
                         </li>
                         <li class="li-group borderGroup" wix-label="Border">
-                            <div wix-model="borderColor" wix-ctrl="ColorPicker"  wix-options="{startWithColor:'#000000'}" ></div>
+                            <div wix-model="borderColor" wix-ctrl="ColorPicker"  wix-options="{startWithColor:'#000000', value:'{{ctrl.settings.design.border.color || '#000000'}}'}" ></div>
                             <span class="width-slider-label">Width</span>
                             <div  wix-model="borderWidth" wix-ctrl="Slider" wix-options="{ maxValue:10, preLabel:'0', postLabel:'10', value:'{{ctrl.settings.design.border.width}}'}"></div>
                             <div class="borderSpinner"wix-model="borderWidth" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:10, value:'{{ctrl.settings.border.width}}' }"></div>

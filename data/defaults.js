@@ -11,7 +11,11 @@ exports.component = {
             "color" : "",
             "size:" : "",
             "family": "",
-            "style" : "",
+            "style" : {
+                bold: "",
+                italic: "",
+                underline: ""
+            },
             "alignment" : "ltr"
         },
         "background" : {

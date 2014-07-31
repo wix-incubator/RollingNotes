@@ -56,6 +56,20 @@
 
         Wix.UI.onChange('template', function(newSettings){
             settings.design.template = newSettings.value;
+            console.log(settings.design.template);
+            if (settings.design.template == "chalkboard-note") {
+                Wix.UI.set('color', "#FFFFFF");
+                Wix.UI.set('font', "Body-L");
+                Wix.UI.set('bcolorWOpacity', "rgba(72,104,35,1)");
+                Wix.UI.set('bOpacitySpinner', 100);
+                Wix.UI.set('hcolorWOpacity', "rgba(255,255,255,1)");
+                Wix.UI.set('hOpacitySlider', 100);
+                Wix.UI.set('borderColor', "#FFFFFF");
+                Wix.UI.set('borderWidth', "8");
+                Wix.UI.set('radius', "8");
+                settings.design = JSON.parse(chalkboardDesign);
+            }
+
             updateComponent(settings);
         });
 
@@ -66,7 +80,7 @@
 
 
         Wix.UI.onChange('font', function(newSettings){
-            console.log(JSON.stringify(newSettings));
+            console.log('font: '  + JSON.stringify(newSettings));
             settings.design.text.size = newSettings.size;
             settings.design.text.style = newSettings.style;
             settings.design.text.family = newSettings.family;
@@ -302,3 +316,4 @@
 
 
 var defaultDesign = '{ "template" : "", "text" : { "color" : "", "size:" : "", "family": "", "style" : "", "alignment" : "ltr" }, "background" : { "color" : "", "opacity" : "100" }, "hover" : { "on" : "false", "color" : "#ffffff", "opacity" : "100" }, "border" : { "color" : "", "width" : "", "radius" : "" } }';
+var chalkboardDesign = '{ "template" : "chalkboard-note", "text" : { "color" : "#FFFFFF", "preset": "Body-L", "size:" : "", "family": "", "style" : { "bold": "", "italic": "", "underline": "" }, "alignment" : "ltr" }, "background" : { "color" : "rgba(72,104,35,1)", "opacity" : "100" }, "hover" : { "on" : "false", "color" : "rgba(255,255,255,1)", "opacity" : "100" }, "border" : { "color" : "#FFFFFF", "width" : "8", "radius" : "10" }}';

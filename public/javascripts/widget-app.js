@@ -38,12 +38,17 @@ var HelloMessage = React.createClass({
 
 
     handleMouseEnter: function(e) {
+        console.log("mouseon");
+        console.log(this.state.settings.design.hover.color);
         $(e.target).closest('.note-widget').css({"background-color":this.state.settings.design.hover.color});
 
 
     },
 
     handleMouseLeave: function(e) {
+        console.log("mouseof?");
+        console.log(this.state.settings.design.background.color);
+
         $(e.target).closest('.note-widget').css({"background-color":this.state.settings.design.background.color});
     },
 
@@ -135,12 +140,12 @@ var HelloMessage = React.createClass({
         widgetStyle.fontSize = this.state.settings.design.text.size;
         widgetStyle.fontFamily = this.state.settings.design.text.family;
         widgetStyle.fontStyle = this.state.settings.design.text.style;
-        if (this.state.settings.design.text.style.bold == true) widgetStyle.fontWeight = 'bold';
-        else widgetStyle.fontWeight = 'normal';
-        if (this.state.settings.design.text.style.italic == true) widgetStyle.fontStyle = 'italic';
-        else widgetStyle.fontStyle = 'normal';
-        if (this.state.settings.design.text.style.underline == true) widgetStyle.textDecoration = 'underline';
-        else widgetStyle.textDecoration = 'none';
+//        if (this.state.settings.design.text.style.bold == true) widgetStyle.fontWeight = 'bold';
+//        else widgetStyle.fontWeight = 'normal';
+//        if (this.state.settings.design.text.style.italic == true) widgetStyle.fontStyle = 'italic';
+//        else widgetStyle.fontStyle = 'normal';
+//        if (this.state.settings.design.text.style.underline == true) widgetStyle.textDecoration = 'underline';
+//        else widgetStyle.textDecoration = 'none';
 
         widgetStyle.backgroundColor = this.state.settings.design.background.color;
 
