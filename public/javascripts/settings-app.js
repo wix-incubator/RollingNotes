@@ -59,7 +59,6 @@
             console.log(settings.design.template);
             if (settings.design.template == "chalkboard-note") {
                 Wix.UI.set('color', "#FFFFFF");
-                Wix.UI.set('font', "Body-L");
                 Wix.UI.set('bcolorWOpacity', "rgba(72,104,35,1)");
                 Wix.UI.set('bOpacitySpinner', 100);
                 Wix.UI.set('hcolorWOpacity', "rgba(255,255,255,1)");
@@ -79,14 +78,14 @@
         });
 
 
-        Wix.UI.onChange('font', function(newSettings){
-            console.log('font: '  + JSON.stringify(newSettings));
-            settings.design.text.size = newSettings.size;
-            settings.design.text.style = newSettings.style;
-            settings.design.text.family = newSettings.family;
-
-            updateComponent(settings);
-        });
+//        Wix.UI.onChange('font', function(newSettings){
+//            console.log('font: '  + JSON.stringify(newSettings));
+//            settings.design.text.size = newSettings.size;
+//            settings.design.text.style = newSettings.style;
+//            settings.design.text.family = newSettings.family;
+//
+//            updateComponent(settings);
+//        });
 
 
         Wix.UI.onChange('bcolorWOpacity', function(newSettings){
