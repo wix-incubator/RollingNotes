@@ -42,6 +42,7 @@
             var currTemplate = settings.design.template;
             settings.design = JSON.parse(defaultDesign);
             settings.design.template = currTemplate;
+            Wix.UI.set('template', {value: settings.design.template});
             updateComponent(settings);
         };
 
