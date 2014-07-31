@@ -184,7 +184,7 @@
         });
 
         this.addNote = function () {
-            settings.notes.push({"index" : 0, "msg" : ""});
+            settings.notes.push({"visibility" : true, "msg" : ""});
         }
 
         this.focusText = function (element) {
@@ -200,7 +200,7 @@
             array.splice(index, 1);
         }
 
-        this.toggleWatch = function(element) {
+        this.toggleWatch = function(element, index) {
             var el = $(element.target);
 
             el.toggleClass('icon-watch');
@@ -208,8 +208,10 @@
 
             if(el.hasClass('icon-unwatch')) {
                 el.closest('.content-row').find('.note-text').addClass('unwatched-note');
+                settings.notes[index].visibility = false;
             } else {
                 el.closest('.content-row').find('.note-text').removeClass('unwatched-note');
+                settings.notes[index].visibility = true;
             }
             //need to update settings settings.notes data
         }

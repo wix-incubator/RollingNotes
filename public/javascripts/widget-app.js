@@ -164,7 +164,7 @@ var HelloMessage = React.createClass({
 
 
         if (this.state.settings.notes.length > 0) noteList = this.state.settings.notes.map(function(note) {
-            return (
+            if (note.visibility) return (
                  <li className="note-text">
                     <a href={note.link} target="_blank">
                         {note.msg}
