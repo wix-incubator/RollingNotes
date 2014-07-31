@@ -68,6 +68,16 @@
                 Wix.UI.set('borderWidth', "4");
                 Wix.UI.set('radius', "0");
                 settings.design = JSON.parse(defaultDesign);
+            } else if (settings.design.template == 'spiral-note')  {
+                Wix.UI.set('color', "#000000");
+                Wix.UI.set('bcolorWOpacity', "rgba(255,255,255,1)");
+                Wix.UI.set('bOpacitySpinner', 100);
+                Wix.UI.set('hcolorWOpacity', "rgba(255,255,255,1)");
+                Wix.UI.set('hOpacitySlider', 100);
+                Wix.UI.set('borderColor', "#d2e2ff");
+                Wix.UI.set('borderWidth', "0");
+                Wix.UI.set('radius', "6");
+                settings.design = JSON.parse(spiralDesign);
             }
             else if (settings.design.template == "chalkboard-note") {
                 Wix.UI.set('color', "#FFFFFF");
@@ -329,3 +339,6 @@
 //var defaultDesign = '{ "template" : "", "text" : { "color" : "", "size:" : "", "family": "", "style" : "", "alignment" : "ltr" }, "background" : { "color" : "", "opacity" : "100" }, "hover" : { "on" : "false", "color" : "#ffffff", "opacity" : "100" }, "border" : { "color" : "", "width" : "", "radius" : "" } }';
 var chalkboardDesign = '{ "template" : "chalkboard-note", "text" : { "color" : "#FFFFFF", "preset": "Body-L", "size:" : "", "family": "", "style" : { "bold": "", "italic": "", "underline": "" }, "alignment" : "ltr" }, "background" : { "color" : "rgba(72,104,35,1)", "opacity" : "100" }, "hover" : { "on" : "false", "color" : "rgba(255,255,255,1)", "opacity" : "100" }, "border" : { "color" : "#FFFFFF", "width" : "8", "radius" : "10" }}';
 var defaultDesign = '{ "template" : "default-note", "text" : { "color" : "#ff7766", "preset": "Body-L", "size:" : "", "family": "", "style" : { "bold": "", "italic": "", "underline": "" }, "alignment" : "ltr" }, "background" : { "color" : "rgba(255,255,255,1)", "opacity" : "100" }, "hover" : { "on" : "false", "color" : "rgba(255,255,255,1)", "opacity" : "100" }, "border" : { "color" : "#30366b", "width" : "4", "radius" : "0" }}';
+var spiralDesign = '{ "template" : "spiral-note", "text" : { "color" : "#000000", "preset": "Body-L", "size:" : "", "family": "", "style" : { "bold": "", "italic": "", "underline": "" }, "alignment" : "ltr" }, "background" : { "color" : "rgba(255,255,255,1)", "opacity" : "100" }, "hover" : { "on" : "false", "color" : "rgba(255,255,255,1)", "opacity" : "100" }, "border" : { "color" : "#d2e2ff", "width" : "0", "radius" : "6" }}';
+
+
