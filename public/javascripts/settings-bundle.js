@@ -351,7 +351,9 @@ var templates = require("./defaultTemplates");
                 el.closest('.content-row').find('.note-text').removeClass('unwatched-note');
                 settings.notes[index].visibility = true;
             }
+            this.previewTransition();
             updateComponent(settings);
+
         }
 
         this.makeGray = function() {
