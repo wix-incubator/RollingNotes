@@ -203,8 +203,13 @@ var templates = require("./defaultTemplates");
                 el.closest('.content-row').find('.note-text').removeClass('unwatched-note');
                 settings.notes[index].visibility = true;
             }
-            //need to update settings settings.notes data
+            updateComponent(settings);
         }
+
+        this.makeGray = function() {
+
+        }
+
 
         this.textLength = function(element, msg) {
             if (element.keyCode === 8 || element.keyCode === 44) {

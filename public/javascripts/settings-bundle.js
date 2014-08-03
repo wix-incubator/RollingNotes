@@ -1,4 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"/Users/Adam_Cole/Documents/WixApps/rolling-notes/public/javascripts/defaultTemplates.js":[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"/Users/elanas/Desktop/Wix Projects/rolling-notes/public/javascripts/defaultTemplates.js":[function(require,module,exports){
 /**
  * Created by elanas on 7/14/14.
  */
@@ -145,7 +145,7 @@ exports.chalkboardNote = {
 
     "notes":[]
 };
-},{}],"/Users/Adam_Cole/Documents/WixApps/rolling-notes/public/javascripts/settings-app.js":[function(require,module,exports){
+},{}],"/Users/elanas/Desktop/Wix Projects/rolling-notes/public/javascripts/settings-app.js":[function(require,module,exports){
 /**
  * Created by elanas on 7/16/14.
  */
@@ -351,8 +351,13 @@ var templates = require("./defaultTemplates");
                 el.closest('.content-row').find('.note-text').removeClass('unwatched-note');
                 settings.notes[index].visibility = true;
             }
-            //need to update settings settings.notes data
+            updateComponent(settings);
         }
+
+        this.makeGray = function() {
+
+        }
+
 
         this.textLength = function(element, msg) {
             if (element.keyCode === 8 || element.keyCode === 44) {
@@ -492,4 +497,4 @@ var defaultDesign = '{ "template" : "default-note", "text" : { "color" : "#ff776
 var spiralDesign = '{ "template" : "spiral-note", "text" : { "color" : "#000000", "preset": "Body-L", "size:" : "", "family": "", "style" : { "bold": "", "italic": "", "underline": "" }, "alignment" : "ltr" }, "background" : { "color" : "rgba(255,255,255,1)", "opacity" : "100" }, "hover" : { "on" : "false", "color" : "rgba(255,255,255,1)", "opacity" : "100" }, "border" : { "color" : "#d2e2ff", "width" : "0", "radius" : "6" }}';
 var postitDesign = '{ "template" : "postit-note", "text" : { "color" : "#000000", "preset": "Body-L", "size:" : "", "family": "", "style" : { "bold": "", "italic": "", "underline": "" }, "alignment" : "ltr" }, "background" : { "color" : "rgba(251,239,172,1)", "opacity" : "100" }, "hover" : { "on" : "false", "color" : "rgba(255,255,255,1)", "opacity" : "100" }, "border" : { "color" : "#C8B26B", "width" : "0", "radius" : "6" }}';
 
-},{"./defaultTemplates":"/Users/Adam_Cole/Documents/WixApps/rolling-notes/public/javascripts/defaultTemplates.js"}]},{},["/Users/Adam_Cole/Documents/WixApps/rolling-notes/public/javascripts/settings-app.js"]);
+},{"./defaultTemplates":"/Users/elanas/Desktop/Wix Projects/rolling-notes/public/javascripts/defaultTemplates.js"}]},{},["/Users/elanas/Desktop/Wix Projects/rolling-notes/public/javascripts/settings-app.js"]);

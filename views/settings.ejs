@@ -176,14 +176,16 @@
                         </div>
                         <div class="note-text-container">
                             <textarea ng-model="note.msg" ng-blur="ctrl.blur()" ng-trim="false" ng-keydown="ctrl.textLength($event, note.msg)"
-                                    rows="0" class="note-text" type="text" maxlength="140"
+                                    rows="0" class="note-text" ng-class="{'unwatched-note': note.visibility == false}" type="text" maxlength="140"
                                     placeholder="This is a note. Click to edit"></textarea>
                             <div class="character-count-normal">{{note.msg.length}}/140</div>
                         </div>
                         <div class="edit-icons-container">
                             <a class="icon-edit" ng-click="ctrl.focusText($event)"></a>
                             <a ng-click="ctrl.deleteNote(ctrl.settings.notes, $index)"><img id="trash-icon" src="/images/trash-icon.png" /></a>
-                            <a ng-click="ctrl.toggleWatch($event, $index)" class="icon-watch"></a>
+                            <a ng-click="ctrl.toggleWatch($event, $index)" ng-class="{'icon-watch' : note.visibility == true, 'icon-unwatch' : note.visibility == false}"></a>
+                            <!--<a ng-click="ctrl.toggleWatch($event, $index)" ng-if="note.visibility == true"><div class="icon-watch"></div></a>-->
+                            <!--<a ng-click="ctrl.toggleWatch($event, $index)" ng-if="note.visibility == false"><div class="icon-unwatch"></div></a>-->
                         </div>
                     </div>
                     <div class="link-container">
