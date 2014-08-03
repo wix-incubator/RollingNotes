@@ -364,10 +364,21 @@ var templates = require("./defaultTemplates");
         this.textLength = function(element, msg) {
             if (element.keyCode === 8 || element.keyCode === 44) {
                 $(element.target).parent().find('.character-count-normal').css('color','black');
+                $(element.target).removeClass('note-text-max-count');
             } else if(msg.length >= 139) {
                 $(element.target).parent().find('.character-count-normal').css('color','red');
+//                $(element.target).css('border', '1px solid red');
+//                $(element.target).css('outline', 'red solid 1px');
+                 $(element.target).addClass('note-text-max-count');
+
+//                $(element.target).css('outline', 'none');
+//                $(element.target).css('box-shadow', 'red 0px 0px 3px');
+//                $(element.target).css('border', 'red 1px solid');
+                console.log(element);
             } else {
                 $(element.target).parent().find('.character-count-normal').css('color','black');
+                $(element.target).removeClass('note-text-max-count');
+
             }
         }
 

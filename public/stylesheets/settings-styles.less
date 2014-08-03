@@ -351,7 +351,7 @@ Manage Notes Screen Styles
   height: 30px;
   width: 400px;
   margin-left: 13px;
-  margin-top: 19px;;
+  margin-top: 19px;
 }
 
 .note-text {
@@ -361,10 +361,18 @@ Manage Notes Screen Styles
   width: 400px;
   font-size: 11px;
   resize: none;
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+  box-sizing: border-box;
+
+  border: 1px transparent solid;
+
 }
 
 .note-text-max-count {
-  border: red 3px inset;
+  outline: none;
+  box-shadow: red 0px 0px 6px;
+  border: red 1px solid;
 }
 
 .character-count-normal {
