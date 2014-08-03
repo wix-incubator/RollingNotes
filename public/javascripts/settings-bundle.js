@@ -29,7 +29,8 @@ exports.defaultNote = {
             "on" : "false",
             "color" : "rgba(255,255,255,1)",
             "opacity" : "100"
-        }, "border" : {
+        },
+        "border" : {
             "color" : "#30366b",
             "width" : "4",
             "radius" : "0"
@@ -107,11 +108,12 @@ exports.postitNote = {
         "hover" : {
             "on" : "false",
             "color" : "rgba(255,255,255,1)",
-            "opacity" : "100" },
+            "opacity" : "100"
+        },
         "border" : {
             "color" : "#C8B26B",
             "width" : "0",
-            "radius" : "6"
+            "radius" : "3"
         }
     },
     "transition" : {
@@ -141,7 +143,8 @@ exports.chalkboardNote = {
         },
         "background" : {
             "color" : "rgba(72,104,35,1)",
-            "opacity" : "100" },
+            "opacity" : "100"
+        },
         "hover" : {
             "on" : "false",
             "color" : "rgba(255,255,255,1)",
@@ -150,7 +153,7 @@ exports.chalkboardNote = {
         "border" : {
             "color" : "#FFFFFF",
             "width" : "8",
-            "radius" : "10"
+            "radius" : "8"
         }
     },
 
@@ -175,7 +178,6 @@ exports.chalkboardNote = {
  */
 
 var templates = require("./defaultTemplates");
-console.log(JSON.stringify(templates.defaultNote));
 (function(){
     var app = angular.module("settingsApp", ['ui.sortable']);
 
@@ -230,51 +232,27 @@ console.log(JSON.stringify(templates.defaultNote));
 
         Wix.UI.onChange('template', function(newSettings){
             settings.design.template = newSettings.value;
-            console.log(settings.design.template);
-
+            var template;
             if (settings.design.template == 'default-note') {
-                Wix.UI.set('color', "#ff7766");
-                Wix.UI.set('bcolorWOpacity', "rgba(255,255,255,1)");
-                Wix.UI.set('bOpacitySpinner', 100);
-                Wix.UI.set('hcolorWOpacity', "rgba(255,255,255,1)");
-                Wix.UI.set('hOpacitySlider', 100);
-                Wix.UI.set('borderColor', "#30366b");
-                Wix.UI.set('borderWidth', "4");
-                Wix.UI.set('radius', "0");
-                settings.design = JSON.parse(defaultDesign);
-            } else if (settings.design.template == 'spiral-note')  {
-                Wix.UI.set('color', "#000000");
-                Wix.UI.set('bcolorWOpacity', "rgba(255,255,255,1)");
-                Wix.UI.set('bOpacitySpinner', 100);
-                Wix.UI.set('hcolorWOpacity', "rgba(255,255,255,1)");
-                Wix.UI.set('hOpacitySlider', 100);
-                Wix.UI.set('borderColor', "#d2e2ff");
-                Wix.UI.set('borderWidth', "0");
-                Wix.UI.set('radius', "6");
-                settings.design = JSON.parse(spiralDesign);
+                template = JSON.parse(JSON.stringify(templates.defaultNote.design));
+            } else if (settings.design.template == 'spiral-note') {
+                template = JSON.parse(JSON.stringify(templates.spiralNote.design));
             } else if (settings.design.template == 'postit-note') {
-                Wix.UI.set('color', "#000000");
-                Wix.UI.set('bcolorWOpacity', "rgba(251,239,172,1)");
-                Wix.UI.set('bOpacitySpinner', 100);
-                Wix.UI.set('hcolorWOpacity', "rgba(255,255,255,1)");
-                Wix.UI.set('hOpacitySlider', 100);
-                Wix.UI.set('borderColor', "#C8B26B");
-                Wix.UI.set('borderWidth', "0");
-                Wix.UI.set('radius', "6");
-                settings.design = JSON.parse(postitDesign);
-            }
-            else if (settings.design.template == "chalkboard-note") {
-                Wix.UI.set('color', "#FFFFFF");
-                Wix.UI.set('bcolorWOpacity', "rgba(72,104,35,1)");
-                Wix.UI.set('bOpacitySpinner', 100);
-                Wix.UI.set('hcolorWOpacity', "rgba(255,255,255,1)");
-                Wix.UI.set('hOpacitySlider', 100);
-                Wix.UI.set('borderColor', "#FFFFFF");
-                Wix.UI.set('borderWidth', "8");
-                Wix.UI.set('radius', "8");
-                settings.design = JSON.parse(chalkboardDesign);
+                template = JSON.parse(JSON.stringify(templates.postitNote.design));
+            }  else if (settings.design.template == 'chalkboard-note') {
+                template = JSON.parse(JSON.stringify(templates.chalkboardNote.design));
             }
 
+            Wix.UI.set('color', template.text.color);
+            Wix.UI.set('bcolorWOpacity', template.background.color);
+            Wix.UI.set('bOpacitySpinner', template.background.opacity);
+            Wix.UI.set('hcolorWOpacity', template.hover.color);
+            Wix.UI.set('hOpacitySlider', template.hover.opacity);
+            Wix.UI.set('borderColor', template.border.color);
+            Wix.UI.set('borderWidth', template.border.width);
+            Wix.UI.set('radius', template.border.radius);
+
+            settings.design = template;
             updateComponent(settings);
         });
 
@@ -309,6 +287,7 @@ console.log(JSON.stringify(templates.defaultNote));
 
 
         Wix.UI.onChange('bOpacitySpinner', function(newSettings){
+            console.log("spinner precolor: " + settings.design.background.color);
             var currRGBA = parseRBGA(settings.design.background.color);
             settings.design.background.color = "rgba(" + currRGBA[0] + "," + currRGBA[1] + "," + currRGBA[2] + "," + newSettings/100 + ")";
             settings.design.background.opacity = newSettings/100;
@@ -318,7 +297,6 @@ console.log(JSON.stringify(templates.defaultNote));
 
         Wix.UI.onChange('hoverCheckbox', function(newSettings){
             settings.design.hover.on = newSettings;
-            console.log('hover setting: ' + settings.design.hover.on);
             updateComponent(settings);
         });
 
