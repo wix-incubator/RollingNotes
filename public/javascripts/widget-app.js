@@ -140,12 +140,6 @@ var WidgetApp = React.createClass({
         widgetStyle.fontSize = this.state.settings.design.text.size;
         widgetStyle.fontFamily = this.state.settings.design.text.family;
         widgetStyle.fontStyle = this.state.settings.design.text.style;
-//        if (this.state.settings.design.text.style.bold == true) widgetStyle.fontWeight = 'bold';
-//        else widgetStyle.fontWeight = 'normal';
-//        if (this.state.settings.design.text.style.italic == true) widgetStyle.fontStyle = 'italic';
-//        else widgetStyle.fontStyle = 'normal';
-//        if (this.state.settings.design.text.style.underline == true) widgetStyle.textDecoration = 'underline';
-//        else widgetStyle.textDecoration = 'none';
 
         widgetStyle.backgroundColor = this.state.settings.design.background.color;
 
@@ -154,6 +148,18 @@ var WidgetApp = React.createClass({
         widgetStyle.borderRadius = this.state.settings.design.border.radius;
 
         return widgetStyle
+    },
+    updateHeaderStyle: function() {
+      var headerStyle = {};
+      if (this.state.settings.design.template == "postit-note") {
+          var currRGBA = parseRBGA(this.state.settings.design.background.color);
+          headerStyle.backgroundColor = "rgba(" +
+              Math.abs((currRGBA[0] - 26) % 255) + "," +
+              Math.abs((currRGBA[1] - 26) % 255) + "," +
+              Math.abs((currRGBA[2] - 26) % 255) + "," +
+              currRGBA[3] + ")";
+      }
+      return headerStyle;
     },
 
 
@@ -176,7 +182,7 @@ var WidgetApp = React.createClass({
 
         return <div className={"note-widget " + this.state.settings.design.template} style={this.updateStyles()}
                     onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} onClick={this.playSlider}>
-                    <div  className="note-header"></div>
+                    <div  className="note-header" style={this.updateHeaderStyle()}></div>
                     <div className="note-content">
                         <div className="flexslider">
                             <ul className="slides">
@@ -191,6 +197,11 @@ var WidgetApp = React.createClass({
 var parseCompId = function(key){
     return key.substring(key.indexOf(".") + 1);
 }
+
+var parseRBGA = function(rgba) {
+    return rgba.substring(5, rgba.length-1).replace(/ /g, '').split(',');
+}
+
 
 
 //Wix.UI.onChange('*', function(value, key){
