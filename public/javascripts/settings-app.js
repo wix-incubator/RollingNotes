@@ -152,6 +152,12 @@ var templates = require("./defaultTemplates");
             updateComponent(settings);
         });
 
+        Wix.UI.onChange('duration', function(newSettings){
+            settings.transition.duration = newSettings;
+            updateComponent(settings);
+        });
+
+
         this.blur = function() {
               updateComponent(settings);
         }

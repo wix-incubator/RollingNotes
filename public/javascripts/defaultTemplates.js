@@ -39,7 +39,7 @@ exports.defaultNote = {
     "transition" : {
         "effect" : "fade",
         "preview" : "false",
-        "duration" : "1"
+        "duration" : "2"
     },
 
     "notes":[]
@@ -72,7 +72,7 @@ exports.spiralNote = {
     "transition" : {
         "effect" : "fade",
         "preview" : "false",
-        "duration" : "1"
+        "duration" : "2"
     },
 
     "notes":[]
@@ -105,7 +105,7 @@ exports.postitNote = {
     "transition" : {
         "effect" : "fade",
         "preview" : "false",
-        "duration" : "1"
+        "duration" : "2"
     },
 
     "notes":[]
@@ -139,7 +139,7 @@ exports.chalkboardNote = {
     "transition" : {
         "effect" : "fade",
         "preview" : "false",
-        "duration" : "1"
+        "duration" : "2"
     },
 
     "notes":[]

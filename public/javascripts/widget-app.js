@@ -114,7 +114,7 @@ var WidgetApp = React.createClass({
       $('.flexslider').flexslider({
           animation: animation,
           direction: direction,
-          slideshowSpeed: 2000,
+          slideshowSpeed: settings.transition.duration * 1000,
           controlNav: false,
           directionNav: false,
           slideshow: true,

@@ -111,10 +111,10 @@
                         </li>
                     </div>
                     <div class="lower-settings">
-                        <li class="li-group durationGroup" wix-label="Duration (seconds)">
+                        <li class="li-group durationGroup" wix-label="Transition Speed (seconds)">
                             <!--<span class="radius-slider-label">Radius</span>-->
-                            <div  wix-model="Duration" wix-ctrl="Slider" wix-options="{ maxValue:10, preLabel:'0', postLabel:'10'}"></div>
-                            <div class="durationSpinner" wix-model="myInt" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:100 }"></div>
+                            <div  wix-model="duration" wix-ctrl="Slider" wix-options="{ minValue: 1, maxValue:10, preLabel:'1', postLabel:'10', value:'{{ctrl.settings.transition.duration}}'}"></div>
+                            <div class="durationSpinner" wix-model="duration" wix-ctrl="Spinner" wix-options="{minValue: 1, maxValue:10 }"></div>
                         </li>
                     </div>
                 </ui>
