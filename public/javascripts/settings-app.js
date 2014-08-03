@@ -2,7 +2,8 @@
  * Created by elanas on 7/16/14.
  */
 
-
+//var test = require("./defaultTemplate");
+//console.log(JSON.stringify(test.defaultNote));
 (function(){
     var app = angular.module("settingsApp", ['ui.sortable']);
 
@@ -143,7 +144,10 @@
             updateComponent(settings);
         });
 
-
+        Wix.UI.onChange('hoverCheckbox', function(newSettings){
+            settings.design.hover.on = newSettings;
+            updateComponent(settings);
+        });
 
         Wix.UI.onChange('hcolorWOpacity', function(newSettings){
             settings.design.hover.color = newSettings.rgba;

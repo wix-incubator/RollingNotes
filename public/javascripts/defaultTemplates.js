@@ -45,7 +45,7 @@
 //};
 
 
-exports.component = {
+exports.deafultNote = {
     "design" : {
         "template" : "default-note",
         "text" : {
@@ -80,7 +80,6 @@ exports.component = {
         "preview" : "false",
         "duration" : "1"
     },
-
 
     "notes":[]
 };

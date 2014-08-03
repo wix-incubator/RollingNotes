@@ -39,7 +39,9 @@ var WidgetApp = React.createClass({
     handleMouseEnter: function(e) {
         console.log("mouseon");
         console.log(this.state.settings.design.hover.color);
-        $(e.target).closest('.note-widget').css({"background-color":this.state.settings.design.hover.color});
+        if(settings.design.hover.on){
+            $(e.target).closest('.note-widget').css({"background-color":this.state.settings.design.hover.color});
+        }
 
 
     },
