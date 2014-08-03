@@ -507,12 +507,4 @@ var templates = require("./defaultTemplates");
     }]);
 
 })();
-
-
-//var defaultDesign = '{ "template" : "", "text" : { "color" : "", "size:" : "", "family": "", "style" : "", "alignment" : "ltr" }, "background" : { "color" : "", "opacity" : "100" }, "hover" : { "on" : "false", "color" : "#ffffff", "opacity" : "100" }, "border" : { "color" : "", "width" : "", "radius" : "" } }';
-//var chalkboardDesign = '{ "template" : "chalkboard-note", "text" : { "color" : "#FFFFFF", "preset": "Body-L", "size:" : "", "family": "", "style" : { "bold": "", "italic": "", "underline": "" }, "alignment" : "ltr" }, "background" : { "color" : "rgba(72,104,35,1)", "opacity" : "100" }, "hover" : { "on" : "false", "color" : "rgba(255,255,255,1)", "opacity" : "100" }, "border" : { "color" : "#FFFFFF", "width" : "8", "radius" : "10" }}';
-//var defaultDesign = '{ "template" : "default-note", "text" : { "color" : "#ff7766", "preset": "Body-L", "size:" : "", "family": "", "style" : { "bold": "", "italic": "", "underline": "" }, "alignment" : "ltr" }, "background" : { "color" : "rgba(255,255,255,1)", "opacity" : "100" }, "hover" : { "on" : "false", "color" : "rgba(255,255,255,1)", "opacity" : "100" }, "border" : { "color" : "#30366b", "width" : "4", "radius" : "0" }}';
-//var spiralDesign = '{ "template" : "spiral-note", "text" : { "color" : "#000000", "preset": "Body-L", "size:" : "", "family": "", "style" : { "bold": "", "italic": "", "underline": "" }, "alignment" : "ltr" }, "background" : { "color" : "rgba(255,255,255,1)", "opacity" : "100" }, "hover" : { "on" : "false", "color" : "rgba(255,255,255,1)", "opacity" : "100" }, "border" : { "color" : "#d2e2ff", "width" : "0", "radius" : "6" }}';
-//var postitDesign = '{ "template" : "postit-note", "text" : { "color" : "#000000", "preset": "Body-L", "size:" : "", "family": "", "style" : { "bold": "", "italic": "", "underline": "" }, "alignment" : "ltr" }, "background" : { "color" : "rgba(251,239,172,1)", "opacity" : "100" }, "hover" : { "on" : "false", "color" : "rgba(255,255,255,1)", "opacity" : "100" }, "border" : { "color" : "#C8B26B", "width" : "0", "radius" : "6" }}';
-
 },{"./defaultTemplates":"/Users/elanas/Desktop/Wix Projects/rolling-notes/public/javascripts/defaultTemplates.js"}]},{},["/Users/elanas/Desktop/Wix Projects/rolling-notes/public/javascripts/settings-app.js"]);
