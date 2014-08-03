@@ -66,6 +66,7 @@
                             <div wix-model="bOpacitySpinner" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:100, value:'{{100 *ctrl.settings.design.background.opacity || '100'}}'}"></div>
                         </li>
                         <li class="li-group" wix-label="Hover Color">
+                            <div class="hover-check" wix-model="preChecked" wix-ctrl="Checkbox" wix-options="{preLabel:'on:', checked:false}"></div>
                             <div wix-model="hcolorWOpacity" wix-ctrl="ColorPickerWithOpacity" wix-options="{startWithColor: '{{ctrl.settings.design.hover.color || '#ffffff'}}', startWithOpacity:'{{('' + ctrl.settings.design.hover.opacity*100) || '100'}}'}"></div>
                             <div wix-model="hOpacitySlider" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:100,  value:'{{100 *ctrl.settings.design.hover.opacity || '100'}}' }"></div>
                         </li>
