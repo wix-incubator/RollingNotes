@@ -112,7 +112,8 @@ var WidgetApp = React.createClass({
         console.log(raw_slider);
         $(".flexslider").remove();
         $(".note-content").append("<div class='flexslider'></div>");
-        $(".flexslider").html(raw_slider);
+        console.log(this.getNoteList());
+        $(".flexslider").html("<ul class='slides'><li>1</li><li>2</li><li>3</li></ul>");
         this.flexSlide();
         console.log("update play? " + play);
         if (!play) $('.flexslider').flexslider('pause');
@@ -182,8 +183,7 @@ var WidgetApp = React.createClass({
       return headerStyle;
     },
 
-
-    render: function() {
+    getNoteList: function() {
         var notecontent;
         if (this.state.settings.notes.length > 0) notecontent = this.state.settings.notes[0].msg;
         else notecontent = "This is a note. Click to edit.";
@@ -191,15 +191,21 @@ var WidgetApp = React.createClass({
 
         if (this.state.settings.notes.length > 0) noteList = this.state.settings.notes.map(function(note) {
             if (note.visibility) return (
-                 <li className="note-text">
+                <li className="note-text">
                     <a href={note.link} target="_blank">
+                        {console.log(note.msg)}
                         {note.msg}
                     </a>
-                 </li>
-            );
+                </li>
+                );
         });
         else noteList = <li>This is a note. Click to edit.</li>;
+        return noteList;
+    },
 
+
+    render: function() {
+        var notecontent = this.getNoteList();
         return <div className={"note-widget " + this.state.settings.design.template} style={this.updateStyles()}
                     onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} onClick={this.playSlider}>
                     <div  className="note-header" style={this.updateHeaderStyle()}></div>
