@@ -1,5 +1,5 @@
 /** @jsx React.DOM */
-var HelloMessage = React.createClass({
+var WidgetApp = React.createClass({
 
     getInitialState: function() {
         return {settings: this.props.settings, mode: "editor"};
@@ -13,7 +13,6 @@ var HelloMessage = React.createClass({
             if (that.state.settings.transition.preview == true) {
                 console.log("did we reach here");
                 that.playSlider();
-
             }
             //if (that.state.settings.transition.preview == true) that.previewTransition();
         });
@@ -198,4 +197,4 @@ var parseCompId = function(key){
 //    console.log('Key: ' + key + ", val: " + value);
 //});
 
-React.renderComponent(<HelloMessage settings={window.settings} />, document.getElementById('content'));
+React.renderComponent(<WidgetApp settings={window.settings} />, document.getElementById('content'));

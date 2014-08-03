@@ -121,6 +121,11 @@
 //        });
 
 
+        var parseRBGA = function(rgba) {
+            return rgba.substring(5, rgba.length-1).replace(/ /g, '').split(',');
+        }
+
+
         Wix.UI.onChange('bcolorWOpacity', function(newSettings){
             //settings.template = newSettings.value;
             settings.design.background.color = newSettings.rgba;
@@ -131,8 +136,11 @@
 
 
         Wix.UI.onChange('bOpacitySpinner', function(newSettings){
-            //Wix.UI.set('bcolorWOpacity', settings.design.background.opacity / 100);
-            //updateComponent(settings);
+            var currRGBA = parseRBGA(settings.design.background.color);
+            settings.design.background.color = "rgba(" + currRGBA[0] + "," + currRGBA[1] + "," + currRGBA[2] + "," + newSettings/100 + ")";
+            settings.design.background.opacity = newSettings/100;
+            Wix.UI.set('bcolorWOpacity',{rgba: settings.design.background.color, opacity:settings.design.background.opacity});
+            updateComponent(settings);
         });
 
 
@@ -140,9 +148,19 @@
         Wix.UI.onChange('hcolorWOpacity', function(newSettings){
             settings.design.hover.color = newSettings.rgba;
             settings.design.hover.opacity = newSettings.opacity;
-
+            Wix.UI.set('hOpacitySlider', settings.design.hover.opacity * 100);
             updateComponent(settings);
         });
+
+
+        Wix.UI.onChange('hOpacitySlider', function(newSettings){
+            var currRGBA = parseRBGA(settings.design.hover.color);
+            settings.design.hover.color = "rgba(" + currRGBA[0] + "," + currRGBA[1] + "," + currRGBA[2] + "," + newSettings/100 + ")";
+            settings.design.hover.opacity = newSettings/100;
+            Wix.UI.set('hcolorWOpacity',{rgba: settings.design.hover.color, opacity:settings.design.hover.opacity});
+            updateComponent(settings);
+        });
+
 
 
         Wix.UI.onChange('borderColor', function(newSettings){
@@ -342,7 +360,6 @@
                 $('.doc-link').css('visibility','visible');
             }
         }
-
 
     }]);
 
