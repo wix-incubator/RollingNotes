@@ -19,7 +19,7 @@ function getCompByKey(key, callback) {
         if(err || !doc) {
             console.log('Component did not exist, was created and returned');
             // if doc doesn't exist, assign default component
-            comp = templates.deafultNote;
+            comp = templates.defaultNote;
             // assign new component unique key
             comp._id = key;
             // insert new comp instance in db

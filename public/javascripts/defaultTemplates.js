@@ -45,7 +45,7 @@
 //};
 
 
-exports.deafultNote = {
+exports.defaultNote = {
     "design" : {
         "template" : "default-note",
         "text" : {
