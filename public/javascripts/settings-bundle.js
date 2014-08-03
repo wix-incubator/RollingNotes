@@ -26,7 +26,7 @@ exports.defaultNote = {
             "opacity" : "100"
         },
         "hover" : {
-            "on" : "false",
+            "on" : false,
             "color" : "rgba(255,255,255,1)",
             "opacity" : "100"
         },
@@ -65,7 +65,7 @@ exports.spiralNote = {
             "opacity" : "100"
         },
         "hover" : {
-            "on" : "false",
+            "on" : false,
             "color" : "rgba(255,255,255,1)",
             "opacity" : "100"
         },
@@ -106,7 +106,7 @@ exports.postitNote = {
             "opacity" : "100"
         },
         "hover" : {
-            "on" : "false",
+            "on" : false,
             "color" : "rgba(255,255,255,1)",
             "opacity" : "100"
         },
@@ -146,7 +146,7 @@ exports.chalkboardNote = {
             "opacity" : "100"
         },
         "hover" : {
-            "on" : "false",
+            "on" : false,
             "color" : "rgba(255,255,255,1)",
             "opacity" : "100"
         },
@@ -165,13 +165,6 @@ exports.chalkboardNote = {
 
     "notes":[]
 };
-
-
-
-
-
-
-
 },{}],"/Users/Adam_Cole/Documents/WixApps/rolling-notes/public/javascripts/settings-app.js":[function(require,module,exports){
 /**
  * Created by elanas on 7/16/14.
@@ -213,7 +206,6 @@ var templates = require("./defaultTemplates");
         };
 
         this.resetTemplate = function() {
-            console.log("curr template: " + settings.design.template);
             var currTemplate = settings.design.template;
             settings.design = JSON.parse(defaultDesign);
             settings.design.template = currTemplate;
@@ -244,13 +236,14 @@ var templates = require("./defaultTemplates");
             }
 
             Wix.UI.set('color', template.text.color);
-            Wix.UI.set('bcolorWOpacity', template.background.color);
+            Wix.UI.set('bcolorWOpacity', {rgba: template.background.color, opacity:template.background.opacity/100});
             Wix.UI.set('bOpacitySpinner', template.background.opacity);
-            Wix.UI.set('hcolorWOpacity', template.hover.color);
+            Wix.UI.set('hcolorWOpacity', {rgba: template.hover.color, opacity:template.hover.opacity/100});
             Wix.UI.set('hOpacitySlider', template.hover.opacity);
             Wix.UI.set('borderColor', template.border.color);
             Wix.UI.set('borderWidth', template.border.width);
             Wix.UI.set('radius', template.border.radius);
+            Wix.UI.set('hoverCheckbox', template.hover.on);
 
             settings.design = template;
             updateComponent(settings);
@@ -261,24 +254,12 @@ var templates = require("./defaultTemplates");
             updateComponent(settings);
         });
 
-
-//        Wix.UI.onChange('font', function(newSettings){
-//            console.log('font: '  + JSON.stringify(newSettings));
-//            settings.design.text.size = newSettings.size;
-//            settings.design.text.style = newSettings.style;
-//            settings.design.text.family = newSettings.family;
-//
-//            updateComponent(settings);
-//        });
-
-
         var parseRBGA = function(rgba) {
             return rgba.substring(5, rgba.length-1).replace(/ /g, '').split(',');
         }
 
 
         Wix.UI.onChange('bcolorWOpacity', function(newSettings){
-            //settings.template = newSettings.value;
             settings.design.background.color = newSettings.rgba;
             settings.design.background.opacity = newSettings.opacity;
             Wix.UI.set('bOpacitySpinner', settings.design.background.opacity * 100);
@@ -287,7 +268,6 @@ var templates = require("./defaultTemplates");
 
 
         Wix.UI.onChange('bOpacitySpinner', function(newSettings){
-            console.log("spinner precolor: " + settings.design.background.color);
             var currRGBA = parseRBGA(settings.design.background.color);
             settings.design.background.color = "rgba(" + currRGBA[0] + "," + currRGBA[1] + "," + currRGBA[2] + "," + newSettings/100 + ")";
             settings.design.background.opacity = newSettings/100;
@@ -337,7 +317,6 @@ var templates = require("./defaultTemplates");
 
         Wix.UI.onChange('transition', function(newSettings){
             settings.transition.effect = newSettings.value;
-            console.log("transition: "  + settings.transition.effect);
             updateComponent(settings);
         });
 
