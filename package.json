@@ -17,7 +17,8 @@
     "mongodb" : "*",
     "mongojs": "*",
     "openapi-node" : "*",
-    "ejs" : "*"
-
+    "ejs" : "*",
+    "browserify" : "*",
+    "watchify" : "*"
   }
 }

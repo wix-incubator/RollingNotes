@@ -3,49 +3,9 @@
  */
 
 // returns default settings/widget instance
-//
-//exports.component = {
-//    "design" : {
-//        "template" : "default-note",
-//        "text" : {
-//            "color" : "",
-//            "size:" : "",
-//            "family": "",
-//            "style" : {
-//                bold: "",
-//                italic: "",
-//                underline: ""
-//            },
-//            "alignment" : "ltr"
-//        },
-//        "background" : {
-//            "color" : "",
-//            "opacity" : "100"
-//        },
-//        "hover" : {
-//            "on" : "false",
-//            "color" : "",
-//            "opacity" : ""
-//        },
-//        "border" : {
-//            "color" : "",
-//            "width" : "",
-//            "radius" : ""
-//        }
-//    },
-//
-//    "transition" : {
-//        "effect" : "typewriter",
-//        "preview" : "false",
-//        "duration" : "1"
-//    },
-//
-//
-//    "notes":[]
-//};
 
 
-exports.deafultNote = {
+exports.defaultNote = {
     "design" : {
         "template" : "default-note",
         "text" : {

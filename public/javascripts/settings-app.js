@@ -2,8 +2,8 @@
  * Created by elanas on 7/16/14.
  */
 
-//var test = require("./defaultTemplate");
-//console.log(JSON.stringify(test.defaultNote));
+var templates = require("./defaultTemplates");
+console.log(JSON.stringify(templates.defaultNote));
 (function(){
     var app = angular.module("settingsApp", ['ui.sortable']);
 
