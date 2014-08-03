@@ -15,7 +15,7 @@ var WidgetApp = React.createClass({
                 that.updateSlider(true);
             }
 
-            if (that.state.settings.transition.update == true) {
+            if (that.state.settings.transition.updateSlider == true) {
                 console.log("update slideshow from settings");
                 that.updateSlider(true);
             }
