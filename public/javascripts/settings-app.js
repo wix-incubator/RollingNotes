@@ -46,7 +46,7 @@ var templates = require("./defaultTemplates");
         };
 
         this.previewTransition = function() {
-          Wix.Settings.refreshAppByCompIds([parseCompId(settings._id)]);
+//          Wix.Settings.refreshAppByCompIds([parseCompId(settings._id)]);
             settings.transition.preview = true;
             updateComponent(settings);
             settings.transition.preview = false;

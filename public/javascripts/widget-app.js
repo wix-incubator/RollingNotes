@@ -12,7 +12,7 @@ var WidgetApp = React.createClass({
             that.setState({settings: updatedSettings});
             if (that.state.settings.transition.preview == true) {
                 console.log("did we reach here");
-                that.playSlider();
+                that.updateSlider();
             }
             //if (that.state.settings.transition.preview == true) that.previewTransition();
         });
@@ -23,7 +23,9 @@ var WidgetApp = React.createClass({
         this.onSettingsChange();
         Wix.addEventListener(Wix.Events.EDIT_MODE_CHANGE, function(data) {
             that.setState({mode: data.editMode});
-            that.playSlider();
+            console.log("mode: " + that.state.mode);
+            if (that.state.mode == 'preview') that.updateSlider();
+            //that.playSlider();
         });
         if (this.state.settings.transition.effect == "typewriter") {
         }
@@ -97,6 +99,17 @@ var WidgetApp = React.createClass({
         $('.flexslider').flexslider('pause');
         $('.flexslider').flexslider('play');
         console.log("play");
+    },
+
+    updateSlider: function(){
+        console.log("update");
+        var raw_slider = $(".flexslider").html(); // grab the unaltered HTML and store it
+        console.log(raw_slider);
+        $(".flexslider").remove();
+        $(".note-content").append("<div class='flexslider'></div>");
+        $(".flexslider").html(raw_slider);
+        this.flexSlide();
+
     },
 
     flexSlide: function () {
