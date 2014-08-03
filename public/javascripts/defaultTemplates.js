@@ -25,7 +25,7 @@ exports.defaultNote = {
             "opacity" : "100"
         },
         "hover" : {
-            "on" : "true",
+            "on" : "false",
             "color" : "rgba(255,255,255,1)",
             "opacity" : "100"
         }, "border" : {

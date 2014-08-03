@@ -146,6 +146,7 @@ console.log(JSON.stringify(templates.defaultNote));
 
         Wix.UI.onChange('hoverCheckbox', function(newSettings){
             settings.design.hover.on = newSettings;
+            console.log('hover setting: ' + settings.design.hover.on);
             updateComponent(settings);
         });
 
