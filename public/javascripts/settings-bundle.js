@@ -52,13 +52,7 @@ exports.spiralNote = {
         "text" : {
             "color" : "#000000",
             "preset": "Body-L",
-            "size:" : "",
-            "family": "",
-            "style" : {
-                "bold": "",
-                "italic": "",
-                "underline": ""
-            }, "alignment" : "ltr"
+            "alignment" : "ltr"
         },
         "background" : {
             "color" : "rgba(255,255,255,1)",
@@ -92,13 +86,6 @@ exports.postitNote = {
         "text" : {
             "color" : "#000000",
             "preset": "Body-L",
-            "size:" : "",
-            "family": "",
-            "style" : {
-                "bold": "",
-                "italic": "",
-                "underline": ""
-            },
             "alignment" : "ltr"
         },
         "background" : {
@@ -132,13 +119,6 @@ exports.chalkboardNote = {
         "text" : {
             "color" : "#FFFFFF",
             "preset": "Body-L",
-            "size:" : "",
-            "family": "",
-            "style" : {
-                "bold": "",
-                "italic": "",
-                "underline": ""
-            },
             "alignment" : "ltr"
         },
         "background" : {
