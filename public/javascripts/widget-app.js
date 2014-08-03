@@ -12,7 +12,12 @@ var WidgetApp = React.createClass({
             that.setState({settings: updatedSettings});
             if (that.state.settings.transition.preview == true) {
                 console.log("did we reach here");
-                that.updateSlider();
+                that.updateSlider(true);
+            }
+
+            if (that.state.settings.transition.updateSlider == true) {
+                console.log("update slideshow from settings");
+                that.updateSlider(true);
             }
             //if (that.state.settings.transition.preview == true) that.previewTransition();
         });
@@ -24,13 +29,13 @@ var WidgetApp = React.createClass({
         Wix.addEventListener(Wix.Events.EDIT_MODE_CHANGE, function(data) {
             that.setState({mode: data.editMode});
             console.log("mode: " + that.state.mode);
-            if (that.state.mode == 'preview') that.updateSlider();
+            if (that.state.mode == 'preview') that.updateSlider(true);
             //that.playSlider();
         });
         if (this.state.settings.transition.effect == "typewriter") {
         }
         this.flexSlide();
-        //$('.flexslider').flexslider('pause');
+        $('.flexslider').flexslider('pause');
 
         // this.flexSlide();
        // this.pauseSlider();
@@ -101,7 +106,7 @@ var WidgetApp = React.createClass({
         console.log("play");
     },
 
-    updateSlider: function(){
+    updateSlider: function(play){
         console.log("update");
         var raw_slider = $(".flexslider").html(); // grab the unaltered HTML and store it
         console.log(raw_slider);
@@ -109,6 +114,8 @@ var WidgetApp = React.createClass({
         $(".note-content").append("<div class='flexslider'></div>");
         $(".flexslider").html(raw_slider);
         this.flexSlide();
+        console.log("update play? " + play);
+        if (!play) $('.flexslider').flexslider('pause');
 
     },
 
