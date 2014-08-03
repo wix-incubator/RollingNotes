@@ -184,8 +184,6 @@
                             <a class="icon-edit" ng-click="ctrl.focusText($event)"></a>
                             <a ng-click="ctrl.deleteNote(ctrl.settings.notes, $index)"><img id="trash-icon" src="/images/trash-icon.png" /></a>
                             <a ng-click="ctrl.toggleWatch($event, $index)" ng-class="{'icon-watch' : note.visibility == true, 'icon-unwatch' : note.visibility == false}"></a>
-                            <!--<a ng-click="ctrl.toggleWatch($event, $index)" ng-if="note.visibility == true"><div class="icon-watch"></div></a>-->
-                            <!--<a ng-click="ctrl.toggleWatch($event, $index)" ng-if="note.visibility == false"><div class="icon-unwatch"></div></a>-->
                         </div>
                     </div>
                     <div class="link-container">
