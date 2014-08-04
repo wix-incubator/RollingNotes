@@ -445,7 +445,8 @@ var templates = require("./defaultTemplates");
                 this.noteForLink.docLink = "";
                 this.noteForLink.link.subject = "";
                 this.noteForLink.link.url= this.noteForLink.webLink;
-                if (!/^https?:\/\//i.test(this.noteForLink.link)) {
+                if (!this.noteForLink.link.url) this.noteForLink.link.url = "";
+                if (this.noteForLink.link.url && !/^https?:\/\//i.test(this.noteForLink.link)) {
                     this.noteForLink.link.url = 'http://' + this.noteForLink.link.url;
                 }
                 this.noteForLink.link.type = "web"
@@ -540,10 +541,13 @@ var templates = require("./defaultTemplates");
             hideButtons();
             if(type === 1) {
                 $('.web-link').css('visibility','visible');
+                $('.web-text').focus();
             } else if (type === 2) {
                 $('.page-link').css('visibility','visible');
             } else if (type === 3) {
                 $('.email-link').css('visibility','visible');
+                $('.email').focus();
+
             } else {
                 $('.doc-link').css('visibility','visible');
             }
