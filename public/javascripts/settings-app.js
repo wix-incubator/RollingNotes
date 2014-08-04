@@ -176,10 +176,24 @@ var templates = require("./defaultTemplates");
                 $('#manage-notes-content').removeClass('empty-notes-background');
             }
             updateComponent(settings);
+            console.log('settings was updated');
+            focusNote();
         });
 
         this.addNote = function () {
             settings.notes.push({"visibility" : true, "msg" : ""});
+        }
+
+        var focusNote = function () {
+            var matchingElements = [];
+
+            $timeout(function() {
+                $("textarea").each(function(index, element) {
+                    console.log('index: ' + index + ' element: ' + element);
+                    matchingElements.push(element);
+                    $(matchingElements[matchingElements.length-1]).focus();
+                });
+            },0);
         }
 
         this.focusText = function (element) {
