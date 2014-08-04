@@ -127,8 +127,12 @@
                <button class="uilib-btn add-note-btn" ng-click="ctrl.addNote()">Add a note</button>
             </div>
             <div id="link-popup">
-                <div class="link-popup-header">Link</div>
-                <a class="icon-close" ng-click="ctrl.closeLinkPopup()"></a>
+                <div class="link-popup-header">
+                    Link
+                    <div class="close-link-container">
+                        <a class="icon-close" ng-click="ctrl.closeLinkPopup()"></a>
+                    </div>
+                </div>
                 <hr class="horizontal">
                 <div class="learn-more">
                     <p>Choose type of link</p>
