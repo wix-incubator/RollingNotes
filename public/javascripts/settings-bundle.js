@@ -198,14 +198,6 @@ var templates = require("./defaultTemplates");
 //          updateComponent(settings);
         };
 
-        this.updateSlider = function() {
-//          Wix.Settings.refreshAppByCompIds([parseCompId(settings._id)]);
-            settings.transition.updateSlider = true;
-            updateComponent(settings);
-            settings.transition.updateSlider = false;
-//          updateComponent(settings);
-        };
-
 
         Wix.UI.onChange('template', function(newSettings){
             settings.design.template = newSettings.value;
@@ -387,7 +379,6 @@ var templates = require("./defaultTemplates");
                 el.closest('.content-row').find('.note-text').removeClass('unwatched-note');
                 settings.notes[index].visibility = true;
             }
-            this.updateSlider();
             updateComponent(settings);
 
         }
