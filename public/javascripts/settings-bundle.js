@@ -324,21 +324,24 @@ var templates = require("./defaultTemplates");
                 $('#manage-notes-content').removeClass('empty-notes-background');
             }
             updateComponent(settings);
+//            focusNote();
         });
 
         this.addNote = function () {
-            settings.notes.push({"visibility" : true, "msg" : ""});
+            settings.notes.push({"visibility" : true, "msg" : "", link:{type:"",url:"",display:""}});
         }
 
-        this.focusText = function (element) {
-            $timeout(function() {
-                if (!($("textarea:focus")) ) {
-                    $("textarea:focus").blur();
-                }
-                $(element.target).closest('.note-container').find('textarea').focus();
-            }, 0, false);
-        }
-
+//        var focusNote = function () {
+//            var matchingElements = [];
+//
+//            $timeout(function() {
+//                $("textarea").each(function(index, element) {
+//                    console.log('index: ' + index + ' element: ' + element);
+//                    matchingElements.push(element);
+//                    $(matchingElements[matchingElements.length-1]).focus();
+//                });
+//            },0);
+//        }
         this.deleteNote = function(array, index) {
             array.splice(index, 1);
         }
@@ -421,26 +424,38 @@ var templates = require("./defaultTemplates");
                 this.noteForLink.pageLink = "";
                 this.noteForLink.emailLink = "";
                 this.noteForLink.docLink = "";
-
-                this.noteForLink.link = this.noteForLink.webLink;
+                this.noteForLink.link.subject = "";
+                this.noteForLink.link.url= this.noteForLink.webLink;
+                if (!/^https?:\/\//i.test(this.noteForLink.link)) {
+                    this.noteForLink.link.url = 'http://' + this.noteForLink.link.url;
+                }
+                this.noteForLink.link.type = "web"
+                this.noteForLink.link.display = this.noteForLink.link.url;
             } else if ($('.page-link').css('visibility') === 'visible') {
                 this.noteForLink.webLink = "";
                 this.noteForLink.emailLink = "";
                 this.noteForLink.docLink = "";
+                this.noteForLink.link.subject = "";
 
-                this.noteForLink.link = this.noteForLink.pageLink;
+                this.noteForLink.link.url = this.noteForLink.pageLink;
             } else if ($('.email-link').css('visibility') === 'visible') {
                 this.noteForLink.webLink = "";
                 this.noteForLink.pageLink = "";
                 this.noteForLink.docLink = "";
+                this.noteForLink.link.url = mailLink(this.noteForLink.emailLink,{subject: this.noteForLink.link.subject});
+                this.noteForLink.link.type = "mail"
+                this.noteForLink.link.display = "mail to: " + this.noteForLink.emailLink;
 
-                this.noteForLink.link = this.noteForLink.emailLink;
+
+                //this.noteForLink.link = Mailto.url(this.noteForLink.link);
+
             } else if ($('.doc-link').css('visibility') === 'visible') {
                 this.noteForLink.webLink = "";
                 this.noteForLink.emailLink = "";
                 this.noteForLink.pageLink = "";
+                this.noteForLink.link.subject = "";
 
-                this.noteForLink.link = this.noteForLink.docLink;
+                this.noteForLink.link.url = this.noteForLink.docLink;
             }
             updateComponent(settings);
             console.log("LINKS: " + JSON.stringify(this.noteForLink));
@@ -456,7 +471,11 @@ var templates = require("./defaultTemplates");
             this.noteForLink.emailLink = "";
             this.noteForLink.docLink = "";
             this.noteForLink.webLink = "";
-            this.noteForLink.link = "";
+            this.noteForLink.link.url = "";
+            this.noteForLink.link.type = "";
+            this.noteForLink.link.subject = "";
+            this.noteForLink.link.display = "";
+
 
             updateComponent(settings);
 
@@ -507,4 +526,18 @@ var templates = require("./defaultTemplates");
     }]);
 
 })();
+
+
+var mailLink = function(recepient, opts) {
+    var link = "mailto:";
+    link += window.encodeURIComponent(recepient);
+    var params = [];
+    angular.forEach(opts, function(value, key) {
+        params.push(key.toLowerCase() + "=" + window.encodeURIComponent(value));
+    });
+    if (params.length > 0) {
+        link += "?" + params.join("&");
+    }
+    return link;
+};
 },{"./defaultTemplates":"/Users/Adam_Cole/Documents/WixApps/rolling-notes/public/javascripts/defaultTemplates.js"}]},{},["/Users/Adam_Cole/Documents/WixApps/rolling-notes/public/javascripts/settings-app.js"]);

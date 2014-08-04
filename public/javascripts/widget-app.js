@@ -1,4 +1,5 @@
 /** @jsx React.DOM */
+
 var WidgetApp = React.createClass({
 
     getInitialState: function() {
@@ -190,14 +191,25 @@ var WidgetApp = React.createClass({
 
 
         if (this.state.settings.notes.length > 0) noteList = this.state.settings.notes.map(function(note) {
-            if (note.visibility) return (
-                <li className="note-text">
-                    <a href={note.link} target="_blank">
+            if (note.visibility && note.link.type == "mail") {
+                return (
+                    <li className="note-text">
+                        <a href={note.link.url}>
                         {console.log(note.msg)}
                         {note.msg}
-                    </a>
-                </li>
-                );
+                        </a>
+                    </li>
+                    );
+            } else if (note.visibility) {
+                return (
+                    <li className="note-text">
+                        <a target="_blank" href={note.link.url}>
+                        {console.log(note.msg)}
+                        {note.msg}
+                        </a>
+                    </li>
+                    );
+            }
         });
         else noteList = <li>This is a note. Click to edit.</li>;
         return noteList;

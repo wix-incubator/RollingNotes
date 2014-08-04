@@ -155,7 +155,7 @@
                         Insert an email address <br>
                         <input class="email-text input" type="text" ng-model="ctrl.noteForLink.emailLink" placeholder="E.g info@wix.com">
                         Insert a subject <br>
-                        <input class="email-text input" type="text" ng-model="subject" placeholder="E.g Request Information">
+                        <input class="email-text input" type="text" ng-model="ctrl.noteForLink.link.subject" placeholder="E.g Request Information">
                     </div>
                     <div class="option doc-link">
                         No Document Selected <br>
@@ -193,7 +193,7 @@
                     <div class="link-container">
 
                             <a ng-click="ctrl.showLinkPopup(note)"><img class="link-icon" src="/images/link-icon.png"/></a>
-                            <a ng-click="ctrl.showLinkPopup(note)">{{note.link || "Add a link" }}</a>
+                            <a ng-click="ctrl.showLinkPopup(note)">{{note.link.display || "Add a link" }}</a>
                     </div>
                 </li>
 
@@ -220,6 +220,7 @@
     <script type="text/javascript" src="javascripts/bower_components/angular/angular.min.js"></script>
     <script type="text/javascript" src="javascripts/bower_components/angular-ui-sortable/sortable.min.js"></script>
     <script type="text/javascript" src="/javascripts/bower_components/wix-ui-lib2/ui-lib.js"></script>
+    <script type="text/javascript" src="/javascripts/bower_components/angular-mailto/angular-mailto.js"></script>
     <!--<script type="text/javascript" src="/javascripts/settings-app.js"></script>-->
     <script type="text/javascript" src="/javascripts/settings-bundle.js"></script>
 
