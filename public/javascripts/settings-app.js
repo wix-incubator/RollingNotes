@@ -175,12 +175,40 @@ var templates = require("./defaultTemplates");
             } else {
                 $('#manage-notes-content').removeClass('empty-notes-background');
             }
+
             updateComponent(settings);
 //            focusNote();
         });
 
         this.addNote = function () {
             settings.notes.push({"visibility" : true, "msg" : "", link:{type:"",url:"",display:""}});
+            focusNewNote();
+        }
+
+        var loadNotesArray = function() {
+            var matchingElements = [];
+            $("textarea").each(function(index, element) {
+                matchingElements.push(element);
+            });
+            return matchingElements;
+        }
+
+        var focusNewNote = function () {
+            $timeout(function() {
+                var array = loadNotesArray();
+                var el = $(array[array.length-1]);
+                el.focus();
+            },0);
+
+        }
+
+        this.focusText = function (element) {
+            $timeout(function() {
+                if (!($("textarea:focus")) ) {
+                    $("textarea:focus").blur();
+                }
+                $(element.target).closest('.note-container').find('textarea').focus();
+            }, 2000, false);
         }
 
 //        var focusNote = function () {
@@ -227,14 +255,7 @@ var templates = require("./defaultTemplates");
                 $(element.target).removeClass('note-text-max-count');
             } else if(msg.length >= 139) {
                 $(element.target).parent().find('.character-count-normal').css('color','red');
-//                $(element.target).css('border', '1px solid red');
-//                $(element.target).css('outline', 'red solid 1px');
-                 $(element.target).addClass('note-text-max-count');
-
-//                $(element.target).css('outline', 'none');
-//                $(element.target).css('box-shadow', 'red 0px 0px 3px');
-//                $(element.target).css('border', 'red 1px solid');
-                console.log(element);
+                $(element.target).addClass('note-text-max-count');
             } else {
                 $(element.target).parent().find('.character-count-normal').css('color','black');
                 $(element.target).removeClass('note-text-max-count');
@@ -243,7 +264,6 @@ var templates = require("./defaultTemplates");
         }
 
         this.showLinkPopup = function(note){
-            console.log(note);
             this.noteForLink = note;
             Wix.getSitePages(function(sitePages){
                 var arr = $.map(sitePages, function(el) {
@@ -272,7 +292,6 @@ var templates = require("./defaultTemplates");
         //when OK button clicked, will construct link chosen or none
         this.setLink = function() {updateComponent(settings);
             if($('.web-link').css('visibility') === 'visible') {
-                console.log('testing inside');
                 this.noteForLink.pageLink = "";
                 this.noteForLink.emailLink = "";
                 this.noteForLink.docLink = "";
@@ -310,7 +329,6 @@ var templates = require("./defaultTemplates");
                 this.noteForLink.link.url = this.noteForLink.docLink;
             }
             updateComponent(settings);
-            console.log("LINKS: " + JSON.stringify(this.noteForLink));
 
             $('#link-popup').css('visibility', 'hidden');
             makeBackActive();

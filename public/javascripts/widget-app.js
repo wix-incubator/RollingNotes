@@ -111,6 +111,7 @@ var WidgetApp = React.createClass({
         console.log("update");
         var raw_slider = $(".flexslider").html(); // grab the unaltered HTML and store it
         console.log(raw_slider);
+        console.log(JSON.stringify(this.getNoteListForSlider()));
         $(".flexslider").remove();
         $(".note-content").append("<div class='flexslider'></div>");
         console.log(this.getNoteList());
@@ -119,6 +120,14 @@ var WidgetApp = React.createClass({
         console.log("update play? " + play);
         if (!play) $('.flexslider').flexslider('pause');
 
+    },
+
+    getNoteListForSlider : function () {
+       var list;
+       for (var i = 0; i < this.state.settings.notes.length; i++) {
+           list += <li>this.state.settings.notes[i].msg</li>
+       }
+       return list;
     },
 
     flexSlide: function () {
@@ -195,7 +204,6 @@ var WidgetApp = React.createClass({
                 return (
                     <li className="note-text">
                         <a href={note.link.url}>
-                        {console.log(note.msg)}
                         {note.msg}
                         </a>
                     </li>
@@ -204,7 +212,6 @@ var WidgetApp = React.createClass({
                 return (
                     <li className="note-text">
                         <a target="_blank" href={note.link.url}>
-                        {console.log(note.msg)}
                         {note.msg}
                         </a>
                     </li>
