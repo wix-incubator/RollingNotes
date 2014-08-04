@@ -223,16 +223,15 @@ var WidgetApp = React.createClass({
 
     render: function() {
         var notecontent = this.getNoteList();
+        var that = this;
         var test =  this.state.settings.notes.map(function(note, i) {
-            return (
-                <div key={note.msg}>
+            console.log("slideindex: " + that.state.slideIndex + ", i: " + i);
+            if (note.msg && that.state.slideIndex==i) return (
+                <div className="rSlides" key={i}>
                     {note.msg}
                 </div>
                 );
         });
-        var currSlide =   <div key={this.state.settings.notes[this.state.slideIndex].msg}>
-                                {this.state.settings.notes[this.state.slideIndex].msg}
-                          </div>;
         return <div className={"note-widget " + this.state.settings.design.template} style={this.updateStyles()}
                     onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} onClick={this.slideNote}>
                     <div  className="note-header" style={this.updateHeaderStyle()}></div>
