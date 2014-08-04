@@ -113,7 +113,7 @@ var WidgetApp = React.createClass({
         $(".flexslider").remove();
         $(".note-content").append("<div class='flexslider'></div>");
         console.log(this.getNoteList());
-        $(".flexslider").html("<ul class='slides'><li>1</li><li>2</li><li>3</li></ul>");
+        $(".flexslider").html(raw_slider);
         this.flexSlide();
         console.log("update play? " + play);
         if (!play) $('.flexslider').flexslider('pause');
