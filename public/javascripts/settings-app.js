@@ -181,7 +181,7 @@ var templates = require("./defaultTemplates");
         });
 
         this.addNote = function () {
-            settings.notes.push({"visibility" : true, "msg" : "", link:{type:"",url:"",display:""}});
+            settings.notes.push({"visibility" : true, "msg" : "", link:{type:"",url:"",display:"", target:"0"}});
             focusNewNote();
         }
 
@@ -302,6 +302,12 @@ var templates = require("./defaultTemplates");
                 }
                 this.noteForLink.link.type = "web"
                 this.noteForLink.link.display = this.noteForLink.link.url;
+                if(this.noteForLink.link.target == 0) {
+                    this.noteForLink.link.target = '_blank';
+                } else {
+                    this.noteForLink.link.target = '_top';
+                }
+
             } else if ($('.page-link').css('visibility') === 'visible') {
                 this.noteForLink.webLink = "";
                 this.noteForLink.emailLink = "";
@@ -316,7 +322,7 @@ var templates = require("./defaultTemplates");
                 this.noteForLink.link.url = mailLink(this.noteForLink.emailLink,{subject: this.noteForLink.link.subject});
                 this.noteForLink.link.type = "mail"
                 this.noteForLink.link.display = "mail to: " + this.noteForLink.emailLink;
-
+                this.noteForLink.link.target = '';
 
                 //this.noteForLink.link = Mailto.url(this.noteForLink.link);
 
@@ -328,6 +334,8 @@ var templates = require("./defaultTemplates");
 
                 this.noteForLink.link.url = this.noteForLink.docLink;
             }
+
+
             updateComponent(settings);
 
             $('#link-popup').css('visibility', 'hidden');

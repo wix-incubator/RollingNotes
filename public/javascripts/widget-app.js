@@ -200,18 +200,10 @@ var WidgetApp = React.createClass({
 
 
         if (this.state.settings.notes.length > 0) noteList = this.state.settings.notes.map(function(note) {
-            if (note.visibility && note.link.type == "mail") {
+            if (note.visibility) {
                 return (
                     <li className="note-text">
-                        <a href={note.link.url}>
-                        {note.msg}
-                        </a>
-                    </li>
-                    );
-            } else if (note.visibility) {
-                return (
-                    <li className="note-text">
-                        <a target="_blank" href={note.link.url}>
+                        <a target={note.link.target} href={note.link.url}>
                         {note.msg}
                         </a>
                     </li>
