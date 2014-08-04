@@ -1,9 +1,11 @@
 /** @jsx React.DOM */
 
+var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+
 var WidgetApp = React.createClass({
 
     getInitialState: function() {
-        return {settings: this.props.settings, mode: "editor"};
+        return {settings: this.props.settings, mode: "editor", slideIndex: 0};
     },
 
 
@@ -214,11 +216,25 @@ var WidgetApp = React.createClass({
         return noteList;
     },
 
+    slideNote: function() {
+        console.log("sliding note");
+        this.setState({slideIndex: (this.state.slideIndex+1) % this.state.settings.notes.length});
+    },
 
     render: function() {
         var notecontent = this.getNoteList();
+        var test =  this.state.settings.notes.map(function(note, i) {
+            return (
+                <div key={note.msg}>
+                    {note.msg}
+                </div>
+                );
+        });
+        var currSlide =   <div key={this.state.settings.notes[this.state.slideIndex].msg}>
+                                {this.state.settings.notes[this.state.slideIndex].msg}
+                          </div>;
         return <div className={"note-widget " + this.state.settings.design.template} style={this.updateStyles()}
-                    onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} onClick={this.playSlider}>
+                    onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} onClick={this.slideNote}>
                     <div  className="note-header" style={this.updateHeaderStyle()}></div>
                     <div className="note-content">
                         <div className="flexslider">
@@ -226,6 +242,11 @@ var WidgetApp = React.createClass({
                                 {noteList}
                             </ul>
                         </div>
+                    </div>
+                    <div>
+                        <ReactCSSTransitionGroup transitionName="example">
+                            {test}
+                        </ReactCSSTransitionGroup>
                     </div>
                </div>;
     }
