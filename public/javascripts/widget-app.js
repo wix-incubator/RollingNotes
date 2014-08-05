@@ -113,30 +113,26 @@ var WidgetApp = React.createClass({
 
     render: function() {
         var that = this;
-
-
         var notecontent;
-        console.log(this.state.mode);
-        var currMode = this.state.mode;
-        // if in editor mode
-        if (this.state.mode == 'pause') {
-            if (this.state.settings.notes.length == 0) {
+        // if no notes exist
+        if (this.state.settings.notes.length == 0) {
             notecontent = <div className="rSlides fillerNote">
-                             This is a note. Click to edit.
+                            This is a note. Click to edit.
                           </div>;
-            } else {
-                notecontent = <div className="rSlides firstNote">
-                                  {this.state.settings.notes[0].msg}
-                              </div>;
-            }
         }
-        // if in preview mode
+        // if in pause mode
+        else if (this.state.mode == 'pause') {
+            notecontent = <div className="rSlides firstNote">
+                            {this.state.settings.notes[0].msg}
+                          </div>;
+        }
+
+        // if in play mode
         else {
             notecontent =  this.state.settings.notes.map(function(note, i) {
                   if (note.msg && that.state.slideIndex==i) return (
-                        <div className='rSlides animate' key={i}>
+                        <div className={'rSlides ' + that.state.settings.transition.effect} key={i}>
                             {note.msg}
-                            <br />
                         </div>
                     );
             });
