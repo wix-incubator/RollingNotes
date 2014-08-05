@@ -89,9 +89,12 @@ var WidgetApp = React.createClass({
             console.log("Counter is: " + counter);
             if (counter >= that.state.settings.notes.length) {
                 clearInterval(looper);
-                that.setState({mode:'pause'});
+
+                setTimeout(function(){
+                    that.setState({mode:'pause'});
+                }, 1000);
             }
-        }, 1000);
+        }, that.state.settings.transition.duration * 1000);
     },
 
     updateNoteStyles: function() {
