@@ -5,7 +5,7 @@ var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 var WidgetApp = React.createClass({
 
     getInitialState: function() {
-        return {settings: this.props.settings, mode: "editor", slideIndex: 0};
+        return {settings: this.props.settings, mode: "pause", slideIndex: 0};
     },
 
 
@@ -15,6 +15,7 @@ var WidgetApp = React.createClass({
             that.setState({settings: updatedSettings});
             if (that.state.settings.transition.preview == true) {
                 console.log("preview");
+                that.previewRollingNotes();
             }
             //if (that.state.settings.transition.preview == true) that.previewTransition();
         });
@@ -24,7 +25,8 @@ var WidgetApp = React.createClass({
         var that = this;
         this.onSettingsChange();
         Wix.addEventListener(Wix.Events.EDIT_MODE_CHANGE, function(data) {
-            that.setState({mode: data.editMode});
+            if (data.editMode == 'preview') that.setState({mode: 'play'});
+            if (data.editMode == 'editor') that.setState({mode: 'pause'});
         });
     },
 
@@ -44,7 +46,6 @@ var WidgetApp = React.createClass({
 
         $(e.target).closest('.note-widget').css({"background-color":this.state.settings.design.background.color});
     },
-
 
     updateStyles: function () {
         var widgetStyle = {};
@@ -76,29 +77,75 @@ var WidgetApp = React.createClass({
       return headerStyle;
     },
 
+    previewRollingNotes: function() {
+        console.log("we are in the preview notes function");
+        if (this.state.mode != 'pause') return;
+        var that = this;
+        var counter = 0;
+        this.setState({mode:'play', slideIndex: 0});
+        var looper = setInterval(function(){
+            counter++;
+            that.nextNote();
+            console.log("Counter is: " + counter);
+            if (counter >= that.state.settings.notes.length) {
+                clearInterval(looper);
+                that.setState({mode:'pause'});
+            }
+        }, 1000);
+    },
 
-    slideNote: function() {
-        console.log("sliding note");
+    updateNoteStyles: function() {
+        var noteStyles = {};
+        if (this.state.mode == 'editor') {
+            noteStyles.transition = 'none';
+        }
+        return noteStyles;
+
+    },
+
+
+    nextNote: function() {
         this.setState({slideIndex: (this.state.slideIndex+1) % this.state.settings.notes.length});
     },
 
     render: function() {
         var that = this;
-        var test =  this.state.settings.notes.map(function(note, i) {
-            console.log("slideindex: " + that.state.slideIndex + ", i: " + i);
-            if (note.msg && that.state.slideIndex==i) return (
-                <div className="rSlides" key={i}>
-                    {note.msg}
-                </div>
-                );
-        });
+
+
+        var notecontent;
+        console.log(this.state.mode);
+        var currMode = this.state.mode;
+        // if in editor mode
+        if (this.state.mode == 'pause') {
+            if (this.state.settings.notes.length == 0) {
+            notecontent = <div className="rSlides fillerNote">
+                             This is a note. Click to edit.
+                          </div>;
+            } else {
+                notecontent = <div className="rSlides firstNote">
+                                  {this.state.settings.notes[0].msg}
+                              </div>;
+            }
+        }
+        // if in preview mode
+        else {
+            notecontent =  this.state.settings.notes.map(function(note, i) {
+                  if (note.msg && that.state.slideIndex==i) return (
+                        <div className='rSlides animate' key={i}>
+                            {note.msg}
+                            <br />
+                        </div>
+                    );
+            });
+        }
         return <div className={"note-widget " + this.state.settings.design.template} style={this.updateStyles()}
-                    onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} onClick={this.slideNote}>
+                    onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} onClick={this.nextNote}>
                     <div  className="note-header" style={this.updateHeaderStyle()}></div>
                     <div className="note-content">
-                        <ReactCSSTransitionGroup transitionName="example">
-                            {test}
+                        <ReactCSSTransitionGroup  transitionName="example">
+                         {notecontent}
                         </ReactCSSTransitionGroup>
+
                     </div>
                </div>;
     }
