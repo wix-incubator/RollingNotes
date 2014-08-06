@@ -114,7 +114,7 @@ var WidgetApp = React.createClass({
         var that = this;
         setInterval(function() {
             that.nextNote();
-        }, this.state.settings.transition.duration * 1000);
+        }, (this.state.settings.transition.duration * 1000) + 2000);
     },
 
     updateNoteStyles: function() {
