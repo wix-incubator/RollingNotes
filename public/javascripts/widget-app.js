@@ -102,7 +102,7 @@ var WidgetApp = React.createClass({
             counter++;
             that.nextNote();
             console.log("Counter is: " + counter);
-            if (counter >= that.state.settings.notes.length) {
+            if (counter >= that.getNumOfVisibleNotes()) {
 //                that.setState({mode:'pause'});
                 that.refreshWidget();
 //                clearInterval(looper);
