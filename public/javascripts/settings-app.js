@@ -173,8 +173,21 @@ var templates = require("./defaultTemplates");
         });
 
         this.addNote = function () {
-            settings.notes.push({"visibility" : true, "msg" : "", link:{type:"",url:"",display:"", target:"0"}});
+            settings.notes.push({"visibility" : true, "msg" : "", key:uniqueNoteKey(), link:{type:"",url:"",display:"", target:"0"}});
             focusNewNote();
+        }
+
+        var uniqueNoteKey = function() {
+                var key = 1;
+                function s4() {
+                    return Math.floor((1 + Math.random()) * 0x10000)
+                        .toString(16)
+                        .substring(1);
+                }
+                key = (s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                        s4() + '-' + s4() + s4() + s4());
+                return key;
+
         }
 
         var loadNotesArray = function() {

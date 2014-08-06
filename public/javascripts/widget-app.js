@@ -87,7 +87,8 @@ var WidgetApp = React.createClass({
     previewRollingNotes: function() {
         console.log("we are in the preview notes function");
         if (this.state.mode != 'pause') {
-            return;
+            console.log('in pause');
+            this.refreshWidget();
         }
         var that = this;
         var counter = 0;
@@ -127,15 +128,11 @@ var WidgetApp = React.createClass({
         this.setState({slideIndex: (this.state.slideIndex+1) % this.state.settings.notes.length});
     },
 
-    render: function() {
-        var that = this;
-        var notecontent,notecontentshow;
-        // if no notes exist
-        console.log("mode:  " + this.state.mode);
+    getNoteContent: function() {
+        var notecontent;
+//        console.log("mode:  " + this.state.mode);
         if (this.state.settings.notes.length == 0) {
-            notecontent = <div className="rSlides fillerNote">
-                            This is a note. Click to edit.
-                          </div>;
+            notecontent = 'This is a note. Click to edit.';
         }
         // if in pause mode
 //        else if (this.state.mode == 'pause') {
@@ -147,20 +144,58 @@ var WidgetApp = React.createClass({
 
         // if in play mode
         else {
-            notecontent =  this.state.settings.notes.map(function(note, i) {
-                  if (note.msg && that.state.slideIndex==i) return (
-                        <div className={'rSlides ' + that.state.settings.transition.effect} key={i}>
-                            {note.msg}
-                        </div>
-                    );
-            });
+            notecontent = this.state.settings.notes[this.state.slideIndex];
+
         }
+        return notecontent;
+//        else {
+//            notecontent =  this.state.settings.notes.map(function(note, i) {
+//                if (note.msg && that.state.slideIndex==i) return (
+//                    <div className={'rSlides ' + that.state.settings.transition.effect} key={Math.random()}>
+//                            {note.msg}
+//                    </div>
+//                    );
+//            });
+//        }
+    },
+
+    render: function() {
+        var that = this;
+//        var notecontent,notecontentshow;
+        // if no notes exist
+//        console.log("mode:  " + this.state.mode);
+//        if (this.state.settings.notes.length == 0) {
+//            notecontent = <div className="rSlides fillerNote">
+//                            This is a note. Click to edit.
+//                          </div>;
+//        }
+//        // if in pause mode
+////        else if (this.state.mode == 'pause') {
+////            console.log('displaying pause info');
+////            notecontent = <div className="rSlides firstNote">
+////                            {this.state.settings.notes[0].msg}
+////                          </div>;
+////        }
+//
+//        // if in play mode
+//        else {
+//            notecontent =  this.state.settings.notes.map(function(note, i) {
+//                  if (note.msg && that.state.slideIndex==i) return (
+//                        <div className={'rSlides ' + that.state.settings.transition.effect} key={Math.random()}>
+//                            {note.msg}
+//                        </div>
+//                    );
+//            });
+//        }
         return <div className={"note-widget " + this.state.settings.design.template} style={this.updateStyles()}
                     onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} onClick={this.nextNote}>
                     <div  className="note-header" style={this.updateHeaderStyle()}></div>
                     <div className="note-content">
                         <ReactCSSTransitionGroup  transitionName="example">
-                         {notecontent}
+                         <div className={'rSlides ' + this.state.settings.transition.effect} key={this.getNoteContent().key}>
+                            {this.getNoteContent().msg}
+                            {console.log('Key:' + this.getNoteContent().key)}
+                         </div>
                         </ReactCSSTransitionGroup>
 
                     </div>
