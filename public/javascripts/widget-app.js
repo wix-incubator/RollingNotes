@@ -13,17 +13,24 @@ var WidgetApp = React.createClass({
         var that = this;
         Wix.addEventListener(Wix.Events.SETTINGS_UPDATED, function(updatedSettings){
             that.setState({settings: updatedSettings});
+            that.setState({slideIndex: that.getFirstVisibleNoteIndex()});
             if (that.state.settings.transition.preview == true) {
                 console.log("preview");
                 that.previewRollingNotes();
+
             }
             //if (that.state.settings.transition.preview == true) that.previewTransition();
         });
     },
 
+    componentWillMount: function() {
+        this.setState({slideIndex: this.getFirstVisibleNoteIndex()});
+    },
+
     componentDidMount: function() {
         var that = this;
         this.onSettingsChange();
+        that.setState({slideIndex: that.getFirstVisibleNoteIndex()});
         Wix.addEventListener(Wix.Events.EDIT_MODE_CHANGE, function(data) {
             if (data.editMode == 'preview') {
                 that.setState({mode: 'play'});
@@ -141,6 +148,12 @@ var WidgetApp = React.createClass({
         return count;
     },
 
+    getFirstVisibleNoteIndex: function() {
+        for (var i = 0; i < this.state.settings.notes.length; i++) {
+            if (this.state.settings.notes[i].visibility == true) return i;
+        }
+        return 0;
+    },
 
     nextNote: function() {
         var nextVisibleSlide = ((this.state.slideIndex) + 1) % this.state.settings.notes.length;;
@@ -148,6 +161,7 @@ var WidgetApp = React.createClass({
             nextVisibleSlide = (nextVisibleSlide +1) % this.state.settings.notes.length;
         }
         this.setState({slideIndex: nextVisibleSlide});
+//        return nextVisibleSlide;
     },
 
     getNoteContent: function() {
@@ -169,8 +183,8 @@ var WidgetApp = React.createClass({
 
         // if in play mode
         else {
+            //if (this.state.slideIndex == 0 && this.state.settings.notes[0].visibility == false) this.setState({slideIndex: this.getFirstVisibleNoteIndex()});
             notecontent = this.state.settings.notes[this.state.slideIndex];
-
         }
         return notecontent;
 //        else {
