@@ -140,7 +140,7 @@ var WidgetApp = React.createClass({
         var notecontent;
 //        console.log("mode:  " + this.state.mode);
         if (this.state.settings.notes.length == 0) {
-            notecontent = {msg: 'This is a note. Click to edit.'};
+            notecontent = {msg: 'This is a note. Click to edit.', link: {url:"", target:""}};
         }
         // if in pause mode
 //        else if (this.state.mode == 'pause') {
