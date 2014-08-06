@@ -103,7 +103,7 @@ var WidgetApp = React.createClass({
         }
         var that = this;
         var counter = 0;
-        this.setState({mode:'play', slideIndex: 0});
+        this.setState({mode:'play', slideIndex: this.getFirstVisibleNoteIndex()});
         this.nextNote();
         var looper = setInterval(function(){
             counter++;
@@ -197,14 +197,14 @@ var WidgetApp = React.createClass({
 //            });
 //        }
     },
-
     render: function() {
         return <a href={this.getNoteContent().link.url} target={this.getNoteContent().link.target}>
             <div className={"note-widget " + this.state.settings.design.template} style={this.updateStyles()}
                     onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} onClick={this.nextNote}>
                     <div  className="note-header" style={this.updateHeaderStyle()}></div>
                     <div className="note-content">
-                        <ReactCSSTransitionGroup  transitionName="example">
+                        <ReactCSSTransitionGroup  transitionName={this.state.mode}>
+                        {console.log("mode in render " + this.state.mode)}
                          <div className={'rSlides ' + this.state.settings.transition.effect} key={this.getNoteContent().key}>
                                 {this.getNoteContent().msg}
                          </div>
