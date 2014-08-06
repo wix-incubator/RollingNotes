@@ -25,7 +25,10 @@ var WidgetApp = React.createClass({
         var that = this;
         this.onSettingsChange();
         Wix.addEventListener(Wix.Events.EDIT_MODE_CHANGE, function(data) {
-            if (data.editMode == 'preview') that.setState({mode: 'play'});
+            if (data.editMode == 'preview') {
+                that.setState({mode: 'play'});
+                that.playNotes();
+            }
             if (data.editMode == 'editor') {
                 //that.setState({mode: 'pause',slideIndex:0});
                 that.refreshWidget();
@@ -39,8 +42,8 @@ var WidgetApp = React.createClass({
         if(this.state.settings.design.hover.on){
             $(e.target).closest('.note-widget').css({"background-color":this.state.settings.design.hover.color});
         }
-
-
+        for (var i = 1; i < 9999; i++)
+            window.clearInterval(i);
     },
 
     handleMouseLeave: function(e) {
@@ -48,6 +51,7 @@ var WidgetApp = React.createClass({
         console.log(this.state.settings.design.background.color);
 
         $(e.target).closest('.note-widget').css({"background-color":this.state.settings.design.background.color});
+        this.playNotes();
     },
 
     updateStyles: function () {
@@ -114,10 +118,9 @@ var WidgetApp = React.createClass({
 
     playNotes: function() {
         var that = this;
-        this.nextNote();
         setInterval(function() {
             that.nextNote();
-        }, this.state.settings.transition.duration);
+        }, (this.state.settings.transition.duration * 1000) + 2000);
     },
 
     updateNoteStyles: function() {
@@ -137,7 +140,7 @@ var WidgetApp = React.createClass({
         var notecontent;
 //        console.log("mode:  " + this.state.mode);
         if (this.state.settings.notes.length == 0) {
-            notecontent = 'This is a note. Click to edit.';
+            notecontent = {msg: 'This is a note. Click to edit.'};
         }
         // if in pause mode
 //        else if (this.state.mode == 'pause') {
@@ -192,14 +195,16 @@ var WidgetApp = React.createClass({
 //                    );
 //            });
 //        }
+//        if (this.state.mode == 'play') this.playNotes();
         return <div className={"note-widget " + this.state.settings.design.template} style={this.updateStyles()}
                     onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} onClick={this.nextNote}>
                     <div  className="note-header" style={this.updateHeaderStyle()}></div>
                     <div className="note-content">
                         <ReactCSSTransitionGroup  transitionName="example">
                          <div className={'rSlides ' + this.state.settings.transition.effect} key={this.getNoteContent().key}>
-                            <a href={this.getNoteContent().link.url} target={this.getNoteContent().link.target}>{this.getNoteContent().msg}</a>
-                            {console.log('url in widget app:' + this.getNoteContent().link.url)}
+                            <a href={this.getNoteContent().link.url} target={this.getNoteContent().link.target}>
+                                {this.getNoteContent().msg}
+                            </a>
                          </div>
                         </ReactCSSTransitionGroup>
 
