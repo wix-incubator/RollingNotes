@@ -26,7 +26,10 @@ var WidgetApp = React.createClass({
         this.onSettingsChange();
         Wix.addEventListener(Wix.Events.EDIT_MODE_CHANGE, function(data) {
             if (data.editMode == 'preview') that.setState({mode: 'play'});
-            if (data.editMode == 'editor') that.setState({mode: 'pause',slideIndex:0});
+            if (data.editMode == 'editor') {
+                //that.setState({mode: 'pause',slideIndex:0});
+                that.refreshWidget();
+            }
         });
     },
 
@@ -77,6 +80,10 @@ var WidgetApp = React.createClass({
       return headerStyle;
     },
 
+    refreshWidget: function() {
+      window.location.reload();
+    },
+
     previewRollingNotes: function() {
         console.log("we are in the preview notes function");
         if (this.state.mode != 'pause') return;
@@ -105,7 +112,6 @@ var WidgetApp = React.createClass({
         return noteStyles;
 
     },
-
 
     nextNote: function() {
         this.setState({slideIndex: (this.state.slideIndex+1) % this.state.settings.notes.length});
