@@ -26,7 +26,7 @@ var WidgetApp = React.createClass({
         this.onSettingsChange();
         Wix.addEventListener(Wix.Events.EDIT_MODE_CHANGE, function(data) {
             if (data.editMode == 'preview') that.setState({mode: 'play'});
-            if (data.editMode == 'editor') that.setState({mode: 'pause'});
+            if (data.editMode == 'editor') that.setState({mode: 'pause',slideIndex:0});
         });
     },
 
@@ -113,19 +113,21 @@ var WidgetApp = React.createClass({
 
     render: function() {
         var that = this;
-        var notecontent;
+        var notecontent,notecontentshow;
         // if no notes exist
+        console.log("mode:  " + this.state.mode);
         if (this.state.settings.notes.length == 0) {
             notecontent = <div className="rSlides fillerNote">
                             This is a note. Click to edit.
                           </div>;
         }
         // if in pause mode
-        else if (this.state.mode == 'pause') {
-            notecontent = <div className="rSlides firstNote">
-                            {this.state.settings.notes[0].msg}
-                          </div>;
-        }
+//        else if (this.state.mode == 'pause') {
+//            console.log('displaying pause info');
+//            notecontent = <div className="rSlides firstNote">
+//                            {this.state.settings.notes[0].msg}
+//                          </div>;
+//        }
 
         // if in play mode
         else {
