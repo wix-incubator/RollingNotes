@@ -274,10 +274,14 @@ var templates = require("./defaultTemplates");
                     return el;
                 });
                 var titles = [];
+                var ids = [];
                 for (x = 0; x < arr.length; x++) {
                     titles[x] = arr[x].title;
+                    ids[x] = arr[x].id;
                 }
                 settings.pages = titles;
+                settings.pageIds = ids;
+                console.log(ids);
                 $('#link-popup').css('visibility', 'visible');
                 makeBackInactive();
                 showButtons();
@@ -314,12 +318,23 @@ var templates = require("./defaultTemplates");
                 }
 
             } else if ($('.page-link').css('visibility') === 'visible') {
+                var that = this;
+
                 this.noteForLink.webLink = "";
                 this.noteForLink.emailLink = "";
                 this.noteForLink.docLink = "";
                 this.noteForLink.link.subject = "";
+                var index = settings.pages.indexOf(this.noteForLink.pageLink);
+                this.noteForLink.link.display = this.noteForLink.pageLink;
+//                this.noteForLink.link.url = settings.pageIds[index];
+                this.noteForLink.link.target = '_blank';
 
-                this.noteForLink.link.url = this.noteForLink.pageLink;
+                Wix.Worker.getSiteInfo(function(siteInfo) {
+                    // do something with the siteInfo
+                    that.noteForLink.link.url = siteInfo.baseUrl + '/' + that.settings.pageIds[index];
+                    console.log('Url in settings: ' + that.noteForLink.link.url);
+                    updateComponent(that.settings);
+                });
             } else if ($('.email-link').css('visibility') === 'visible') {
                 this.noteForLink.webLink = "";
                 this.noteForLink.pageLink = "";
@@ -340,7 +355,7 @@ var templates = require("./defaultTemplates");
                 this.noteForLink.link.url = this.noteForLink.docLink;
             }
 
-
+            console.log('right before update: ' + this.noteForLink.link.url);
             updateComponent(settings);
 
             $('#link-popup').css('visibility', 'hidden');

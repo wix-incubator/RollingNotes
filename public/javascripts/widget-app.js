@@ -198,8 +198,8 @@ var WidgetApp = React.createClass({
                     <div className="note-content">
                         <ReactCSSTransitionGroup  transitionName="example">
                          <div className={'rSlides ' + this.state.settings.transition.effect} key={this.getNoteContent().key}>
-                            {this.getNoteContent().msg}
-                            {console.log('Key:' + this.getNoteContent().key)}
+                            <a href={this.getNoteContent().link.url} target={this.getNoteContent().link.target}>{this.getNoteContent().msg}</a>
+                            {console.log('url in widget app:' + this.getNoteContent().link.url)}
                          </div>
                         </ReactCSSTransitionGroup>
 
