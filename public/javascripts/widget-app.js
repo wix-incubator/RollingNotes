@@ -118,6 +118,7 @@ var WidgetApp = React.createClass({
 
     playNotes: function() {
         var that = this;
+        this.nextNote();
         setInterval(function() {
             that.nextNote();
         }, (this.state.settings.transition.duration * 1000) + 2000);
@@ -140,8 +141,13 @@ var WidgetApp = React.createClass({
         return count;
     },
 
+
     nextNote: function() {
-        this.setState({slideIndex: (this.state.slideIndex+1) % this.state.settings.notes.length});
+        var nextVisibleSlide = ((this.state.slideIndex) + 1) % this.state.settings.notes.length;;
+        while (this.state.settings.notes[nextVisibleSlide].visibility == false) {
+            nextVisibleSlide = (nextVisibleSlide +1) % this.state.settings.notes.length;
+        }
+        this.setState({slideIndex: nextVisibleSlide});
     },
 
     getNoteContent: function() {
@@ -150,7 +156,7 @@ var WidgetApp = React.createClass({
         console.log(numofVisibleNotes);
         var notecontent;
 //        console.log("mode:  " + this.state.mode);
-        if (this.state.settings.notes.length == 0) {
+        if (this.state.settings.notes.length == 0 || numofVisibleNotes == 0) {
             notecontent = {msg: 'This is a note. Click to edit.', link: {url:"", target:""}};
         }
         // if in pause mode
