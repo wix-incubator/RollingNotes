@@ -196,21 +196,20 @@ var WidgetApp = React.createClass({
 //            });
 //        }
 //        if (this.state.mode == 'play') this.playNotes();
-        return <div className={"note-widget " + this.state.settings.design.template} style={this.updateStyles()}
+        return <a href={this.getNoteContent().link.url} target={this.getNoteContent().link.target}>
+            <div className={"note-widget " + this.state.settings.design.template} style={this.updateStyles()}
                     onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} onClick={this.nextNote}>
                     <div  className="note-header" style={this.updateHeaderStyle()}></div>
                     <div className="note-content">
                         <ReactCSSTransitionGroup  transitionName="example">
                          <div className={'rSlides ' + this.state.settings.transition.effect} key={this.getNoteContent().key}>
-                            <a href={this.getNoteContent().link.url} target={this.getNoteContent().link.target}>
                                 {this.getNoteContent().msg}
-                            </a>
                          </div>
                         </ReactCSSTransitionGroup>
-
                     </div>
-               </div>;
-    }
+               </div>
+            </a>;
+        }
 });
 
 var parseCompId = function(key){
