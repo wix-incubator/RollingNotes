@@ -132,11 +132,22 @@ var WidgetApp = React.createClass({
 
     },
 
+    getNumOfVisibleNotes: function() {
+        var count = 0;
+        for (var i = 0; i < this.state.settings.notes.length; i++) {
+          if (this.state.settings.notes[i].visibility == true) count++;
+        }
+        return count;
+    },
+
     nextNote: function() {
         this.setState({slideIndex: (this.state.slideIndex+1) % this.state.settings.notes.length});
     },
 
     getNoteContent: function() {
+
+        var numofVisibleNotes = this.getNumOfVisibleNotes();
+        console.log(numofVisibleNotes);
         var notecontent;
 //        console.log("mode:  " + this.state.mode);
         if (this.state.settings.notes.length == 0) {
