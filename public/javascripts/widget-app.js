@@ -25,7 +25,10 @@ var WidgetApp = React.createClass({
         var that = this;
         this.onSettingsChange();
         Wix.addEventListener(Wix.Events.EDIT_MODE_CHANGE, function(data) {
-            if (data.editMode == 'preview') that.setState({mode: 'play'});
+            if (data.editMode == 'preview') {
+                that.setState({mode: 'play'});
+                that.playNotes();
+            }
             if (data.editMode == 'editor') {
                 //that.setState({mode: 'pause',slideIndex:0});
                 that.refreshWidget();
@@ -109,10 +112,9 @@ var WidgetApp = React.createClass({
 
     playNotes: function() {
         var that = this;
-        this.nextNote();
         setInterval(function() {
             that.nextNote();
-        }, this.state.settings.transition.duration);
+        }, this.state.settings.transition.duration * 1000);
     },
 
     updateNoteStyles: function() {
