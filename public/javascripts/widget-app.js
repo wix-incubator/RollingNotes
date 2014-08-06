@@ -86,7 +86,9 @@ var WidgetApp = React.createClass({
 
     previewRollingNotes: function() {
         console.log("we are in the preview notes function");
-        if (this.state.mode != 'pause') return;
+        if (this.state.mode != 'pause') {
+            return;
+        }
         var that = this;
         var counter = 0;
         this.setState({mode:'play', slideIndex: 0});
@@ -102,6 +104,14 @@ var WidgetApp = React.createClass({
                 }, 1000);
             }
         }, that.state.settings.transition.duration * 1000);
+    },
+
+    playNotes: function() {
+        var that = this;
+        this.nextNote();
+        setInterval(function() {
+            that.nextNote();
+        }, this.state.settings.transition.duration);
     },
 
     updateNoteStyles: function() {
