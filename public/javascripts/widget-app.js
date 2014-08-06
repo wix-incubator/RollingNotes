@@ -96,18 +96,23 @@ var WidgetApp = React.createClass({
         var that = this;
         var counter = 0;
         this.setState({mode:'play', slideIndex: 0});
+        this.nextNote();
         var looper = setInterval(function(){
             counter++;
             that.nextNote();
             console.log("Counter is: " + counter);
             if (counter >= that.state.settings.notes.length) {
-                clearInterval(looper);
-
-                setTimeout(function(){
-                    that.setState({mode:'pause'});
-                }, 1000);
+//                that.setState({mode:'pause'});
+                that.refreshWidget();
+//                clearInterval(looper);
+//
+//                setTimeout(function(){
+//                    that.setState({mode:'pause'});
+//                    that.refreshWidget();
+//
+//                }, 2000);
             }
-        }, that.state.settings.transition.duration * 1000);
+        }, (that.state.settings.transition.duration * 1000) + 2000);
     },
 
     playNotes: function() {
