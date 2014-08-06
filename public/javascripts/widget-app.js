@@ -168,34 +168,6 @@ var WidgetApp = React.createClass({
     },
 
     render: function() {
-        var that = this;
-//        var notecontent,notecontentshow;
-        // if no notes exist
-//        console.log("mode:  " + this.state.mode);
-//        if (this.state.settings.notes.length == 0) {
-//            notecontent = <div className="rSlides fillerNote">
-//                            This is a note. Click to edit.
-//                          </div>;
-//        }
-//        // if in pause mode
-////        else if (this.state.mode == 'pause') {
-////            console.log('displaying pause info');
-////            notecontent = <div className="rSlides firstNote">
-////                            {this.state.settings.notes[0].msg}
-////                          </div>;
-////        }
-//
-//        // if in play mode
-//        else {
-//            notecontent =  this.state.settings.notes.map(function(note, i) {
-//                  if (note.msg && that.state.slideIndex==i) return (
-//                        <div className={'rSlides ' + that.state.settings.transition.effect} key={Math.random()}>
-//                            {note.msg}
-//                        </div>
-//                    );
-//            });
-//        }
-//        if (this.state.mode == 'play') this.playNotes();
         return <a href={this.getNoteContent().link.url} target={this.getNoteContent().link.target}>
             <div className={"note-widget " + this.state.settings.design.template} style={this.updateStyles()}
                     onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} onClick={this.nextNote}>
