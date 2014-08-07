@@ -84,10 +84,12 @@ Wix UI lib component styles
 
 #previewTransitionButton {
   width: 80px;
-  position: relative;
-  left: 30px;
+  position: absolute;
+  /* left: 30px; */
   padding: 5px 17px;
-  top: -26px;
+  top: 200px;
+  right: 27px;
+  z-index: 400;
 }
 
 .dur-group .btn {
@@ -600,4 +602,33 @@ textarea {
 .stopPreviewButton {
   background-color: red;
   content: 'Stop preview';
+  z-index: 200;
+  pointer-events: auto !important;
+}
+
+.overlay-gray {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  background-color: rgba(0,0,0,0.5);
+  border-radius: 6px;
+  filter: alpha(opacity=10);
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.overlay-lock {
+  position: absolute;
+  top: 10px;
+  left: 0px;
+  width: 100%;
+  height: 93%;
+  z-index: 10;
+  background-color: transparent;
+  border-radius: 6px;
+  filter: alpha(opacity=10);
+  pointer-events: auto;
 }
