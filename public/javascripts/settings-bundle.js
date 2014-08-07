@@ -198,6 +198,8 @@ var templates = require("./defaultTemplates");
             if (!preview) {
                 $('#previewTransitionButton').removeClass('stopPreviewButton');
                 document.getElementById("previewTransitionButton").innerHTML = "Preview";
+                $('.overlay-gray').css('visibility', 'hidden');
+                $('.overlay-lock').css('pointer-events', 'auto');
                 settings.transition.preview = true;
                 updateComponent(settings);
                 settings.transition.preview = false;
@@ -205,21 +207,29 @@ var templates = require("./defaultTemplates");
                 clearTimeout(timeout);
                 return;
             }
+
             settings.transition.preview = true;
             preview = false;
+
             var dur = ((settings.transition.duration * 1000) + 2000) * (getNumVisibleNotes() - 1) + 2000;
-            console.log('duration to stop: ' + dur);
+
             $('#previewTransitionButton').addClass('stopPreviewButton');
             document.getElementById("previewTransitionButton").innerHTML = "Stop ";
+            $('.overlay-gray').css('visibility', 'visible');
+            $('.overlay-lock').css('pointer-events', 'none');
+
+
             timeout = setTimeout( function() {
                 $('#previewTransitionButton').removeClass('stopPreviewButton');
                 document.getElementById("previewTransitionButton").innerHTML = "Preview";
+                $('.overlay-gray').css('visibility', 'hidden');
+                $('.overlay-lock').css('pointer-events', 'auto');
                 preview = true;
 
             }, dur - 1500)
+
             updateComponent(settings);
             settings.transition.preview = false;
-//          updateComponent(settings);
         };
 
 
@@ -603,6 +613,15 @@ var templates = require("./defaultTemplates");
                 $('.doc-link').css('visibility','visible');
             }
         }
+//
+//        this.transitionTab = function() {
+//            console.log('running transition');
+//            if($('.trans').hasClass('selected')) {
+//                console.log('in transition tab!')
+//                return true;
+//            }
+//            return false;
+//        }
 
     }]);
 
