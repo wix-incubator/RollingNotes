@@ -15,7 +15,6 @@ var WidgetApp = React.createClass({
             that.setState({settings: updatedSettings});
             that.setState({slideIndex: that.getFirstVisibleNoteIndex()});
             if (that.state.settings.transition.preview == true) {
-                console.log("preview");
                 that.previewRollingNotes();
 
             }
@@ -49,14 +48,12 @@ var WidgetApp = React.createClass({
         if(this.state.settings.design.hover.on){
             $(e.target).closest('.note-widget').css({"background-color":this.state.settings.design.hover.color});
         }
-        for (var i = 1; i < 9999; i++)
+        for (var i = 0; i < 9999; i++)
             window.clearInterval(i);
     },
 
     handleMouseLeave: function(e) {
-        console.log("mouseof?");
-        console.log(this.state.settings.design.background.color);
-
+        console.log("mouseoff");
         $(e.target).closest('.note-widget').css({"background-color":this.state.settings.design.background.color});
         this.playNotes();
     },
@@ -96,9 +93,7 @@ var WidgetApp = React.createClass({
     },
 
     previewRollingNotes: function() {
-        console.log("we are in the preview notes function");
         if (this.state.mode != 'pause') {
-            console.log('in pause');
             this.refreshWidget();
         }
         var that = this;
@@ -108,8 +103,7 @@ var WidgetApp = React.createClass({
         var looper = setInterval(function(){
             counter++;
             that.nextNote();
-            console.log("Counter is: " + counter);
-            if (counter >= that.getNumOfVisibleNotes()) {
+            if (counter >= that.getNumOfVisibleNotes() - 1) {
 //                that.setState({mode:'pause'});
                 that.refreshWidget();
 //                clearInterval(looper);
@@ -125,7 +119,7 @@ var WidgetApp = React.createClass({
 
     playNotes: function() {
         var that = this;
-        this.nextNote();
+        //this.nextNote();
         setInterval(function() {
             that.nextNote();
         }, (this.state.settings.transition.duration * 1000) + 2000);
@@ -167,7 +161,6 @@ var WidgetApp = React.createClass({
     getNoteContent: function() {
 
         var numofVisibleNotes = this.getNumOfVisibleNotes();
-        console.log(numofVisibleNotes);
         var notecontent;
 //        console.log("mode:  " + this.state.mode);
         if (this.state.settings.notes.length == 0 || numofVisibleNotes == 0) {
@@ -204,7 +197,6 @@ var WidgetApp = React.createClass({
                     <div  className="note-header" style={this.updateHeaderStyle()}></div>
                     <div className="note-content">
                         <ReactCSSTransitionGroup  transitionName={this.state.mode}>
-                        {console.log("mode in render " + this.state.mode)}
                          <div className={'rSlides ' + this.state.settings.transition.effect} key={this.getNoteContent().key}>
                                 {this.getNoteContent().msg}
                          </div>

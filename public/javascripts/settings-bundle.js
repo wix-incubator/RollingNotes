@@ -190,14 +190,43 @@ var templates = require("./defaultTemplates");
             updateComponent(settings);
         };
 
+        var preview = true;
         this.previewTransition = function() {
 //          Wix.Settings.refreshAppByCompIds([parseCompId(settings._id)]);
+            if (!preview) {
+                $('#previewTransitionButton').removeClass('stopPreviewButton');
+                document.getElementById("previewTransitionButton").innerHTML = "Preview";
+                settings.transition.preview = true;
+                updateComponent(settings);
+                settings.transition.preview = false;
+                preview = true;
+                return;
+            }
             settings.transition.preview = true;
+            preview = false;
+            var dur = ((settings.transition.duration * 1000) + 2000) * (getNumVisibleNotes() - 1) + 2000;
+            console.log('duration to stop: ' + dur);
+            $('#previewTransitionButton').addClass('stopPreviewButton');
+            document.getElementById("previewTransitionButton").innerHTML = "Stop ";
+            setTimeout( function() {
+                $('#previewTransitionButton').removeClass('stopPreviewButton');
+                document.getElementById("previewTransitionButton").innerHTML = "Preview";
+                preview = true;
+
+            }, dur - 1500)
             updateComponent(settings);
             settings.transition.preview = false;
 //          updateComponent(settings);
         };
 
+
+        var getNumVisibleNotes = function() {
+            var count = 0;
+            for (var i = 0; i < this.settings.notes.length; i++) {
+                if (this.settings.notes[i].visibility == true) count++;
+            }
+            return count;
+        }
 
         Wix.UI.onChange('template', function(newSettings){
             settings.design.template = newSettings.value;
@@ -298,7 +327,7 @@ var templates = require("./defaultTemplates");
         });
 
         Wix.UI.onChange('duration', function(newSettings){
-            settings.transition.duration = newSettings;
+            settings.transition.duration = Math.round(newSettings);
             updateComponent(settings);
         });
 
