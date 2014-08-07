@@ -32,7 +32,6 @@ var WidgetApp = React.createClass({
         that.setState({slideIndex: that.getFirstVisibleNoteIndex()});
         Wix.addEventListener(Wix.Events.EDIT_MODE_CHANGE, function(data) {
             if (data.editMode == 'preview') {
-                that.setState({mode: 'play'});
                 that.playNotes();
             }
             if (data.editMode == 'editor') {
@@ -48,8 +47,7 @@ var WidgetApp = React.createClass({
         if(this.state.settings.design.hover.on){
             $(e.target).closest('.note-widget').css({"background-color":this.state.settings.design.hover.color});
         }
-        for (var i = 0; i < 9999; i++)
-            window.clearInterval(i);
+        this.pauseNotes();
     },
 
     handleMouseLeave: function(e) {
@@ -118,11 +116,20 @@ var WidgetApp = React.createClass({
     },
 
     playNotes: function() {
+        if (this.state.mode == 'play') return;
         var that = this;
+        this.setState({mode: 'play'});
         //this.nextNote();
         setInterval(function() {
             that.nextNote();
         }, (this.state.settings.transition.duration * 1000) + 2000);
+    },
+
+    pauseNotes: function() {
+        if (this.state.mode == 'pause') return;
+        this.setState({mode: 'pause'});
+        for (var i = 0; i < 9999; i++)
+            window.clearInterval(i);
     },
 
     updateNoteStyles: function() {
@@ -131,7 +138,6 @@ var WidgetApp = React.createClass({
             noteStyles.transition = 'none';
         }
         return noteStyles;
-
     },
 
     getNumOfVisibleNotes: function() {

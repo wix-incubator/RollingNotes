@@ -140,7 +140,7 @@ body, html {
 
 .fade.play-enter {
   opacity: 0.01;
-  transition: opacity .5s ease-in-out;
+  transition: opacity 2s ease-in-out;
 }
 
 .fade.play-enter.play-enter-active {
@@ -149,7 +149,7 @@ body, html {
 
 .fade.play-leave {
   opacity: 1;
-  transition: opacity .5s ease-in-out;
+  transition: opacity 2s ease-in-out;
 }
 
 .fade.play-leave.play-leave-active {
@@ -217,27 +217,29 @@ body, html {
 
 
 
-//
-//.noTransition-enter{
-//  opacity: 0.01;
-//  transition: opacity .1s ease-in-out;
-//}
-//
-//.noTransition-enter.noTransition-enter-active {
-//  opacity: 1;
-//
-//}
-//
-//.noTransition-leave {
-//  opacity: 0.01;
-//  transition: opacity .00001s ease-in-out;
-//  visibility: hidden;
-//}
-//
-//.noTransition-leave.noTransition-leave-active {
-//  opacity: 0.01;
-//  visibility: hidden;
-//}
+.typewriter.play-enter {
+    opacity: 0;
+    transition: all 2s linear;
+    transform: scale(0) translate(0px,-150px);
+
+}
+
+.typewriter.play-enter.play-enter-active {
+  opacity: 1;
+  zoom: 100%;
+  transform: scale(1) translate(0px, 0px);
+}
+
+.typewriter.play-leave {
+  opacity: 1;
+  transform: scale(1) translate(0px, 0px);
+  transition: all 2s ease-in-out;
+}
+
+.typewriter.play-leave.play-leave-active {
+  opacity: 0.01;
+  transform: scale(2) translate(0px, 150px);
+}
 
 
 
