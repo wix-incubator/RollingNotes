@@ -43,8 +43,10 @@ var templates = require("./defaultTemplates");
         };
 
         var preview = true;
+        var timeout;
         this.previewTransition = function() {
 //          Wix.Settings.refreshAppByCompIds([parseCompId(settings._id)]);
+
             if (!preview) {
                 $('#previewTransitionButton').removeClass('stopPreviewButton');
                 document.getElementById("previewTransitionButton").innerHTML = "Preview";
@@ -52,6 +54,7 @@ var templates = require("./defaultTemplates");
                 updateComponent(settings);
                 settings.transition.preview = false;
                 preview = true;
+                clearTimeout(timeout);
                 return;
             }
             settings.transition.preview = true;
@@ -60,7 +63,7 @@ var templates = require("./defaultTemplates");
             console.log('duration to stop: ' + dur);
             $('#previewTransitionButton').addClass('stopPreviewButton');
             document.getElementById("previewTransitionButton").innerHTML = "Stop ";
-            setTimeout( function() {
+            timeout = setTimeout( function() {
                 $('#previewTransitionButton').removeClass('stopPreviewButton');
                 document.getElementById("previewTransitionButton").innerHTML = "Preview";
                 preview = true;
