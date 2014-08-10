@@ -5,18 +5,18 @@
     <title>Widget</title>
     <link rel="stylesheet" href="/stylesheets/flexslider.css"/>
     <link rel="stylesheet" href="/stylesheets/widget-styles.css" />
+    <!-- link wix-params to widget styles using wix ui lib-->
     <style type="text/css" wix-style>
         .note-widget {
             {{style.font}}
-            backgroundColor: style.color;
         }
     </style>
 </head>
 
 <body>
-    <div class="title" id="content">
-        <!--<h1><%- settings.test %></h1>-->
-    </div>
+
+    <!-- entry point for rendered React code -->
+    <div id="content"></div>
 
     <script type="text/javascript" src="//sslstatic.wix.com/services/js-sdk/1.33.0/js/Wix.js"></script>
     <script type="text/javascript" src="javascripts/bower_components/jquery/dist/jquery.min.js"></script>
@@ -27,6 +27,7 @@
     <script type="text/jsx" src="/javascripts/widget-app.js"></script>
 
 
+    <!-- get global settings JSON  from database -->
     <script type="text/javascript">
         var settings = <%- settings %>;
     </script>
