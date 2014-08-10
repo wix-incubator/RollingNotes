@@ -3,15 +3,17 @@
  */
 
 var templates = require("./defaultTemplates");
+
 (function(){
     var app = angular.module("settingsApp", ['ui.sortable']);
 
     app.controller('settingsController', ['$window', '$scope', '$http', '$timeout', function($window, $scope, $http, $timeout) {
-        this.settings = $window.settings;
 
-        this.getSettings = function(settings) {
-            console.log(settings);
-        };
+        /**********************************
+         *  Design Settings (first tab of settings)
+         **********************************/
+
+        this.settings = $window.settings;
 
         var parseCompId = function(key){
             return key.substring(key.indexOf(".") + 1);
@@ -29,6 +31,108 @@ var templates = require("./defaultTemplates");
             Wix.Settings.triggerSettingsUpdatedEvent(settings, parseCompId(settings._id));
         };
 
+        this.resetTemplate = function() {
+            Wix.UI.set('template', {value: settings.design.template});
+            updateComponent(settings);
+        };
+
+
+        Wix.UI.onChange('template', function(newSettings){
+            settings.design.template = newSettings.value;
+            var template;
+            if (settings.design.template == 'default-note') {
+                template = JSON.parse(JSON.stringify(templates.defaultNote.design));
+            } else if (settings.design.template == 'spiral-note') {
+                template = JSON.parse(JSON.stringify(templates.spiralNote.design));
+            } else if (settings.design.template == 'postit-note') {
+                template = JSON.parse(JSON.stringify(templates.postitNote.design));
+            }  else if (settings.design.template == 'chalkboard-note') {
+                template = JSON.parse(JSON.stringify(templates.chalkboardNote.design));
+            }
+
+            Wix.UI.set('color', template.text.color);
+            Wix.UI.set('bcolorWOpacity', {rgba: template.background.color, opacity:template.background.opacity/100});
+            Wix.UI.set('bOpacitySpinner', template.background.opacity);
+            Wix.UI.set('hcolorWOpacity', {rgba: template.hover.color, opacity:template.hover.opacity/100});
+            Wix.UI.set('hOpacitySlider', template.hover.opacity);
+            Wix.UI.set('borderColor', template.border.color);
+            Wix.UI.set('borderWidth', template.border.width);
+            Wix.UI.set('radius', template.border.radius);
+            Wix.UI.set('hoverCheckbox', template.hover.on);
+
+            settings.design = template;
+            updateComponent(settings);
+        });
+
+        // event listeners for changing settings in design tab, uses wix ui lib
+
+        Wix.UI.onChange('color', function(newSettings){
+            settings.design.text.color = newSettings.cssColor;
+            updateComponent(settings);
+        });
+
+        var parseRBGA = function(rgba) {
+            return rgba.substring(5, rgba.length-1).replace(/ /g, '').split(',');
+        }
+
+
+        Wix.UI.onChange('bcolorWOpacity', function(newSettings){
+            settings.design.background.color = newSettings.rgba;
+            settings.design.background.opacity = newSettings.opacity;
+            Wix.UI.set('bOpacitySpinner', settings.design.background.opacity * 100);
+            updateComponent(settings);
+        });
+
+
+        Wix.UI.onChange('bOpacitySpinner', function(newSettings){
+            var currRGBA = parseRBGA(settings.design.background.color);
+            settings.design.background.color = "rgba(" + currRGBA[0] + "," + currRGBA[1] + "," + currRGBA[2] + "," + newSettings/100 + ")";
+            settings.design.background.opacity = newSettings/100;
+            Wix.UI.set('bcolorWOpacity',{rgba: settings.design.background.color, opacity:settings.design.background.opacity});
+            updateComponent(settings);
+        });
+
+        Wix.UI.onChange('hoverCheckbox', function(newSettings){
+            settings.design.hover.on = newSettings;
+            updateComponent(settings);
+        });
+
+        Wix.UI.onChange('hcolorWOpacity', function(newSettings){
+            settings.design.hover.color = newSettings.rgba;
+            settings.design.hover.opacity = newSettings.opacity;
+            Wix.UI.set('hOpacitySlider', settings.design.hover.opacity * 100);
+            updateComponent(settings);
+        });
+
+        Wix.UI.onChange('hOpacitySlider', function(newSettings){
+            var currRGBA = parseRBGA(settings.design.hover.color);
+            settings.design.hover.color = "rgba(" + currRGBA[0] + "," + currRGBA[1] + "," + currRGBA[2] + "," + newSettings/100 + ")";
+            settings.design.hover.opacity = newSettings/100;
+            Wix.UI.set('hcolorWOpacity',{rgba: settings.design.hover.color, opacity:settings.design.hover.opacity});
+            updateComponent(settings);
+        });
+
+        Wix.UI.onChange('borderColor', function(newSettings){
+            settings.design.border.color = newSettings.cssColor;
+            updateComponent(settings);
+        });
+
+
+        Wix.UI.onChange('borderWidth', function(newSettings){
+            settings.design.border.width = newSettings;
+            updateComponent(settings);
+        });
+
+
+        Wix.UI.onChange('radius', function(newSettings){
+            settings.design.border.radius = newSettings;
+            updateComponent(settings);
+        });
+
+        /**********************************
+         *  Manage Notes Screen
+         **********************************/
+
         this.showManageNotes = function() {
             $('#manage-notes').removeClass('hidden-manage-notes');
         };
@@ -37,13 +141,129 @@ var templates = require("./defaultTemplates");
             $('#manage-notes').addClass('hidden-manage-notes');
         };
 
-        this.resetTemplate = function() {
-            Wix.UI.set('template', {value: settings.design.template});
+        this.blur = function() {
             updateComponent(settings);
         };
 
+        $scope.settings = $window.settings;
+
+        $scope.$watchCollection('settings.notes', function(newNames, oldNames) {
+            if(settings.notes.length === 0) {
+                $('#manage-notes-content').addClass('empty-notes-background');
+            } else {
+                $('#manage-notes-content').removeClass('empty-notes-background');
+            }
+
+            updateComponent(settings);
+//            focusNote();
+        });
+
+        this.addNote = function () {
+            settings.notes.push({"visibility" : true, "msg" : "", key:uniqueNoteKey(), link:{type:"",url:"",display:"", target:"0"}});
+            focusNewNote();
+        };
+
+        var uniqueNoteKey = function() {
+            var key = 1;
+            function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000)
+                    .toString(16)
+                    .substring(1);
+            }
+            key = (s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                s4() + '-' + s4() + s4() + s4());
+            return key;
+
+        };
+
+        var loadNotesArray = function() {
+            var matchingElements = [];
+            $("textarea").each(function(index, element) {
+                matchingElements.push(element);
+            });
+            return matchingElements;
+        };
+
+        var focusNewNote = function () {
+            $timeout(function() {
+                var array = loadNotesArray();
+                var el = $(array[array.length-1]);
+                el.focus();
+            },0);
+
+        };
+
+        this.focusText = function (element) {
+            $timeout(function() {
+                if (!($("textarea:focus")) ) {
+                    $("textarea:focus").blur();
+                }
+                $(element.target).closest('.note-container').find('textarea').focus();
+            }, 2000, false);
+        };
+
+        this.deleteNote = function(array, index) {
+            array.splice(index, 1);
+        };
+
+        this.toggleWatch = function(element, index) {
+            var el = $(element.target);
+
+            el.toggleClass('icon-watch');
+            el.toggleClass('icon-unwatch');
+
+            if(el.hasClass('icon-unwatch')) {
+                el.closest('.content-row').find('.note-text').addClass('unwatched-note');
+                settings.notes[index].visibility = false;
+            } else {
+                el.closest('.content-row').find('.note-text').removeClass('unwatched-note');
+                settings.notes[index].visibility = true;
+            }
+            updateComponent(settings);
+
+        };
+
+        this.textLength = function(element, msg) {
+            if (element.keyCode === 8 || element.keyCode === 44) {
+                $(element.target).parent().find('.character-count-normal').css('color','black');
+                $(element.target).removeClass('note-text-max-count');
+            } else if(msg.length >= 139) {
+                $(element.target).parent().find('.character-count-normal').css('color','red');
+                $(element.target).addClass('note-text-max-count');
+            } else {
+                $(element.target).parent().find('.character-count-normal').css('color','black');
+                $(element.target).removeClass('note-text-max-count');
+
+            }
+        };
+
+
+        /**********************************
+         *  Transition Settings (second tab of settings)
+         **********************************/
+
         var preview = true;
         var timeout;
+
+        Wix.UI.onChange('transition', function(newSettings){
+            settings.transition.effect = newSettings.value;
+            updateComponent(settings);
+        });
+
+        Wix.UI.onChange('duration', function(newSettings){
+            settings.transition.duration = Math.round(newSettings);
+            updateComponent(settings);
+        });
+
+
+        var getNumVisibleNotes = function() {
+            var count = 0;
+            for (var i = 0; i < this.settings.notes.length; i++) {
+                if (this.settings.notes[i].visibility == true) count++;
+            }
+            return count;
+        };
+
         this.previewTransition = function() {
 //          Wix.Settings.refreshAppByCompIds([parseCompId(settings._id)]);
 
@@ -85,229 +305,10 @@ var templates = require("./defaultTemplates");
         };
 
 
-        var getNumVisibleNotes = function() {
-            var count = 0;
-            for (var i = 0; i < this.settings.notes.length; i++) {
-                if (this.settings.notes[i].visibility == true) count++;
-            }
-            return count;
-        }
 
-        Wix.UI.onChange('template', function(newSettings){
-            settings.design.template = newSettings.value;
-            var template;
-            if (settings.design.template == 'default-note') {
-                template = JSON.parse(JSON.stringify(templates.defaultNote.design));
-            } else if (settings.design.template == 'spiral-note') {
-                template = JSON.parse(JSON.stringify(templates.spiralNote.design));
-            } else if (settings.design.template == 'postit-note') {
-                template = JSON.parse(JSON.stringify(templates.postitNote.design));
-            }  else if (settings.design.template == 'chalkboard-note') {
-                template = JSON.parse(JSON.stringify(templates.chalkboardNote.design));
-            }
-
-            Wix.UI.set('color', template.text.color);
-            Wix.UI.set('bcolorWOpacity', {rgba: template.background.color, opacity:template.background.opacity/100});
-            Wix.UI.set('bOpacitySpinner', template.background.opacity);
-            Wix.UI.set('hcolorWOpacity', {rgba: template.hover.color, opacity:template.hover.opacity/100});
-            Wix.UI.set('hOpacitySlider', template.hover.opacity);
-            Wix.UI.set('borderColor', template.border.color);
-            Wix.UI.set('borderWidth', template.border.width);
-            Wix.UI.set('radius', template.border.radius);
-            Wix.UI.set('hoverCheckbox', template.hover.on);
-
-            settings.design = template;
-            updateComponent(settings);
-        });
-
-        Wix.UI.onChange('color', function(newSettings){
-            settings.design.text.color = newSettings.cssColor;
-            updateComponent(settings);
-        });
-
-        var parseRBGA = function(rgba) {
-            return rgba.substring(5, rgba.length-1).replace(/ /g, '').split(',');
-        }
-
-
-        Wix.UI.onChange('bcolorWOpacity', function(newSettings){
-            settings.design.background.color = newSettings.rgba;
-            settings.design.background.opacity = newSettings.opacity;
-            Wix.UI.set('bOpacitySpinner', settings.design.background.opacity * 100);
-            updateComponent(settings);
-        });
-
-
-        Wix.UI.onChange('bOpacitySpinner', function(newSettings){
-            var currRGBA = parseRBGA(settings.design.background.color);
-            settings.design.background.color = "rgba(" + currRGBA[0] + "," + currRGBA[1] + "," + currRGBA[2] + "," + newSettings/100 + ")";
-            settings.design.background.opacity = newSettings/100;
-            Wix.UI.set('bcolorWOpacity',{rgba: settings.design.background.color, opacity:settings.design.background.opacity});
-            updateComponent(settings);
-        });
-
-        Wix.UI.onChange('hoverCheckbox', function(newSettings){
-            settings.design.hover.on = newSettings;
-            updateComponent(settings);
-        });
-
-        Wix.UI.onChange('hcolorWOpacity', function(newSettings){
-            settings.design.hover.color = newSettings.rgba;
-            settings.design.hover.opacity = newSettings.opacity;
-            Wix.UI.set('hOpacitySlider', settings.design.hover.opacity * 100);
-            updateComponent(settings);
-        });
-
-
-        Wix.UI.onChange('hOpacitySlider', function(newSettings){
-            var currRGBA = parseRBGA(settings.design.hover.color);
-            settings.design.hover.color = "rgba(" + currRGBA[0] + "," + currRGBA[1] + "," + currRGBA[2] + "," + newSettings/100 + ")";
-            settings.design.hover.opacity = newSettings/100;
-            Wix.UI.set('hcolorWOpacity',{rgba: settings.design.hover.color, opacity:settings.design.hover.opacity});
-            updateComponent(settings);
-        });
-
-
-
-        Wix.UI.onChange('borderColor', function(newSettings){
-            settings.design.border.color = newSettings.cssColor;
-            updateComponent(settings);
-        });
-
-
-        Wix.UI.onChange('borderWidth', function(newSettings){
-            settings.design.border.width = newSettings;
-            updateComponent(settings);
-        });
-
-
-        Wix.UI.onChange('radius', function(newSettings){
-            settings.design.border.radius = newSettings;
-            updateComponent(settings);
-        });
-
-        Wix.UI.onChange('transition', function(newSettings){
-            settings.transition.effect = newSettings.value;
-            updateComponent(settings);
-        });
-
-        Wix.UI.onChange('duration', function(newSettings){
-            settings.transition.duration = Math.round(newSettings);
-            updateComponent(settings);
-        });
-
-
-        this.blur = function() {
-              updateComponent(settings);
-        }
-
-        $scope.settings = $window.settings;
-
-        $scope.$watchCollection('settings.notes', function(newNames, oldNames) {
-            if(settings.notes.length === 0) {
-                $('#manage-notes-content').addClass('empty-notes-background');
-            } else {
-                $('#manage-notes-content').removeClass('empty-notes-background');
-            }
-
-            updateComponent(settings);
-//            focusNote();
-        });
-
-        this.addNote = function () {
-            settings.notes.push({"visibility" : true, "msg" : "", key:uniqueNoteKey(), link:{type:"",url:"",display:"", target:"0"}});
-            focusNewNote();
-        }
-
-        var uniqueNoteKey = function() {
-                var key = 1;
-                function s4() {
-                    return Math.floor((1 + Math.random()) * 0x10000)
-                        .toString(16)
-                        .substring(1);
-                }
-                key = (s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-                        s4() + '-' + s4() + s4() + s4());
-                return key;
-
-        }
-
-        var loadNotesArray = function() {
-            var matchingElements = [];
-            $("textarea").each(function(index, element) {
-                matchingElements.push(element);
-            });
-            return matchingElements;
-        }
-
-        var focusNewNote = function () {
-            $timeout(function() {
-                var array = loadNotesArray();
-                var el = $(array[array.length-1]);
-                el.focus();
-            },0);
-
-        }
-
-        this.focusText = function (element) {
-            $timeout(function() {
-                if (!($("textarea:focus")) ) {
-                    $("textarea:focus").blur();
-                }
-                $(element.target).closest('.note-container').find('textarea').focus();
-            }, 2000, false);
-        }
-
-//        var focusNote = function () {
-//            var matchingElements = [];
-//
-//            $timeout(function() {
-//                $("textarea").each(function(index, element) {
-//                    console.log('index: ' + index + ' element: ' + element);
-//                    matchingElements.push(element);
-//                    $(matchingElements[matchingElements.length-1]).focus();
-//                });
-//            },0);
-//        }
-        this.deleteNote = function(array, index) {
-            array.splice(index, 1);
-        }
-
-        this.toggleWatch = function(element, index) {
-            var el = $(element.target);
-
-            el.toggleClass('icon-watch');
-            el.toggleClass('icon-unwatch');
-
-            if(el.hasClass('icon-unwatch')) {
-                el.closest('.content-row').find('.note-text').addClass('unwatched-note');
-                settings.notes[index].visibility = false;
-            } else {
-                el.closest('.content-row').find('.note-text').removeClass('unwatched-note');
-                settings.notes[index].visibility = true;
-            }
-            updateComponent(settings);
-
-        }
-
-        this.makeGray = function() {
-
-        }
-
-
-        this.textLength = function(element, msg) {
-            if (element.keyCode === 8 || element.keyCode === 44) {
-                $(element.target).parent().find('.character-count-normal').css('color','black');
-                $(element.target).removeClass('note-text-max-count');
-            } else if(msg.length >= 139) {
-                $(element.target).parent().find('.character-count-normal').css('color','red');
-                $(element.target).addClass('note-text-max-count');
-            } else {
-                $(element.target).parent().find('.character-count-normal').css('color','black');
-                $(element.target).removeClass('note-text-max-count');
-
-            }
-        }
+        /**********************************
+         *  Add Link Popup dialog box
+         **********************************/
 
         this.showLinkPopup = function(note){
             this.noteForLink = note;
@@ -330,17 +331,32 @@ var templates = require("./defaultTemplates");
             });
 
 
-        }
+        };
 
         this.closeLinkPopup = function(){
             $('#link-popup').css('visibility', 'hidden');
             makeBackActive();
             hideButtons();
             hideContent();
-        }
+        };
+
+        var mailLink = function(recepient, opts) {
+            var link = "mailto:";
+            link += window.encodeURIComponent(recepient);
+            var params = [];
+            angular.forEach(opts, function(value, key) {
+                params.push(key.toLowerCase() + "=" + window.encodeURIComponent(value));
+            });
+            if (params.length > 0) {
+                link += "?" + params.join("&");
+            }
+            return link;
+        };
+
 
         //when OK button clicked, will construct link chosen or none
-        this.setLink = function() {updateComponent(settings);
+        this.setLink = function() {
+            updateComponent(settings);
             if($('.web-link').css('visibility') === 'visible') {
                 this.noteForLink.pageLink = "";
                 this.noteForLink.emailLink = "";
@@ -348,9 +364,9 @@ var templates = require("./defaultTemplates");
                 this.noteForLink.link.subject = "";
                 this.noteForLink.link.url= this.noteForLink.webLink;
                 if (!this.noteForLink.link.url) this.noteForLink.link.url = "";
-                if (this.noteForLink.link.url && !/^https?:\/\//i.test(this.noteForLink.link)) {
-                    this.noteForLink.link.url = 'http://' + this.noteForLink.link.url;
-                }
+//                if (this.noteForLink.link.url && !/^https?:\/\//i.test(this.noteForLink.link)) {
+//                    this.noteForLink.link.url = 'http://' + this.noteForLink.link.url;
+//                }
                 this.noteForLink.link.type = "web"
                 this.noteForLink.link.display = this.noteForLink.link.url;
                 if(this.noteForLink.link.target == 0) {
@@ -368,7 +384,6 @@ var templates = require("./defaultTemplates");
                 this.noteForLink.link.subject = "";
                 var index = settings.pages.indexOf(this.noteForLink.pageLink);
                 this.noteForLink.link.display = this.noteForLink.pageLink;
-//                this.noteForLink.link.url = settings.pageIds[index];
                 this.noteForLink.link.target = '_blank';
 
                 Wix.Worker.getSiteInfo(function(siteInfo) {
@@ -386,8 +401,6 @@ var templates = require("./defaultTemplates");
                 this.noteForLink.link.display = "mail to: " + this.noteForLink.emailLink;
                 this.noteForLink.link.target = '';
 
-                //this.noteForLink.link = Mailto.url(this.noteForLink.link);
-
             } else if ($('.doc-link').css('visibility') === 'visible') {
                 this.noteForLink.webLink = "";
                 this.noteForLink.emailLink = "";
@@ -397,7 +410,6 @@ var templates = require("./defaultTemplates");
                 this.noteForLink.link.url = this.noteForLink.docLink;
             }
 
-            console.log('right before update: ' + this.noteForLink.link.url);
             updateComponent(settings);
 
             $('#link-popup').css('visibility', 'hidden');
@@ -465,30 +477,9 @@ var templates = require("./defaultTemplates");
                 $('.doc-link').css('visibility','visible');
             }
         }
-//
-//        this.transitionTab = function() {
-//            console.log('running transition');
-//            if($('.trans').hasClass('selected')) {
-//                console.log('in transition tab!')
-//                return true;
-//            }
-//            return false;
-//        }
 
     }]);
 
 })();
 
 
-var mailLink = function(recepient, opts) {
-    var link = "mailto:";
-    link += window.encodeURIComponent(recepient);
-    var params = [];
-    angular.forEach(opts, function(value, key) {
-        params.push(key.toLowerCase() + "=" + window.encodeURIComponent(value));
-    });
-    if (params.length > 0) {
-        link += "?" + params.join("&");
-    }
-    return link;
-};
