@@ -163,7 +163,7 @@
                     </div>
                     <button class="uilib-btn btn-large submit-link-btn" ng-click="ctrl.setLink()">OK</button>
                 </div>
-                <ul ui:sortable ng-model="ctrl.settings.notes" id="manage-notes-content" class="box" wix-scroll="{height:456}">
+                <ul ui:sortable ng-model="ctrl.settings.notes" id="manage-notes-content" class="box">
                     <li ng-repeat="note in ctrl.settings.notes" class="note-container">
                         <div class="content-row">
                             <div class="drag-container">
@@ -231,6 +231,10 @@
                     imagesToSync: 0,
                     imageLink: false
                 });
+
+                console.log('do we get here?');
+                $('.manage-notes-screen').css('top','0px');
+
             });
         </script>
     </div>

@@ -239,8 +239,8 @@ Manage Notes Screen Styles
   //background-image: url('/images/rob.jpg');
   //background-position: center;
   background-color: white;
+  top: 0px;
   left: 0px;
-  top: 10px;
   height: 535px;
   right: 0px;
   bottom: 0px;
@@ -250,6 +250,7 @@ Manage Notes Screen Styles
   display: block;
   z-index: 9999;
   position: absolute;
+  z-index: 999;
   transition: opacity .4s ease,margin-left .4s ease,margin-right .4s ease;
 }
 
@@ -276,11 +277,13 @@ Manage Notes Screen Styles
   overflow: auto;
   width: @manageNotesWidth;
   border: none;
-  height: 456.5px;
+  height: 465.5px;
   padding: 0;
   margin-bottom: 0;
   border-radius: 0;
-//  background: none;
+  margin-top: 75px;
+  margin-left: -6px;
+  //  background: none;
 }
 
 .empty-notes-background {
