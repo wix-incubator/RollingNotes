@@ -112,31 +112,23 @@ body, html {
 
 
 /****************************
-  Effects + Flexslider
+  Effects + Animations
 ****************************/
-.flexslider {
-
-  background: transparent;
-  border: none;
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
-  -o-border-radius: 0px;
-  border-radius: 0px;
-  -webkit-box-shadow: 0 0px 0px rgba(0, 0, 0, 0);
-  -moz-box-shadow: 0 0px 0px rgba(0, 0, 0, 0);
-  -o-box-shadow: 0 0px 0px rgba(0, 0, 0, 0);
-  box-shadow: 0 0px 0px rgba(0, 0, 0, 0);
-  //  zoom: 1;
+.rSlides {
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  height: 100%;
 }
 
-.typed-cursor {
-  visibility: hidden;
+a {
+  color:inherit;
+  text-decoration: none;
 }
 
 .note-text {
   text-align: center;
 }
-
 
 .fade.play-enter {
   opacity: 0.01;
@@ -155,25 +147,6 @@ body, html {
 .fade.play-leave.play-leave-active {
   opacity: 0.01;
 }
-
-//
-//.fade.play-enter {
-//  opacity: 0.01;
-//  transition: opacity .5s ease-in-out;
-//}
-//
-//.fade.play-enter.play-enter-active {
-//  opacity: 1;
-//}
-//
-//.fade.play-leave {
-//  opacity: 1;
-//  transition: opacity .5s ease-in-out;
-//}
-//
-//.fade.play-leave.play-leave-active {
-//  opacity: 0.01;
-//}
 
 
 .horizontal.play-enter {
@@ -215,33 +188,29 @@ body, html {
   top: 100%;
 }
 
-
-
-.typewriter.play-enter {
+.zoom.play-enter {
     opacity: 0;
     transition: all 2s linear;
     transform: scale(0) translate(0px,-150px);
 
 }
 
-.typewriter.play-enter.play-enter-active {
+.zoom.play-enter.play-enter-active {
   opacity: 1;
   zoom: 100%;
   transform: scale(1) translate(0px, 0px);
 }
 
-.typewriter.play-leave {
+.zoom.play-leave {
   opacity: 1;
   transform: scale(1) translate(0px, 0px);
   transition: all 2s ease-in-out;
 }
 
-.typewriter.play-leave.play-leave-active {
+.zoom.play-leave.play-leave-active {
   opacity: 0.01;
   transform: scale(2) translate(0px, 150px);
 }
-
-
 
 .pause-enter{
   opacity: 0.01;
@@ -262,16 +231,4 @@ body, html {
 .pause-leave.pause-leave-active {
   opacity: 0.01;
   visibility: hidden;
-}
-
-.rSlides {
-  position: absolute;
-  text-align: center;
-  width: 100%;
-  height: 100%;
-}
-
-a {
-  color:inherit;
-  text-decoration: none;
 }
