@@ -1,9 +1,6 @@
-/**
- * Created by Adam_Cole on 7/13/14.
- *
- *
- *
- */
+/**************************
+ * Rolling Notes database using mongoDB to save note settings
+ **************************/
 
 // require database files
 var mongojs = require("mongojs");
@@ -44,34 +41,6 @@ function updateComponent(updatedComp) {
     });
     console.log("update didn't crash");
 }
-
-//function updateComponent(updatedComp, callback) {
-//    db.rollingnotes.save(updatedComp, function(err, data) {
-//        if (err)  {
-//            console.log(err);
-//        } else {
-//            if (callback && typeof(callback) == "function") callback(data); //should update widget ui
-//        }
-//    });
-//    console.log("update didn't crash");
-//}
-
-// for testing purposes
-function loadDB() {
- //   db.rollingnotes.remove();
-//    db.rollingnotes.insert({'test': '2'});
-//    db.rollingnotes.insert({'test': '3'});
-//    db.rollingnotes.insert({'test': '4'});
-}
-
-
-var updateCompTest = {
-    "_id" : "1380ce7a-023d-46b3-0248-66b7f44b0bd7hxlx65qa",
-    "test" : "we changed the comp"
-}
-
-//updateComponent(updateCompTest);
-
 
 exports.getCompByKey = getCompByKey;
 exports.updateComponent = updateComponent;

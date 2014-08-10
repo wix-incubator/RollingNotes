@@ -1,6 +1,8 @@
-/**
- * Created by elanas on 7/13/14.
- */
+/****************************
+ * Used to authenticate each url request as a Wix request
+ * Uses openapi-node library provided by Wix
+ * Required for all requests to and from Wix
+ *****************************/
 var express = require('express');
 var app = express();
 var wix = require('openapi-node');
