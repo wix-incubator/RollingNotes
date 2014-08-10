@@ -1,8 +1,7 @@
-/**
- * Created by elanas on 7/14/14.
- */
-
-// returns default settings/widget instance
+/********************************
+ * Exports initial settings for default templates
+ * chosen at the top of settings
+ *******************************/
 
 
 exports.defaultNote = {
@@ -13,11 +12,6 @@ exports.defaultNote = {
             "preset": "Body-L",
             "size:" : "",
             "family": "",
-            "style" : {
-                "bold": "",
-                "italic": "",
-                "underline": ""
-            },
             "alignment" : "ltr"
         },
         "background" : {
