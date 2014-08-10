@@ -4,22 +4,11 @@ var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 var WidgetApp = React.createClass({
 
+    /***************************
+     *  Initial values and event listeners for widget
+     ****************************/
     getInitialState: function() {
         return {settings: this.props.settings, mode: "pause", slideIndex: 0};
-    },
-
-
-    onSettingsChange: function() {
-        var that = this;
-        Wix.addEventListener(Wix.Events.SETTINGS_UPDATED, function(updatedSettings){
-            that.setState({settings: updatedSettings});
-            that.setState({slideIndex: that.getFirstVisibleNoteIndex()});
-            if (that.state.settings.transition.preview == true) {
-                that.previewRollingNotes();
-
-            }
-            //if (that.state.settings.transition.preview == true) that.previewTransition();
-        });
     },
 
     componentWillMount: function() {
@@ -28,33 +17,33 @@ var WidgetApp = React.createClass({
 
     componentDidMount: function() {
         var that = this;
-        this.onSettingsChange();
+        // add event listeners to connect updated settings to widget
+        Wix.addEventListener(Wix.Events.SETTINGS_UPDATED, function(updatedSettings){
+            that.setState({settings: updatedSettings});
+            that.setState({slideIndex: that.getFirstVisibleNoteIndex()});
+            if (that.state.settings.transition.preview == true) {
+                that.previewRollingNotes();
+
+            }
+        });
+
         that.setState({slideIndex: that.getFirstVisibleNoteIndex()});
+
         Wix.addEventListener(Wix.Events.EDIT_MODE_CHANGE, function(data) {
+            console.log("mode: " + data);
             if (data.editMode == 'preview') {
                 that.playNotes();
             }
             if (data.editMode == 'editor') {
-                //that.setState({mode: 'pause',slideIndex:0});
                 that.refreshWidget();
             }
         });
+        if (Wix.Worker.Utils.getViewMode() == 'site') this.playNotes();
     },
 
-
-    handleMouseEnter: function(e) {
-        console.log("mouseon");
-        if(this.state.settings.design.hover.on){
-            $(e.target).closest('.note-widget').css({"background-color":this.state.settings.design.hover.color});
-        }
-        this.pauseNotes();
-    },
-
-    handleMouseLeave: function(e) {
-        console.log("mouseoff");
-        $(e.target).closest('.note-widget').css({"background-color":this.state.settings.design.background.color});
-        this.playNotes();
-    },
+    /*****************************
+     * Dynamic Widget Styling
+     *****************************/
 
     updateStyles: function () {
         var widgetStyle = {};
@@ -86,38 +75,31 @@ var WidgetApp = React.createClass({
       return headerStyle;
     },
 
+    handleMouseEnter: function(e) {
+        console.log("mouseon");
+        if(this.state.settings.design.hover.on){
+            $(e.target).closest('.note-widget').css({"background-color":this.state.settings.design.hover.color});
+        }
+        this.pauseNotes();
+    },
+
+    handleMouseLeave: function(e) {
+        console.log("mouseoff");
+        $(e.target).closest('.note-widget').css({"background-color":this.state.settings.design.background.color});
+        this.playNotes();
+    },
+
+    /*****************************
+     * Rolling Note Animation Controllers
+     *****************************/
+
     refreshWidget: function() {
       window.location.reload();
     },
 
-    previewRollingNotes: function() {
-        if (this.state.mode != 'pause') {
-            this.refreshWidget();
-        }
-        var that = this;
-        var counter = 0;
-        this.setState({mode:'play', slideIndex: this.getFirstVisibleNoteIndex()});
-        this.nextNote();
-        var looper = setInterval(function(){
-            counter++;
-            that.nextNote();
-            if (counter >= that.getNumOfVisibleNotes() - 1) {
-//                that.setState({mode:'pause'});
-                that.refreshWidget();
-//                clearInterval(looper);
-//
-//                setTimeout(function(){
-//                    that.setState({mode:'pause'});
-//                    that.refreshWidget();
-//
-//                }, 2000);
-            }
-        }, (that.state.settings.transition.duration * 1000) + 2000);
-    },
-
     playNotes: function() {
-        if (this.state.mode == 'play') return;
         var that = this;
+        if (this.state.mode == 'play') return;
         this.setState({mode: 'play'});
         //this.nextNote();
         setInterval(function() {
@@ -132,13 +114,27 @@ var WidgetApp = React.createClass({
             window.clearInterval(i);
     },
 
-    updateNoteStyles: function() {
-        var noteStyles = {};
-        if (this.state.mode == 'editor') {
-            noteStyles.transition = 'none';
+    previewRollingNotes: function() {
+        if (this.state.mode != 'pause') {
+            this.refreshWidget();
         }
-        return noteStyles;
+        var that = this;
+        var counter = 0;
+        this.setState({mode:'play', slideIndex: this.getFirstVisibleNoteIndex()});
+        this.nextNote();
+        var looper = setInterval(function(){
+            counter++;
+            that.nextNote();
+            if (counter >= that.getNumOfVisibleNotes() - 1) {
+                that.refreshWidget();
+            }
+        }, (that.state.settings.transition.duration * 1000) + 2000);
     },
+
+
+    /*****************************
+     * Notes view logic
+     *****************************/
 
     getNumOfVisibleNotes: function() {
         var count = 0;
@@ -161,41 +157,22 @@ var WidgetApp = React.createClass({
             nextVisibleSlide = (nextVisibleSlide +1) % this.state.settings.notes.length;
         }
         this.setState({slideIndex: nextVisibleSlide});
-//        return nextVisibleSlide;
     },
 
     getNoteContent: function() {
-
         var numofVisibleNotes = this.getNumOfVisibleNotes();
         var notecontent;
-//        console.log("mode:  " + this.state.mode);
         if (this.state.settings.notes.length == 0 || numofVisibleNotes == 0) {
             notecontent = {msg: 'This is a note. Click to edit.', link: {url:"", target:""}};
-        }
-        // if in pause mode
-//        else if (this.state.mode == 'pause') {
-//            console.log('displaying pause info');
-//            notecontent = <div className="rSlides firstNote">
-//                            {this.state.settings.notes[0].msg}
-//                          </div>;
-//        }
-
-        // if in play mode
-        else {
-            //if (this.state.slideIndex == 0 && this.state.settings.notes[0].visibility == false) this.setState({slideIndex: this.getFirstVisibleNoteIndex()});
+        } else {
             notecontent = this.state.settings.notes[this.state.slideIndex];
         }
         return notecontent;
-//        else {
-//            notecontent =  this.state.settings.notes.map(function(note, i) {
-//                if (note.msg && that.state.slideIndex==i) return (
-//                    <div className={'rSlides ' + that.state.settings.transition.effect} key={Math.random()}>
-//                            {note.msg}
-//                    </div>
-//                    );
-//            });
-//        }
     },
+
+    /************************
+     * Widget UI rendered whenever widget state changed
+     ************************/
     render: function() {
         return <a href={this.getNoteContent().link.url} target={this.getNoteContent().link.target}>
             <div className={"note-widget " + this.state.settings.design.template} style={this.updateStyles()}
@@ -213,6 +190,10 @@ var WidgetApp = React.createClass({
         }
 });
 
+/*****************************
+ * helper methods
+ *****************************/
+
 var parseCompId = function(key){
     return key.substring(key.indexOf(".") + 1);
 }
@@ -220,12 +201,5 @@ var parseCompId = function(key){
 var parseRBGA = function(rgba) {
     return rgba.substring(5, rgba.length-1).replace(/ /g, '').split(',');
 }
-
-
-
-//Wix.UI.onChange('*', function(value, key){
-//    console.log('I CHANGED!!');
-//    console.log('Key: ' + key + ", val: " + value);
-//});
 
 React.renderComponent(<WidgetApp settings={window.settings} />, document.getElementById('content'));
