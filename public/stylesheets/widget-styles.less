@@ -195,29 +195,75 @@ a {
   top: 100%;
 }
 
-.zoom.play-enter {
-    opacity: 0;
-    transition: all 2s linear;
-    transform: scale(0) translate(0px,-150px);
+//.zoom.play-enter {
+//    opacity: 0;
+//    transform: scale(0) translate(0px,-150px);
+//    transition: all 2s linear;
+//}
+//
+//.zoom.play-enter.play-enter-active {
+//  opacity: 1;
+//  transform: scale(1) translate(0px, 0px);
+//}
+//
+//.zoom.play-leave {
+//  opacity: 1;
+//  transform: scale(1) translate(0px, 0px);
+//  transition: all 2s ease-in-out;
+//}
+//
+//.zoom.play-leave.play-leave-active {
+//  opacity: 0.01;
+//  transform: scale(2) translate(0px, 150px);
+//}
 
+.zoom.play-enter{
+  opacity:0;
+  /*transform*/
+  -webkit-transform:scale(0) translate(0px,-150px);
+  -moz-transform:scale(0) translate(0px,-150px);
+  -ms-transform:scale(0) translate(0px,-150px);
+  -o-transform:scale(0) translate(0px,-150px);
+  transform:scale(0) translate(0px,-150px);
+  /*transition*/
+  -webkit-transition:all 2s linear;
+  -moz-transition:all 2s linear;
+  -o-transition:all 2s linear;
+  transition:all 2s linear;
+}
+.zoom.play-enter.play-enter-active{
+  opacity:1;
+  /*transform*/
+  -webkit-transform:scale(1) translate(0px, 0px);
+  -moz-transform:scale(1) translate(0px, 0px);
+  -ms-transform:scale(1) translate(0px, 0px);
+  -o-transform:scale(1) translate(0px, 0px);
+  transform:scale(1) translate(0px, 0px);
+}
+.zoom.play-leave{
+  opacity:1;
+  /*transform*/
+  -webkit-transform:scale(1) translate(0px, 0px);
+  -moz-transform:scale(1) translate(0px, 0px);
+  -ms-transform:scale(1) translate(0px, 0px);
+  -o-transform:scale(1) translate(0px, 0px);
+  transform:scale(1) translate(0px, 0px);
+  /*transition*/
+  -webkit-transition:all 2s ease-in-out;
+  -moz-transition:all 2s ease-in-out;
+  -o-transition:all 2s ease-in-out;
+  transition:all 2s ease-in-out;
+}
+.zoom.play-leave.play-leave-active{
+  opacity:0.01;
+  /*transform*/
+  -webkit-transform:scale(2) translate(0px, 150px);
+  -moz-transform:scale(2) translate(0px, 150px);
+  -ms-transform:scale(2) translate(0px, 150px);
+  -o-transform:scale(2) translate(0px, 150px);
+  transform:scale(2) translate(0px, 150px);
 }
 
-.zoom.play-enter.play-enter-active {
-  opacity: 1;
-  zoom: 100%;
-  transform: scale(1) translate(0px, 0px);
-}
-
-.zoom.play-leave {
-  opacity: 1;
-  transform: scale(1) translate(0px, 0px);
-  transition: all 2s ease-in-out;
-}
-
-.zoom.play-leave.play-leave-active {
-  opacity: 0.01;
-  transform: scale(2) translate(0px, 150px);
-}
 
 .pause-enter{
   opacity: 0.01;
