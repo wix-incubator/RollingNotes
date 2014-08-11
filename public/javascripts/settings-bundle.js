@@ -301,7 +301,7 @@ var templates = require("./defaultTemplates");
         });
 
         this.addNote = function () {
-            settings.notes.push({"visibility" : true, "msg" : "", key:uniqueNoteKey(), link:{type:"",url:"",display:"", target:"0"}});
+            settings.notes.push({"visibility" : true, "msg" : "", key:uniqueNoteKey(), link:{type:"",url:"#",display:"", target:"0"}});
             focusNewNote();
         };
 
@@ -529,7 +529,6 @@ var templates = require("./defaultTemplates");
                 this.noteForLink.link.target = '_blank';
 
                 Wix.Worker.getSiteInfo(function(siteInfo) {
-                    console.log(JSON.stringify(siteInfo));
                     // do something with the siteInfo
                     that.noteForLink.link.url = siteInfo.baseUrl + '/' + that.settings.pageIds[index];
                     console.log('Url in settings: ' + that.noteForLink.link.url);

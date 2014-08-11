@@ -159,9 +159,8 @@ var WidgetApp = React.createClass({
     },
 
     nextNote: function() {
-        console.log("currVis: " + this.state.slideIndex);
+        if (this.state.settings.notes.length <= 1) return;
         var nextVisibleSlide = ((this.state.slideIndex) + 1) % this.state.settings.notes.length;;
-        console.log("nextVis: " + nextVisibleSlide);
         while (this.state.settings.notes[nextVisibleSlide].visibility == false) {
             nextVisibleSlide = (nextVisibleSlide +1) % this.state.settings.notes.length;
             console.log("nextVisinLoop: " + nextVisibleSlide);
