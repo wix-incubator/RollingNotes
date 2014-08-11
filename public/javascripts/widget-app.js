@@ -191,8 +191,7 @@ var WidgetApp = React.createClass({
                     <div className="note-content">
                         <ReactCSSTransitionGroup  transitionName={this.state.mode}>
                          <div className={'rSlides ' + this.state.settings.transition.effect} key={this.getNoteContent().key}>
-                         {console.log('transition: ' + this.state.settings.transition.effect)}
-                                {this.getNoteContent().msg}
+                                <p>{this.getNoteContent().msg}</p>
                          </div>
                         </ReactCSSTransitionGroup>
                     </div>

@@ -81,7 +81,8 @@ body, html {
 }
 
 .postit-note .note-header{
-  height: 36px;
+//  height: 36px;
+  height: 12%;
   background-color: #e4d68f;
   visibility: visible;
   //margin-bottom: 23px;
@@ -89,6 +90,8 @@ body, html {
 
 .postit-note .note-content {
   padding: 0px 0px;
+  height: 88%;
+//  height: 85%;
 }
 
 /****************************
@@ -106,16 +109,20 @@ body, html {
 
 .spiral-note .note-header {
   visibility: visible;
-  height: 26px;
+//  height: 26px;
+  height: 8%;
   background-image: url('../images/spiral.png');
+  background-size: 50%;
   background-color: transparent;
 }
 
 .spiral-note .note-content {
-  height: 100%;
+//  height: 85%;
+  height: 92%;
   background-image: url('../images/notebooklines.png');
   padding: 0px 0px;
   background-position-y: -16px;
+  background-size: 50%;
   //margin-top: 14px;
 }
 
@@ -128,6 +135,15 @@ body, html {
   text-align: center;
   width: 100%;
   height: 100%;
+  display: table;
+}
+
+.rSlides p {
+  vertical-align: middle;
+  text-align: center;
+  display: table-cell;
+  margin: 0;
+  padding: 0px 5px;
 }
 
 a {
@@ -204,7 +220,7 @@ a {
   -moz-transform:scale(0) translate(0px,-150px);
   -ms-transform:scale(0) translate(0px,-150px);
   -o-transform:scale(0) translate(0px,-150px);
-  transform:scale(0) translate(0px,-150px);
+  transform:scale(0) translate(0px,-50%);
   /*transition*/
   -webkit-transition:all 2s linear;
   -moz-transition:all 2s linear;
@@ -218,7 +234,7 @@ a {
   -moz-transform:scale(1) translate(0px, 0px);
   -ms-transform:scale(1) translate(0px, 0px);
   -o-transform:scale(1) translate(0px, 0px);
-  transform:scale(1) translate(0px, 0px);
+  transform:scale(1) translate(0px,0px);
 }
 .zoom.play-leave{
   opacity:1;
@@ -241,8 +257,55 @@ a {
   -moz-transform:scale(2) translate(0px, 150px);
   -ms-transform:scale(2) translate(0px, 150px);
   -o-transform:scale(2) translate(0px, 150px);
-  transform:scale(2) translate(0px, 150px);
+  transform:scale(2) translate(0px, 50%);
 }
+
+//.zoom.play-enter{
+//  opacity:0;
+//  /*transform*/
+//  -webkit-transform:scale(0) translate(0px,-150px);
+//  -moz-transform:scale(0) translate(0px,-150px);
+//  -ms-transform:scale(0) translate(0px,-150px);
+//  -o-transform:scale(0) translate(0px,-150px);
+//  transform:scale(0) translate(0px,-150px);
+//  /*transition*/
+//  -webkit-transition:all 2s linear;
+//  -moz-transition:all 2s linear;
+//  -o-transition:all 2s linear;
+//  transition:all 2s linear;
+//}
+//.zoom.play-enter.play-enter-active{
+//  opacity:1;
+//  /*transform*/
+//  -webkit-transform:scale(1) translate(0px, 0px);
+//  -moz-transform:scale(1) translate(0px, 0px);
+//  -ms-transform:scale(1) translate(0px, 0px);
+//  -o-transform:scale(1) translate(0px, 0px);
+//  transform:scale(1) translate(0px, 0px);
+//}
+//.zoom.play-leave{
+//  opacity:1;
+//  /*transform*/
+//  -webkit-transform:scale(1) translate(0px, 0px);
+//  -moz-transform:scale(1) translate(0px, 0px);
+//  -ms-transform:scale(1) translate(0px, 0px);
+//  -o-transform:scale(1) translate(0px, 0px);
+//  transform:scale(1) translate(0px, 0px);
+//  /*transition*/
+//  -webkit-transition:all 2s ease-in-out;
+//  -moz-transition:all 2s ease-in-out;
+//  -o-transition:all 2s ease-in-out;
+//  transition:all 2s ease-in-out;
+//}
+//.zoom.play-leave.play-leave-active{
+//  opacity:0.01;
+//  /*transform*/
+//  -webkit-transform:scale(2) translate(0px, 150px);
+//  -moz-transform:scale(2) translate(0px, 150px);
+//  -ms-transform:scale(2) translate(0px, 150px);
+//  -o-transform:scale(2) translate(0px, 150px);
+//  transform:scale(2) translate(0px, 150px);
+//}
 
 
 .pause-enter{
