@@ -159,7 +159,7 @@ var templates = require("./defaultTemplates");
         });
 
         this.addNote = function () {
-            settings.notes.push({"visibility" : true, "msg" : "", key:uniqueNoteKey(), link:{type:"",url:"#",display:"", target:"0"}});
+            settings.notes.push({"visibility" : true, "msg" : "", key:uniqueNoteKey(), link:{type:"",url:"#",display:"", targetVal:"0"}});
             focusNewNote();
         };
 
@@ -369,7 +369,7 @@ var templates = require("./defaultTemplates");
 //                }
                 this.noteForLink.link.type = "web"
                 this.noteForLink.link.display = this.noteForLink.link.url;
-                if(this.noteForLink.link.target == 0) {
+                if(this.noteForLink.link.targetVal == 0) {
                     this.noteForLink.link.target = '_blank';
                 } else {
                     this.noteForLink.link.target = '_top';
