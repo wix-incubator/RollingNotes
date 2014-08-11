@@ -62,6 +62,16 @@ var WidgetApp = React.createClass({
         return widgetStyle
     },
 
+    updateBorderStyle: function() {
+        var borderStyle = {};
+//        borderStyle.borderColor = this.state.settings.design.border.color;
+//        borderStyle.borderWidth = this.state.settings.design.border.width;
+//        borderStyle.borderRadius = this.state.settings.design.border.radius;
+
+        return borderStyle;
+
+    },
+
     updateHeaderStyle: function() {
       var headerStyle = {};
       if (this.state.settings.design.template == "postit-note") {
@@ -187,7 +197,7 @@ var WidgetApp = React.createClass({
                     </div>
                </div>
             </a>;
-        }
+    }
 });
 
 /*****************************
