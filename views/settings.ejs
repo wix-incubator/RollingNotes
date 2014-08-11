@@ -12,8 +12,8 @@ Includes design settings, template settings and the manage notes screen.
 </head>
 <!-- set angular controller-->
 <body wix-ui ng-controller="settingsController as ctrl">
-    <div class="overlay overlay-lock">
-        <div class="overlay overlay-gray"></div>
+    <div class="overlay-lock">
+        <a><div class="overlay-gray" ng-click="ctrl.previewTransition()"></div></a>
         <!-- header above settings options, visible above all settings
              includes button for manage notes screen-->
         <header class="box">
