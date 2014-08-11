@@ -18,11 +18,12 @@ body, html {
 
 .note-widget {
   height: 100%;
-  padding: 15px 15px;
+  //padding: 15px 15px;
   -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
   -moz-box-sizing: border-box;    /* Firefox, other Gecko */
   box-sizing: border-box;         /* Opera/IE 8+ */
   border-style: solid;
+  overflow: hidden;
 
   -webkit-transition: background-color 500ms ease;
   -moz-transition: background-color 500ms ease;
@@ -33,6 +34,7 @@ body, html {
 .note-content {
   position: relative;
   height: 100%;
+  overflow: hidden;
 }
 
 .note-header {
@@ -82,7 +84,7 @@ body, html {
   height: 36px;
   background-color: #e4d68f;
   visibility: visible;
-  margin-bottom: 23px;
+  //margin-bottom: 23px;
 }
 
 .postit-note .note-content {
@@ -114,7 +116,7 @@ body, html {
   background-image: url('../images/notebooklines.png');
   padding: 0px 0px;
   background-position-y: -16px;
-  margin-top: 14px;
+  //margin-top: 14px;
 }
 
 
@@ -194,28 +196,6 @@ a {
 .vertical.play-leave.play-leave-active {
   top: 100%;
 }
-
-//.zoom.play-enter {
-//    opacity: 0;
-//    transform: scale(0) translate(0px,-150px);
-//    transition: all 2s linear;
-//}
-//
-//.zoom.play-enter.play-enter-active {
-//  opacity: 1;
-//  transform: scale(1) translate(0px, 0px);
-//}
-//
-//.zoom.play-leave {
-//  opacity: 1;
-//  transform: scale(1) translate(0px, 0px);
-//  transition: all 2s ease-in-out;
-//}
-//
-//.zoom.play-leave.play-leave-active {
-//  opacity: 0.01;
-//  transform: scale(2) translate(0px, 150px);
-//}
 
 .zoom.play-enter{
   opacity:0;
