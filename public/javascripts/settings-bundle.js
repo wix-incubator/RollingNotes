@@ -1,4 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"/Users/elanas/Desktop/Wix Projects/rolling-notes/public/javascripts/defaultTemplates.js":[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"/Users/Adam_Cole/Documents/WixApps/rolling-notes/public/javascripts/defaultTemplates.js":[function(require,module,exports){
 /********************************
  * Exports initial settings for default templates
  * chosen at the top of settings
@@ -139,7 +139,7 @@ exports.chalkboardNote = {
 
     "notes":[]
 };
-},{}],"/Users/elanas/Desktop/Wix Projects/rolling-notes/public/javascripts/settings-app.js":[function(require,module,exports){
+},{}],"/Users/Adam_Cole/Documents/WixApps/rolling-notes/public/javascripts/settings-app.js":[function(require,module,exports){
 /**
  * Created by elanas on 7/16/14.
  */
@@ -529,6 +529,7 @@ var templates = require("./defaultTemplates");
                 this.noteForLink.link.target = '_blank';
 
                 Wix.Worker.getSiteInfo(function(siteInfo) {
+                    console.log(JSON.stringify(siteInfo));
                     // do something with the siteInfo
                     that.noteForLink.link.url = siteInfo.baseUrl + '/' + that.settings.pageIds[index];
                     console.log('Url in settings: ' + that.noteForLink.link.url);
@@ -622,8 +623,30 @@ var templates = require("./defaultTemplates");
 
     }]);
 
+    app.directive('httpPrefix', function() {
+        return {
+            restrict: 'A',
+            require: 'ngModel',
+            link: function(scope, element, attrs, controller) {
+                function ensureHttpPrefix(value) {
+                    // Need to add prefix if we don't have http:// prefix already AND we don't have part of it
+                    if(value && !/^(http):\/\//i.test(value)
+                        && 'http://'.indexOf(value) === -1) {
+                        controller.$setViewValue('http://' + value);
+                        controller.$render();
+                        return 'http://' + value;
+                    }
+                    else
+                        return value;
+                }
+                controller.$formatters.push(ensureHttpPrefix);
+                controller.$parsers.push(ensureHttpPrefix);
+            }
+        };
+    });
+
 })();
 
 
 
-},{"./defaultTemplates":"/Users/elanas/Desktop/Wix Projects/rolling-notes/public/javascripts/defaultTemplates.js"}]},{},["/Users/elanas/Desktop/Wix Projects/rolling-notes/public/javascripts/settings-app.js"]);
+},{"./defaultTemplates":"/Users/Adam_Cole/Documents/WixApps/rolling-notes/public/javascripts/defaultTemplates.js"}]},{},["/Users/Adam_Cole/Documents/WixApps/rolling-notes/public/javascripts/settings-app.js"]);

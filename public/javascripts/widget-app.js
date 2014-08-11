@@ -62,14 +62,11 @@ var WidgetApp = React.createClass({
         return widgetStyle
     },
 
-    updateBorderStyle: function() {
-        var borderStyle = {};
-//        borderStyle.borderColor = this.state.settings.design.border.color;
-//        borderStyle.borderWidth = this.state.settings.design.border.width;
-//        borderStyle.borderRadius = this.state.settings.design.border.radius;
-
-        return borderStyle;
-
+    updateAnchorStyle: function() {
+        var anchorStyle = {};
+        if (this.getNoteContent().link.url) anchorStyle.cursor = 'pointer';
+        else anchorStyle.cursor = 'default';
+        return anchorStyle;
     },
 
     updateHeaderStyle: function() {
@@ -162,9 +159,12 @@ var WidgetApp = React.createClass({
     },
 
     nextNote: function() {
+        console.log("currVis: " + this.state.slideIndex);
         var nextVisibleSlide = ((this.state.slideIndex) + 1) % this.state.settings.notes.length;;
+        console.log("nextVis: " + nextVisibleSlide);
         while (this.state.settings.notes[nextVisibleSlide].visibility == false) {
             nextVisibleSlide = (nextVisibleSlide +1) % this.state.settings.notes.length;
+            console.log("nextVisinLoop: " + nextVisibleSlide);
         }
         this.setState({slideIndex: nextVisibleSlide});
     },
@@ -184,9 +184,9 @@ var WidgetApp = React.createClass({
      * Widget UI rendered whenever widget state changed
      ************************/
     render: function() {
-        return <a href={this.getNoteContent().link.url} target={this.getNoteContent().link.target}>
+        return <a href={this.getNoteContent().link.url || "javascript:;"} target={this.getNoteContent().link.target || ''} style={this.updateAnchorStyle()}>
             <div className={"note-widget " + this.state.settings.design.template} style={this.updateStyles()}
-                    onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} onClick={this.nextNote}>
+                    onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
                     <div  className="note-header" style={this.updateHeaderStyle()}></div>
                     <div className="note-content">
                         <ReactCSSTransitionGroup  transitionName={this.state.mode}>
