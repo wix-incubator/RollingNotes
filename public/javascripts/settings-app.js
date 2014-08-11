@@ -271,7 +271,7 @@ var templates = require("./defaultTemplates");
                 $('#previewTransitionButton').removeClass('stopPreviewButton');
                 document.getElementById("previewTransitionButton").innerHTML = "Preview";
                 $('.overlay-gray').css('visibility', 'hidden');
-                $('.overlay-lock').css('pointer-events', 'auto');
+                $('.overlay-lock').children().css('pointer-events', 'auto');
                 settings.transition.preview = true;
                 updateComponent(settings);
                 settings.transition.preview = false;
@@ -288,14 +288,16 @@ var templates = require("./defaultTemplates");
             $('#previewTransitionButton').addClass('stopPreviewButton');
             document.getElementById("previewTransitionButton").innerHTML = "Stop ";
             $('.overlay-gray').css('visibility', 'visible');
-            $('.overlay-lock').css('pointer-events', 'none');
+            $('.overlay-lock').children().css('pointer-events', 'none');
+            $('.overlay-gray').css('pointer-events', 'auto');
+
 
 
             timeout = setTimeout( function() {
                 $('#previewTransitionButton').removeClass('stopPreviewButton');
                 document.getElementById("previewTransitionButton").innerHTML = "Preview";
                 $('.overlay-gray').css('visibility', 'hidden');
-                $('.overlay-lock').css('pointer-events', 'auto');
+                $('.overlay-lock').children().css('pointer-events', 'auto');
                 preview = true;
 
             }, dur - 1500)
@@ -303,8 +305,6 @@ var templates = require("./defaultTemplates");
             updateComponent(settings);
             settings.transition.preview = false;
         };
-
-
 
         /**********************************
          *  Add Link Popup dialog box
