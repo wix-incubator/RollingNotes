@@ -76,14 +76,14 @@ Includes design settings, template settings and the manage notes screen.
                             <li class="li-group borderGroup" wix-label="Border">
                                 <div wix-model="borderColor" wix-ctrl="ColorPicker"  wix-options="{startWithColor:'#000000', value:'{{ctrl.settings.design.border.color || '#000000'}}'}" ></div>
                                 <span class="width-slider-label">Width</span>
-                                <div  wix-model="borderWidth" wix-ctrl="Slider" wix-options="{ maxValue:10, preLabel:'0', postLabel:'10', value:'{{ctrl.settings.design.border.width}}'}"></div>
-                                <div class="borderSpinner"wix-model="borderWidth" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:10, value:'{{ctrl.settings.border.width}}' }"></div>
+                                <div  wix-model="borderWidth" wix-ctrl="Slider" wix-options="{ maxValue:20, preLabel:'0', postLabel:'20', value:'{{ctrl.settings.design.border.width}}'}"></div>
+                                <div class="borderSpinner"wix-model="borderWidth" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:20, value:'{{ctrl.settings.border.width}}' }"></div>
                             </li>
                             <!-- border radius -->
-                            <li class="li-group cornerGroup" wix-label="Corner">
+                            <li class="li-group cornerGroup" wix-label="Roundness">
                                 <span class="radius-slider-label">Radius</span>
-                                <div  wix-model="radius" wix-ctrl="Slider" wix-options="{ maxValue:10, preLabel:'0', postLabel:'10', value:'{{ctrl.settings.design.border.radius}}'}"></div>
-                                <div class="cornerSpinner" wix-model="radius" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:10 }"></div>
+                                <div  wix-model="radius" wix-ctrl="Slider" wix-options="{ maxValue:50, preLabel:'0', postLabel:'50', value:'{{ctrl.settings.design.border.radius}}'}"></div>
+                                <div class="cornerSpinner" wix-model="radius" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:50 }"></div>
                             </li>
                         </div>
                     </ui>

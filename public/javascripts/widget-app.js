@@ -57,7 +57,7 @@ var WidgetApp = React.createClass({
 
         widgetStyle.borderColor = this.state.settings.design.border.color;
         widgetStyle.borderWidth = this.state.settings.design.border.width;
-        widgetStyle.borderRadius = this.state.settings.design.border.radius;
+        widgetStyle.borderRadius = this.state.settings.design.border.radius + '%';
 
         return widgetStyle
     },
