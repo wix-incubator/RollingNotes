@@ -39,6 +39,16 @@ var WidgetApp = React.createClass({
             }
         });
         if (Wix.Worker.Utils.getViewMode() == 'site') this.playNotes();
+
+        Visibility.change(function(e, state) {
+            console.log(state);
+
+            if(state == 'hidden') {
+                that.pauseNotes();
+            } else if (state == 'visible' && Wix.Utils.getViewMode() == 'preview'){
+                that.playNotes();
+            }
+        });
     },
 
     /*****************************

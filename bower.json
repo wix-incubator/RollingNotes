@@ -22,6 +22,7 @@
     "jqueryui": "latest",
     "angular-ui-sortable": "latest",
     "FlexSlider": "latest",
-    "angular-mailto": "~0.1.0"
+    "angular-mailto": "~0.1.0",
+    "visibilityjs": "latest"
   }
 }
