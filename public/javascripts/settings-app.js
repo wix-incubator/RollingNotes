@@ -22,12 +22,12 @@ var templates = require("./defaultTemplates");
         var updateComponent = function(newSettings) {
               this.settings = newSettings;
 
-            $http.post('/updateComponent?instance=' + window.location.search.substring(window.location.search.indexOf('instance') + 9, window.location.search.indexOf('&')), this.settings).success(function() {
-                console.log('posting');
-            }).error(function(data, status, headers, config) {
-                 console.log("OH NO! WE FAILED TO POST!!!!!");
-                 console.log("data: " + data + "; status: " + status);
-            });
+//            $http.post('/updateComponent?instance=' + window.location.search.substring(window.location.search.indexOf('instance') + 9, window.location.search.indexOf('&')), this.settings).success(function() {
+//                console.log('posting');
+//            }).error(function(data, status, headers, config) {
+//                 console.log("OH NO! WE FAILED TO POST!!!!!");
+//                 console.log("data: " + data + "; status: " + status);
+//            });
             Wix.Settings.triggerSettingsUpdatedEvent(settings, parseCompId(settings._id));
         };
 
