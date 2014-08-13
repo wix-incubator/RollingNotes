@@ -29,6 +29,7 @@ router.get('/settings', function(req, res) {
 
 /* Update component. */
 router.post('/updateComponent', function(req, res) {
+    auth.authenticate(req,res);
     db.updateComponent(req.body);
 });
 
