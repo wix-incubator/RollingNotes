@@ -142,6 +142,9 @@ var templates = require("./defaultTemplates");
         };
 
         this.blur = function() {
+            $('.character-count-normal').css('color','black');
+            $('textarea').removeClass('note-text-max-count');
+            console.log("we blurred?");
             updateComponent(settings);
         };
 
