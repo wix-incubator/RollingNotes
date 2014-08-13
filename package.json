@@ -19,6 +19,7 @@
     "openapi-node" : "*",
     "ejs" : "*",
     "browserify" : "*",
-    "watchify" : "*"
+    "watchify" : "*",
+    "formidable": "*"
   }
 }

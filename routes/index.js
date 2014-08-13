@@ -1,5 +1,7 @@
 var express = require('express');
 var db = require('../data/database');
+var formidable = require('formidable');
+var sys = require('sys');
 var router = express.Router();
 
 /* GET widget. */
@@ -25,6 +27,17 @@ router.get('/settings', function(req, res) {
 /* Update component. */
 router.post('/updateComponent', function(req, res) {
     db.updateComponent(req.body);
+});
+
+/* Upload file */
+router.post('/upload', function(req, res) {
+    console.log('upload post!');
+//    var form = new formidable.IncomingForm(); form.parse(req, function(error, fields, files) {
+////        res.writeHead(200, {'content-type': 'text/plain'});
+////        res.write('received upload:\n\n');
+//        res.end(sys.inspect({fields: fields, files: files}));
+//    });
+//    return;
 });
 
 module.exports = router;

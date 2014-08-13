@@ -51,10 +51,10 @@ var WidgetApp = React.createClass({
 
             if(state == 'hidden' && previewNotesInterval != null) {
                 that.refreshWidget();
-            } else if (state == 'hidden' && Wix.Utils.getViewMode() == 'preview') {
+            } else if (state == 'hidden' && (Wix.Utils.getViewMode() == 'preview' ||  Wix.Utils.getViewMode() == 'site')) {
                 that.pauseNotes();
 
-            } else if (state == 'visible' && Wix.Utils.getViewMode() == 'preview'){
+            } else if (state == 'visible' && (Wix.Utils.getViewMode() == 'preview' ||  Wix.Utils.getViewMode() == 'site')){
                 that.playNotes();
             }
         });
@@ -202,6 +202,7 @@ var WidgetApp = React.createClass({
      ************************/
     render: function() {
         return <a href={this.getNoteContent().link.url || "javascript:;"} target={this.getNoteContent().link.target || ''} style={this.updateAnchorStyle()}>
+        {console.log('url: ' + this.getNoteContent().link.url)}
             <div className={"note-widget " + this.state.settings.design.template} style={this.updateStyles()}
                     onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
                     <div  className="note-header" style={this.updateHeaderStyle()}></div>
