@@ -20,6 +20,7 @@
     "ejs" : "*",
     "browserify" : "*",
     "watchify" : "*",
-    "formidable": "*"
+    "formidable": "*",
+    "bower": "*"
   }
 }
