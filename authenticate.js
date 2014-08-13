@@ -14,11 +14,15 @@ exports.authenticate = function authenticate(req, res) {
     var instance = req.query.instance;
 
     try {
+        console.log('instance: ' + instance);
+
         // Parse the instance parameter
         var wixInstance = wix.getConnect();
+        console.log('wix instance: ' + JSON.stringify(wixInstance));
         var wixParse = wixInstance.parseInstance(instance, APP_SECRET);
-
+        console.log('wix parse instance: ' + wixParse);
         var instanceId = wixParse.instanceId;
+        console.log('instance id: ' + instanceId);
 
         // Get a shortcut for the Wix RESTful API
         wixAPI = wix.getAPI(APP_SECRET, APP_ID, instanceId);
