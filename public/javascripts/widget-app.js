@@ -85,6 +85,12 @@ var WidgetApp = React.createClass({
         widgetStyle.borderWidth = this.state.settings.design.border.width;
         widgetStyle.borderRadius = this.state.settings.design.border.radius + '%';
 
+        console.log($('.rSlides').innerHeight());
+//        if ($('.rSlide')[0].scrollWidth >  $('#div-id').width()) {
+//            //Text has over-flowed
+//        }
+
+
         return widgetStyle
     },
 
