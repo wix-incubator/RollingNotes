@@ -163,6 +163,11 @@ var templates = require("./defaultTemplates");
         });
 
         this.addNote = function () {
+            console.log(settings.notes.length);
+            if (settings.notes.length == 10) {
+                alert("You have reached the maximum number of notes.");
+                return;
+            }
             settings.notes.push({"visibility" : true, "msg" : "", key:uniqueNoteKey(), link:{type:"",url:"#",display:"", targetVal:"0"}});
             focusNewNote();
         };
