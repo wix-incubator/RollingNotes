@@ -35,10 +35,10 @@ app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Add Wix authentication to each server request
-//app.use(function(req, res, next){
-//    auth.authenticate(req, res);
-//    next();
-//});
+app.use(function(req, res, next){
+    auth.authenticate(req, res);
+    next();
+});
 
 app.use('/', routes);
 
