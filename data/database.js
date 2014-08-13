@@ -2,9 +2,18 @@
  * Rolling Notes database using mongoDB to save note settings
  **************************/
 
+var mongojs = require('mongojs');
+var mongoUri = process.env.MONGOLAB_URI ||
+    process.env.MONGOHQ_URL ||
+    'mongodb://localhost/db';
+
+var collections = ["rollingnotes"]
+var db = mongojs.connect(mongoUri, collections);
+
+
 // require database files
-var mongojs = require("mongojs");
-var db = mongojs("db",["rollingnotes"]);
+//var mongojs = require("mongojs");
+//var db = mongojs("db",["rollingnotes"]);
 // require default JSON objects for new instances   
 var templates = require("../public/javascripts/defaultTemplates");
 
