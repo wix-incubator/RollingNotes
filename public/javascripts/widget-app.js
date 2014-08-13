@@ -2,6 +2,9 @@
 
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
+var previewNotesInterval;
+var playNotesInterval;
+
 var WidgetApp = React.createClass({
 
     /***************************
@@ -30,8 +33,12 @@ var WidgetApp = React.createClass({
         that.setState({slideIndex: that.getFirstVisibleNoteIndex()});
 
         Wix.addEventListener(Wix.Events.EDIT_MODE_CHANGE, function(data) {
-            console.log("mode: " + data);
             if (data.editMode == 'preview') {
+                if(previewNotesInterval != null) {
+                    clearInterval(previewNotesInterval);
+                    previewNotesInterval = null;
+                    that.pauseNotes();
+                }
                 that.playNotes();
             }
             if (data.editMode == 'editor') {
@@ -41,10 +48,12 @@ var WidgetApp = React.createClass({
         if (Wix.Worker.Utils.getViewMode() == 'site') this.playNotes();
 
         Visibility.change(function(e, state) {
-            console.log(state);
 
-            if(state == 'hidden') {
+            if(state == 'hidden' && previewNotesInterval != null) {
+                that.refreshWidget();
+            } else if (state == 'hidden' && Wix.Utils.getViewMode() == 'preview') {
                 that.pauseNotes();
+
             } else if (state == 'visible' && Wix.Utils.getViewMode() == 'preview'){
                 that.playNotes();
             }
@@ -119,7 +128,7 @@ var WidgetApp = React.createClass({
         if (this.state.mode == 'play') return;
         this.setState({mode: 'play'});
         //this.nextNote();
-        setInterval(function() {
+        playNotesInterval = setInterval(function() {
             that.nextNote();
         }, (this.state.settings.transition.duration * 1000) + 2000);
     },
@@ -127,8 +136,7 @@ var WidgetApp = React.createClass({
     pauseNotes: function() {
         if (this.state.mode == 'pause') return;
         this.setState({mode: 'pause'});
-        for (var i = 0; i < 9999; i++)
-            window.clearInterval(i);
+        clearInterval(playNotesInterval);
     },
 
     previewRollingNotes: function() {
@@ -139,7 +147,7 @@ var WidgetApp = React.createClass({
         var counter = 0;
         this.setState({mode:'play', slideIndex: this.getFirstVisibleNoteIndex()});
         this.nextNote();
-        var looper = setInterval(function(){
+        previewNotesInterval = setInterval(function(){
             counter++;
             that.nextNote();
             if (counter >= that.getNumOfVisibleNotes() - 1) {

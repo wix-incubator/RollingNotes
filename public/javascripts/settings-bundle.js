@@ -409,8 +409,39 @@ var templates = require("./defaultTemplates");
             return count;
         };
 
+        Visibility.change(function(e, state){
+            if(state == 'hidden') {
+                $('#previewTransitionButton').removeClass('stopPreviewButton');
+                document.getElementById("previewTransitionButton").innerHTML = "Preview";
+                $('.overlay-gray').css('visibility', 'hidden');
+                $('.overlay-lock').children().css('pointer-events', 'auto');
+//                settings.transition.preview = true;
+//                updateComponent(settings);
+//                settings.transition.preview = false;
+                preview = true;
+                clearTimeout(timeout);
+                return;
+            }
+        });
+
         this.previewTransition = function() {
 //          Wix.Settings.refreshAppByCompIds([parseCompId(settings._id)]);
+
+//            var v = Visibility.change(function(e, state){
+//                if(state == 'hidden') {
+//                    $('#previewTransitionButton').removeClass('stopPreviewButton');
+//                    document.getElementById("previewTransitionButton").innerHTML = "Preview";
+//                    $('.overlay-gray').css('visibility', 'hidden');
+//                    $('.overlay-lock').children().css('pointer-events', 'auto');
+//                    settings.transition.preview = true;
+//                    updateComponent(settings);
+//                    settings.transition.preview = false;
+//                    preview = true;
+//                    clearTimeout(timeout);
+//                    Visibility.unbind(v);
+//                    return;
+//                }
+//            });
 
             if (!preview) {
                 $('#previewTransitionButton').removeClass('stopPreviewButton');
