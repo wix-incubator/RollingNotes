@@ -22,7 +22,8 @@ var templates = require("./defaultTemplates");
         var updateComponent = function(newSettings) {
               this.settings = newSettings;
 
-            $http.post('/updateComponent?instance=' + window.location.search.substring(window.location.search.indexOf('instance') + 9, window.location.search.indexOf('&')), this.settings).success(function() {
+            //+ window.location.search.substring(window.location.search.indexOf('instance') + 9, window.location.search.indexOf('&'))
+            $http.post('/updateComponent?instance=ch3-k6S76xi5L0ip9lQbPDfaouXhzrXc62baRHHGD1I.eyJpbnN0YW5jZUlkIjoiMTM4OWY2YjgtMmIwNC04OTI5LTU0OWUtODg4OTc0NjA4ZTg3Iiwic2lnbkRhdGUiOiIyMDE0LTA4LTEzVDA5OjQyOjQ1LjcyOS0wNTowMCIsInVpZCI6IjNiNGE4ODU3LTI5OTUtNDA3Yy04MWM0LWYzNDcwNjJhYmE1ZiIsInBlcm1pc3Npb25zIjoiT1dORVIiLCJpcEFuZFBvcnQiOiI5MS4xOTkuMTE5LjQ5LzMzOTQ5IiwiZGVtb01vZGUiOmZhbHNlfQ&width=600&locale=en&origCompId=hysjrdmk&compId=hysrqa8f', this.settings).success(function() {
                 console.log('posting');
             }).error(function(data, status, headers, config) {
                  console.log("OH NO! WE FAILED TO POST!!!!!");
