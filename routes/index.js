@@ -2,10 +2,12 @@ var express = require('express');
 var db = require('../data/database');
 var formidable = require('formidable');
 var sys = require('sys');
+var auth = require('./authenticate');
 var router = express.Router();
 
 /* GET widget. */
 router.get('/widget', function(req, res) {
+    auth.authenticate(req,res);
     var key = req.instanceId  + '.' + req.compId;
     // get settings object from db based on key
     db.getCompByKey(key, function (data) {
