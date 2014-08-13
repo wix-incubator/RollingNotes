@@ -245,7 +245,7 @@ var templates = require("./defaultTemplates");
          *  Transition Settings (second tab of settings)
          **********************************/
 
-        var preview = true;
+        var shouldPreviewRun = true;
         var timeout;
 
         Wix.UI.onChange('transition', function(newSettings){
@@ -273,10 +273,7 @@ var templates = require("./defaultTemplates");
                 document.getElementById("previewTransitionButton").innerHTML = "Preview";
                 $('.overlay-gray').css('visibility', 'hidden');
                 $('.overlay-lock').children().css('pointer-events', 'auto');
-//                settings.transition.preview = true;
-//                updateComponent(settings);
-//                settings.transition.preview = false;
-                preview = true;
+                shouldPreviewRun = true;
                 clearTimeout(timeout);
                 return;
             }
@@ -285,23 +282,7 @@ var templates = require("./defaultTemplates");
         this.previewTransition = function() {
 //          Wix.Settings.refreshAppByCompIds([parseCompId(settings._id)]);
 
-//            var v = Visibility.change(function(e, state){
-//                if(state == 'hidden') {
-//                    $('#previewTransitionButton').removeClass('stopPreviewButton');
-//                    document.getElementById("previewTransitionButton").innerHTML = "Preview";
-//                    $('.overlay-gray').css('visibility', 'hidden');
-//                    $('.overlay-lock').children().css('pointer-events', 'auto');
-//                    settings.transition.preview = true;
-//                    updateComponent(settings);
-//                    settings.transition.preview = false;
-//                    preview = true;
-//                    clearTimeout(timeout);
-//                    Visibility.unbind(v);
-//                    return;
-//                }
-//            });
-
-            if (!preview) {
+            if (!shouldPreviewRun) {
                 $('#previewTransitionButton').removeClass('stopPreviewButton');
                 document.getElementById("previewTransitionButton").innerHTML = "Preview";
                 $('.overlay-gray').css('visibility', 'hidden');
@@ -309,13 +290,13 @@ var templates = require("./defaultTemplates");
                 settings.transition.preview = true;
                 updateComponent(settings);
                 settings.transition.preview = false;
-                preview = true;
+                shouldPreviewRun = true;
                 clearTimeout(timeout);
                 return;
             }
 
             settings.transition.preview = true;
-            preview = false;
+            shouldPreviewRun = false;
 
             var dur = ((settings.transition.duration * 1000) + 2000) * (getNumVisibleNotes() - 1) + 2000;
 
@@ -332,7 +313,7 @@ var templates = require("./defaultTemplates");
                 document.getElementById("previewTransitionButton").innerHTML = "Preview";
                 $('.overlay-gray').css('visibility', 'hidden');
                 $('.overlay-lock').children().css('pointer-events', 'auto');
-                preview = true;
+                shouldPreviewRun = true;
 
             }, dur - 1500)
 
