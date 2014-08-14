@@ -16,10 +16,12 @@ var WidgetApp = React.createClass({
 
     componentWillMount: function() {
         this.setState({slideIndex: this.getFirstVisibleNoteIndex()});
+        autoSizeText();
     },
 
     componentDidMount: function() {
         var that = this;
+
         // add event listeners to connect updated settings to widget
         Wix.addEventListener(Wix.Events.SETTINGS_UPDATED, function(updatedSettings){
             that.setState({settings: updatedSettings});
@@ -45,6 +47,7 @@ var WidgetApp = React.createClass({
                 that.refreshWidget();
             }
         });
+
         if (Wix.Worker.Utils.getViewMode() == 'site') this.playNotes();
 
         Visibility.change(function(e, state) {
@@ -58,6 +61,10 @@ var WidgetApp = React.createClass({
                 that.playNotes();
             }
         });
+    },
+
+    componentDidUpdate: function() {
+        autoSizeText();
     },
 
     /*****************************
@@ -134,8 +141,10 @@ var WidgetApp = React.createClass({
         if (this.state.mode == 'play') return;
         this.setState({mode: 'play'});
         //this.nextNote();
+        autoSizeText();
         playNotesInterval = setInterval(function() {
             that.nextNote();
+            autoSizeText();
         }, (this.state.settings.transition.duration * 1000) + 2000);
     },
 
@@ -195,6 +204,7 @@ var WidgetApp = React.createClass({
     getNoteContent: function() {
         var numofVisibleNotes = this.getNumOfVisibleNotes();
         var notecontent;
+
         if (this.state.settings.notes.length == 0 || numofVisibleNotes == 0) {
             notecontent = {msg: 'This is a note. Click to edit.', link: {url:"", target:""}};
         } else {
@@ -208,14 +218,13 @@ var WidgetApp = React.createClass({
      ************************/
     render: function() {
         return <a href={this.getNoteContent().link.url || "javascript:;"} target={this.getNoteContent().link.target || ''} style={this.updateAnchorStyle()}>
-        {console.log('url: ' + this.getNoteContent().link.url)}
             <div className={"note-widget " + this.state.settings.design.template} style={this.updateStyles()}
                     onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
                     <div  className="note-header" style={this.updateHeaderStyle()}></div>
                     <div className="note-content">
                         <ReactCSSTransitionGroup  transitionName={this.state.mode}>
                          <div className={'rSlides ' + this.state.settings.transition.effect} key={this.getNoteContent().key}>
-                                <p>{this.getNoteContent().msg}</p>
+                              <p>{this.getNoteContent().msg}</p>
                          </div>
                         </ReactCSSTransitionGroup>
                     </div>
@@ -234,6 +243,17 @@ var parseCompId = function(key){
 
 var parseRBGA = function(rgba) {
     return rgba.substring(5, rgba.length-1).replace(/ /g, '').split(',');
+}
+
+var autoSizeText = function() {
+//    var elements = $('.rSlides');
+//
+//    for(var i = 0; i < elements.length; i++) {
+//        while(elements[i].scrollHeight > elements[i].offsetHeight) {
+//            var newFontSize = (parseInt($(elements[i]).css('font-size').slice(0, -2)) - 1) + 'px';
+//            $(elements[i]).css('font-size', newFontSize);
+//         }
+//    }
 }
 
 React.renderComponent(<WidgetApp settings={window.settings} />, document.getElementById('content'));
