@@ -99,6 +99,7 @@ var templates = require("./defaultTemplates");
         });
 
         Wix.UI.onChange('hcolorWOpacity', function(newSettings){
+            if (!settings.design.hover.on) Wix.UI.set('hoverCheckbox', true);
             settings.design.hover.color = newSettings.rgba;
             settings.design.hover.opacity = newSettings.opacity;
             Wix.UI.set('hOpacitySlider', settings.design.hover.opacity * 100);
@@ -106,6 +107,7 @@ var templates = require("./defaultTemplates");
         });
 
         Wix.UI.onChange('hOpacitySlider', function(newSettings){
+            if (!settings.design.hover.on) Wix.UI.set('hoverCheckbox', true);
             var currRGBA = parseRBGA(settings.design.hover.color);
             settings.design.hover.color = "rgba(" + currRGBA[0] + "," + currRGBA[1] + "," + currRGBA[2] + "," + newSettings/100 + ")";
             settings.design.hover.opacity = newSettings/100;
@@ -163,8 +165,7 @@ var templates = require("./defaultTemplates");
         });
 
         this.addNote = function () {
-            console.log(settings.notes.length);
-            if (settings.notes.length == 10) {
+            if (settings.notes.length == 50) {
                 alert("You have reached the maximum number of notes.");
                 return;
             }
