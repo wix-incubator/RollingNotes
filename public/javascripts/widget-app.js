@@ -246,6 +246,21 @@ var parseRBGA = function(rgba) {
 }
 
 var autoSizeText = function() {
+
+    //shows note text from top until it gets cut off
+    //DOES NOT resize font-size
+//    var elements = $('.rSlides');
+//
+//    for(var i = 0; i < elements.length; i++) {
+//        if(elements[i].scrollHeight > elements[i].offsetHeight) {
+////            var newFontSize = (parseInt($(elements[i]).css('font-size').slice(0, -2)) - 1) + 'px';
+//            $(elements[i]).css('align-items', 'initial');
+//        } else {
+//            $(elements[i]).css('align-items', 'center');
+//        }
+//    }
+
+    //auto resize of font-size
 //    var elements = $('.rSlides');
 //
 //    for(var i = 0; i < elements.length; i++) {
