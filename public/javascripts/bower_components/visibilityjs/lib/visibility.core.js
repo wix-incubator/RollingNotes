@@ -143,7 +143,7 @@
                       self._doc.webkitVisibilityState);
         },
 
-        // Link to document object to change it in tests.
+        // Link to document object to change it in test.
         _doc: document || {},
 
         // Callbacks from `change` method, that wait visibility changes.

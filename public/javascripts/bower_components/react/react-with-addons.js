@@ -2879,7 +2879,7 @@ var EventPluginHub = {
   },
 
   /**
-   * These are needed for tests only. Do not use!
+   * These are needed for test only. Do not use!
    */
   __purge: function() {
     listenerBank = {};
@@ -3466,7 +3466,7 @@ function accumulateDirectionalDispatches(domID, upwards, event) {
 
 /**
  * Collect dispatches (must be entirely collected before dispatching - see unit
- * tests). Lazily allocate the array to conserve memory.  We must loop through
+ * test). Lazily allocate the array to conserve memory.  We must loop through
  * each event and perform the traversal for each one. We can not perform a
  * single traversal for the entire collection of events because each event may
  * have a different target.
@@ -4666,7 +4666,7 @@ var ReactBrowserEventEmitter = merge(ReactEventEmitterMixin, {
             );
           } else {
             // Firefox needs to capture a different mouse scroll event.
-            // @see http://www.quirksmode.org/dom/events/tests/scroll.html
+            // @see http://www.quirksmode.org/dom/events/test/scroll.html
             ReactBrowserEventEmitter.ReactEventListener.trapBubbledEvent(
               topLevelTypes.topWheel,
               'DOMMouseScroll',
@@ -13976,7 +13976,7 @@ function Event(suffix) {}
 var ReactTestUtils = {
   renderIntoDocument: function(instance) {
     var div = document.createElement('div');
-    // None of our tests actually require attaching the container to the
+    // None of our test actually require attaching the container to the
     // DOM, and doing so creates a mess that we rely on test isolation to
     // clean up, so we're going to stop honoring the name of this method
     // (and probably rename it eventually) if no problems arise.

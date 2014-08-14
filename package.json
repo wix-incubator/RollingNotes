@@ -21,6 +21,8 @@
     "browserify" : "*",
     "watchify" : "*",
     "formidable": "*",
-    "bower": "*"
+    "bower": "*",
+    "mocha": "*",
+    "chai": "*"
   }
 }

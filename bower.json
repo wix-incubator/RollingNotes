@@ -12,7 +12,7 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "test"
   ],
   "dependencies": {
     "wix-ui-lib2": "latest",
