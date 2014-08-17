@@ -186,8 +186,8 @@ Includes design settings, template settings and the manage notes screen.
                     <button class="uilib-btn btn-large submit-link-btn" ng-click="ctrl.setLink()">OK</button>
                 </div>
                 <!-- List of all existing notes, added drag and drop functionality, updated dynamically with angular ng-repeat directive -->
+                <div ng-show="ctrl.settings.notes.length > 0" class="addNoteLine"></div>
                 <ul ui:sortable ng-model="ctrl.settings.notes" id="manage-notes-content" class="box">
-                    <div ng-show="ctrl.settings.notes.length > 0" class="addNoteLine"></div>
                     <li ng-repeat="note in ctrl.settings.notes" class="note-container">
                         <div class="content-row">
                             <div class="drag-container">
