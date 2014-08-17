@@ -614,6 +614,8 @@ var templates = require("./defaultTemplates");
             note.pageLink = "";
             note.emailLink = "";
             note.docLink = "";
+            note.link.subject = "";
+            note.link.url = "";
         }
 
         this.removeLink = function() {
