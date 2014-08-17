@@ -514,6 +514,10 @@ var templates = require("./defaultTemplates");
             this.closeLinkPopup();
         }
 
+        Wix.Styles.getStyleParams( function(styleParams) {
+            console.log(JSON.stringify(styleParams));
+        });
+
     }]);
 
     app.directive('httpPrefix', function() {

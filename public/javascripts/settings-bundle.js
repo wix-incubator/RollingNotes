@@ -9,21 +9,21 @@ exports.defaultNote = {
     "design" : {
         "template" : "defaultNote",
         "text" : {
-            "color" : "#ff7766",
+            "color" : "color-1",
             "preset": "Body-L",
             "alignment" : "center"
         },
         "background" : {
-            "color" : "rgba(255,255,255,1)",
+            "color" : "color-8",
             "opacity" : "1"
         },
         "hover" : {
             "selected" : true,
-            "color" : "rgba(223,209,239,1)",
+            "color" : "color-9",
             "opacity" : "1"
         },
         "border" : {
-            "color" : "#30366b",
+            "color" : "color-6",
             "width" : "4",
             "radius" : "0"
         }
@@ -653,6 +653,10 @@ var templates = require("./defaultTemplates");
             updateComponent(settings);
             this.closeLinkPopup();
         }
+
+        Wix.Styles.getStyleParams( function(styleParams) {
+            console.log(JSON.stringify(styleParams));
+        });
 
     }]);
 
