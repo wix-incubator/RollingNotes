@@ -356,7 +356,7 @@ var templates = require("./defaultTemplates");
 
             $scope.linkOption = 0;
 
-
+            loadPageDropdown();
 
 //        this.showLinkPopup = function(note){
 //            this.noteForLink = note;
@@ -377,8 +377,25 @@ var templates = require("./defaultTemplates");
 //                showButtons();
 //            });
 
-
+;
         };
+
+        var loadPageDropdown = function() {
+            Wix.getSitePages(function (sitePages) {
+                var arr = $.map(sitePages, function (el) {
+                    return el;
+                });
+                var titles = [];
+                var ids = [];
+                for (x = 0; x < arr.length; x++) {
+                    titles[x] = arr[x].title;
+                    ids[x] = arr[x].id;
+                }
+                settings.pages = titles;
+                settings.pageIds = ids;
+            });
+        };
+
 
         this.closeLinkPopup = function(){
 //            $('#link-popup').css('visibility', 'hidden');
@@ -429,7 +446,7 @@ var templates = require("./defaultTemplates");
         //when OK button clicked, will construct link chosen or none
         this.setLink = function() {
             updateComponent(settings);
-            if($('.web-link').css('visibility') === 'visible') {
+            if($scope.linkOption === 1) {
                 this.noteForLink.pageLink = "";
                 this.noteForLink.emailLink = "";
                 this.noteForLink.docLink = "";
@@ -449,7 +466,7 @@ var templates = require("./defaultTemplates");
                     this.noteForLink.link.target = '_top';
                 }
 
-            } else if ($('.page-link').css('visibility') === 'visible') {
+            } else if ($scope.linkOption === 2) {
                 var that = this;
 
                 this.noteForLink.webLink = "";
@@ -466,7 +483,7 @@ var templates = require("./defaultTemplates");
                     console.log('Url in settings: ' + that.noteForLink.link.url);
                     updateComponent(that.settings);
                 });
-            } else if ($('.email-link').css('visibility') === 'visible') {
+            } else if ($scope.linkOption === 3) {
                 this.noteForLink.webLink = "";
                 this.noteForLink.pageLink = "";
                 this.noteForLink.docLink = "";
@@ -475,7 +492,7 @@ var templates = require("./defaultTemplates");
                 this.noteForLink.link.display = "mail to: " + this.noteForLink.emailLink;
                 this.noteForLink.link.target = '';
 
-            } else if ($('.doc-link').css('visibility') === 'visible') {
+            } else if ($scope.linkOption === 4) {
                 this.noteForLink.webLink = "";
                 this.noteForLink.emailLink = "";
                 this.noteForLink.pageLink = "";
