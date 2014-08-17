@@ -475,6 +475,9 @@ var templates = require("./defaultTemplates");
          *  Add Link Popup dialog box
          **********************************/
 
+        //TODO Use angular the right way
+        //TODO ngshow/class etc.
+
         this.showLinkPopup = function(note){
             this.noteForLink = note;
             Wix.getSitePages(function(sitePages){
