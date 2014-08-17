@@ -384,21 +384,6 @@ var templates = require("./defaultTemplates");
 
         };
 
-        this.textLength = function(element, msg) {
-            if (element.keyCode === 8 || element.keyCode === 44) {
-                $(element.target).parent().find('.character-count-normal').css('color','black');
-                $(element.target).removeClass('note-text-max-count');
-            } else if(msg.length >= 139) {
-                $(element.target).parent().find('.character-count-normal').css('color','red');
-                $(element.target).addClass('note-text-max-count');
-            } else {
-                $(element.target).parent().find('.character-count-normal').css('color','black');
-                $(element.target).removeClass('note-text-max-count');
-
-            }
-        };
-
-
         /**********************************
          *  Transition Settings (second tab of settings)
          **********************************/
