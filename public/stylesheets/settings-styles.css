@@ -233,7 +233,7 @@ Manage Notes Screen Styles
 }
 #manage-notes-header {
   border-bottom: 1px solid #ccc;
-  position: fixed;
+  position: absolute;
   width: 576px;
   height: 57px;
   border-radius: 6px 6px 0 0;

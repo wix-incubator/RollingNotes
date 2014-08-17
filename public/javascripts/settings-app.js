@@ -33,23 +33,51 @@ var templates = require("./defaultTemplates");
         };
 
         this.resetTemplate = function() {
-            Wix.UI.set('template', {value: settings.design.template});
-            updateComponent(settings);
+//            Wix.UI.set('template', {value: settings.design.template});
+//            settings.design = templates[settings.design.template].design;
+//            var template = settings.design;
+//            console.log(JSON.stringify(template));
+//            Wix.UI.set('color', template.text.color);
+//            Wix.UI.set('bcolorWOpacity', {rgba: template.background.color, opacity:template.background.opacity});
+//            Wix.UI.set('bOpacitySpinner', template.background.opacity);
+//            Wix.UI.set('hcolorWOpacity', {rgba: template.hover.color, opacity:template.hover.opacity});
+//            Wix.UI.set('hOpacitySlider', template.hover.opacity);
+//            Wix.UI.set('borderColor', template.border.color);
+//            Wix.UI.set('borderWidth', template.border.width);
+//            Wix.UI.set('radius', template.border.radius);
+//            Wix.UI.set('hoverCheckbox', template.hover.on);
+//            updateComponent(settings);
         };
 
 
         Wix.UI.onChange('template', function(newSettings){
-            settings.design.template = newSettings.value;
+            var originalDesign =  templates[settings.design.template].design;
+//            console.log('test old settings retrieval: ' + JSON.stringify(templates[oldTemplate].design));
+            var customDesign = JSON.parse(JSON.stringify(settings.design));
+
+
+            $scope.settings.design.template = newSettings.value;
             var template;
-            if (settings.design.template == 'default-note') {
+            if (settings.design.template == 'defaultNote') {
                 template = JSON.parse(JSON.stringify(templates.defaultNote.design));
-            } else if (settings.design.template == 'spiral-note') {
+            } else if (settings.design.template == 'spiralNote') {
                 template = JSON.parse(JSON.stringify(templates.spiralNote.design));
-            } else if (settings.design.template == 'postit-note') {
+            } else if (settings.design.template == 'postitNote') {
                 template = JSON.parse(JSON.stringify(templates.postitNote.design));
-            }  else if (settings.design.template == 'chalkboard-note') {
+            }  else if (settings.design.template == 'chalkboardNote') {
                 template = JSON.parse(JSON.stringify(templates.chalkboardNote.design));
             }
+
+            var testDeepDiff = DeepDiff.observableDiff(originalDesign, customDesign, function (d) {
+                // Apply all changes except those to the 'name' property...
+//                console.log('d: ' + JSON.stringify(d));
+//                console.log('apply change before: ' + JSON.stringify(template));
+                    DeepDiff.applyChange(template,template, d);
+//                console.log('apply change after: ' +  JSON.stringify(template));
+
+            });
+
+
 
             Wix.UI.set('color', template.text.color);
             Wix.UI.set('bcolorWOpacity', {rgba: template.background.color, opacity:template.background.opacity/100});
