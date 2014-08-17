@@ -146,12 +146,13 @@ var templates = require("./defaultTemplates");
          *  Manage Notes Screen
          **********************************/
 
+        $scope.visibleManageNotes = false;
         this.showManageNotes = function() {
-            $('#manage-notes').removeClass('hidden-manage-notes');
+            $scope.visibleManageNotes = true;
         };
 
         this.hideManageNotes = function() {
-            $('#manage-notes').addClass('hidden-manage-notes');
+            $scope.visibleManageNotes = false;
         };
 
         this.blur = function() {
@@ -343,9 +344,6 @@ var templates = require("./defaultTemplates");
          *  Add Link Popup dialog box
          **********************************/
 
-        //TODO Use angular the right way
-        //TODO ngshow/class etc.
-
         $scope.popupVisible = false;
         $scope.upperTextVisible = false;
         $scope.buttonsVisible = false;
@@ -355,29 +353,17 @@ var templates = require("./defaultTemplates");
         this.showLinkPopup = function(note) {
             console.log('show link popup firing');
             this.noteForLink = note;
-            //TODO LOAD PAGES for pagelink option
-
             $scope.popupVisible = true;
-            //TODO make the background inactive
             $scope.buttonsVisible = true;
-
             $scope.linkOption = 0;
-
             loadPageDropdown();
         };
 
-
-
         this.showLink = function(type) {
-            //hideButtons();
             $scope.buttonsVisible = false;
-
             $scope.optionsVisible = true;
-
-
             $scope.linkOption = type;
-
-            //TODO auto focus email and web links / load page links
+            //TODO auto focus email and web links
         }
 
         this.closeLinkPopup = function(){
@@ -390,19 +376,14 @@ var templates = require("./defaultTemplates");
 
         //when OK button clicked, will construct link chosen or none
         this.setLink = function() {
-            var options = {
-                1 : 'webLink',
-                2: 'pageLink',
-                3: 'emailLink',
-                4: 'docLink'
-            }
-            var chosenLink = options[$scope.linkOption];
+            $scope.options = {1 : 'webLink', 2: 'pageLink', 3: 'emailLink', 4: 'docLink'};
+
+            var chosenLink = $scope.options[$scope.linkOption];
             var link = this.noteForLink[chosenLink];
             clearLinks(this.noteForLink);
 
             this.noteForLink[chosenLink] = link;
             this.noteForLink.link.url = link;
-//            this.noteForLink.link.display = link;
 
             if($scope.linkOption === 1) {
                 this.noteForLink.link.display = link;
@@ -440,6 +421,27 @@ var templates = require("./defaultTemplates");
             this.closeLinkPopup();
         }
 
+        this.backToOptions = function() {
+            $scope.optionsVisible = false;
+            $scope.buttonsVisible = true;
+            $scope.linkOption = 0;
+        }
+
+        var clearLinks = function(note) {
+            note.webLink = "";
+            note.pageLink = "";
+            note.emailLink = "";
+            note.docLink = "";
+            note.link.subject = "";
+            note.link.url = "";
+        }
+
+        this.removeLink = function() {
+            clearLinks(this.noteForLink);
+            this.noteForLink.link.display = "";
+            updateComponent(settings);
+            this.closeLinkPopup();
+        }
 
         var loadPageDropdown = function() {
             Wix.getSitePages(function (sitePages) {
@@ -483,30 +485,6 @@ var templates = require("./defaultTemplates");
                 });
                 updateComponent(settings);
             });
-        }
-
-        this.backToOptions = function() {
-
-            $scope.optionsVisible = false;
-            $scope.buttonsVisible = true;
-            $scope.linkOption = 0;
-
-        }
-
-        var clearLinks = function(note) {
-            note.webLink = "";
-            note.pageLink = "";
-            note.emailLink = "";
-            note.docLink = "";
-            note.link.subject = "";
-            note.link.url = "";
-        }
-
-        this.removeLink = function() {
-            clearLinks(this.noteForLink);
-            this.noteForLink.link.display = "";
-            updateComponent(settings);
-            this.closeLinkPopup();
         }
 
     }]);

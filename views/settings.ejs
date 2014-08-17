@@ -135,7 +135,7 @@ Includes design settings, template settings and the manage notes screen.
                 </div>
             </div>
             <!-- Manage notes screen, where user adds and edits notes, toggles visibility, adds links and deletes notes -->
-            <div id="manage-notes" class="manage-notes-screen hidden-manage-notes">
+            <div id="manage-notes" class="manage-notes-screen" ng-class="{'hidden-manage-notes': !visibleManageNotes}">
                 <div id="manage-notes-header" ng-class="{'disabled' : popupVisible}">
                    <a class="back-to-settings-button" ng-click="ctrl.hideManageNotes()" href="#"> ⟨ Back to Settings</a>
                    <button class="uilib-btn add-note-btn" ng-click="ctrl.addNote()" ng-class="{'max-note-btn' : ctrl.settings.notes.length >= 50}"><span id="addNotePlus">+</span> Add a note</button>
