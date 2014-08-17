@@ -506,42 +506,26 @@ var templates = require("./defaultTemplates");
             loadPageDropdown();
         };
 
+
+
+        this.showLink = function(type) {
+            //hideButtons();
+            $scope.buttonsVisible = false;
+
+            $scope.optionsVisible = true;
+
+
+            $scope.linkOption = type;
+
+            //TODO auto focus email and web links / load page links
+        }
+
         this.closeLinkPopup = function(){
             $scope.popupVisible = false;
             $scope.upperTextVisible = false;
             $scope.buttonsVisible = false;
             $scope.optionsVisible = false;
             $scope.linkOption = 0;
-        };
-
-        var loadPageDropdown = function() {
-            Wix.getSitePages(function (sitePages) {
-                var arr = $.map(sitePages, function (el) {
-                    return el;
-                });
-                var titles = [];
-                var ids = [];
-                for (x = 0; x < arr.length; x++) {
-                    titles[x] = arr[x].title;
-                    ids[x] = arr[x].id;
-                }
-                settings.pages = titles;
-                settings.pageIds = ids;
-            });
-        };
-
-
-        var mailLink = function(recepient, opts) {
-            var link = "mailto:";
-            link += window.encodeURIComponent(recepient);
-            var params = [];
-            angular.forEach(opts, function(value, key) {
-                params.push(key.toLowerCase() + "=" + window.encodeURIComponent(value));
-            });
-            if (params.length > 0) {
-                link += "?" + params.join("&");
-            }
-            return link;
         };
 
         //when OK button clicked, will construct link chosen or none
@@ -596,6 +580,38 @@ var templates = require("./defaultTemplates");
             this.closeLinkPopup();
         }
 
+
+        var loadPageDropdown = function() {
+            Wix.getSitePages(function (sitePages) {
+                var arr = $.map(sitePages, function (el) {
+                    return el;
+                });
+                var titles = [];
+                var ids = [];
+                for (x = 0; x < arr.length; x++) {
+                    titles[x] = arr[x].title;
+                    ids[x] = arr[x].id;
+                }
+                settings.pages = titles;
+                settings.pageIds = ids;
+            });
+        };
+
+
+        var mailLink = function(recepient, opts) {
+            var link = "mailto:";
+            link += window.encodeURIComponent(recepient);
+            var params = [];
+            angular.forEach(opts, function(value, key) {
+                params.push(key.toLowerCase() + "=" + window.encodeURIComponent(value));
+            });
+            if (params.length > 0) {
+                link += "?" + params.join("&");
+            }
+            return link;
+        };
+
+
         this.docLink = function() {
             var that = this;
             Wix.Settings.openMediaDialog( Wix.Settings.MediaType.DOCUMENT, false, function(data) {
@@ -603,18 +619,19 @@ var templates = require("./defaultTemplates");
                 that.noteForLink.docLink = documentUrl;
                 $scope.$apply(function () {
                     that.noteForLink.link.display = data.fileName;
+                    that.noteForLink.link.display = that.noteForLink.link.display.substring(0, 30);
                 });
+                updateComponent(settings);
             });
         }
 
-        this.getDocDislay = function() {
-            if(this.noteForLink && this.noteForLink.docLink) {
-                return this.noteForLink.link.display;
-            } else {
-                return 'No Document Selected'
-            }
-        }
+        this.backToOptions = function() {
 
+            $scope.optionsVisible = false;
+            $scope.buttonsVisible = true;
+            $scope.linkOption = 0;
+
+        }
 
         var clearLinks = function(note) {
             note.webLink = "";
@@ -627,28 +644,9 @@ var templates = require("./defaultTemplates");
 
         this.removeLink = function() {
             clearLinks(this.noteForLink);
+            this.noteForLink.link.display = "";
             updateComponent(settings);
             this.closeLinkPopup();
-        }
-
-        this.backToOptions = function() {
-
-            $scope.optionsVisible = false;
-            $scope.buttonsVisible = true;
-            $scope.linkOption = 0;
-
-        }
-
-        this.showLink = function(type) {
-            //hideButtons();
-            $scope.buttonsVisible = false;
-
-            $scope.optionsVisible = true;
-
-
-            $scope.linkOption = type;
-
-            //TODO auto focus email and web links / load page links
         }
 
     }]);
