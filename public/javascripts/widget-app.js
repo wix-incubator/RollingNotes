@@ -74,23 +74,18 @@ var WidgetApp = React.createClass({
 
     updateStyles: function () {
         var widgetStyle = {};
+        var design = this.state.settings.design;
         //widgetStyle.font = this.state.settings.design.font;
-        widgetStyle.color = this.state.settings.design.text.color;
-        widgetStyle.fontSize = this.state.settings.design.text.size;
-        widgetStyle.fontFamily = this.state.settings.design.text.family;
-        widgetStyle.fontStyle = this.state.settings.design.text.style;
+        widgetStyle.color = design.text.color;
+        widgetStyle.fontSize = design.text.size;
+        widgetStyle.fontFamily = design.text.family;
+        widgetStyle.fontStyle = design.text.style;
 
-        widgetStyle.backgroundColor = this.state.settings.design.background.color;
+        widgetStyle.backgroundColor = design.background.color;
 
-        widgetStyle.borderColor = this.state.settings.design.border.color;
-        widgetStyle.borderWidth = this.state.settings.design.border.width;
-        widgetStyle.borderRadius = this.state.settings.design.border.radius + '%';
-
-        console.log($('.rSlides').innerHeight());
-//        if ($('.rSlide')[0].scrollWidth >  $('#div-id').width()) {
-//            //Text has over-flowed
-//        }
-
+        widgetStyle.borderColor = design.border.color;
+        widgetStyle.borderWidth = design.border.width;
+        widgetStyle.borderRadius = design.border.radius + '%';
 
         return widgetStyle
     },
