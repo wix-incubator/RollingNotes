@@ -20,10 +20,11 @@ var WidgetApp = React.createClass({
 
     componentDidMount: function() {
         var that = this;
+        var viewMode = Wix.Worker.Utils.getViewMode();
         //TODO extract to common utils, I've seen this before
 
         // add event listeners to connect updated settings to widget
-        if (Wix.Worker.Utils.getViewMode() === 'editor') {
+        if (viewMode === 'editor') {
             Wix.addEventListener(Wix.Events.SETTINGS_UPDATED, function(updatedSettings){
                 that.setState({settings: updatedSettings});
                 that.setState({slideIndex: that.getFirstVisibleNoteIndex()});
@@ -32,7 +33,7 @@ var WidgetApp = React.createClass({
 
                 }
             });
-
+            //TODO make button interval and preview the same to avoid hacky code
             Wix.addEventListener(Wix.Events.EDIT_MODE_CHANGE, function(data) {
                 if (data.editMode == 'preview') {
                     if(previewNotesInterval != null) {
@@ -49,18 +50,19 @@ var WidgetApp = React.createClass({
         }
 
         that.setState({slideIndex: that.getFirstVisibleNoteIndex()});
-        if (Wix.Worker.Utils.getViewMode() == 'site') {
+        if (viewMode == 'site') {
             this.playNotes();
         }
 
-
         Visibility.change(function(e, state) {
-            if(state == 'hidden' && previewNotesInterval != null) {
-                that.refreshWidget();
-            } else if (state == 'hidden' && (Wix.Utils.getViewMode() == 'preview' ||  Wix.Utils.getViewMode() == 'site')) {
-                that.pauseNotes();
-
-            } else if (state == 'visible' && (Wix.Utils.getViewMode() == 'preview' ||  Wix.Utils.getViewMode() == 'site')){
+            var viewMode = Wix.Worker.Utils.getViewMode();
+            if(state == 'hidden') {
+                if(previewNotesInterval != null) {
+                    that.refreshWidget();
+                } else if (viewMode == 'preview' ||  viewMode == 'site') {
+                    that.pauseNotes();
+                }
+            } else if (state == 'visible' && (viewMode == 'preview' || viewMode == 'site')){
                 that.playNotes();
             }
         });
