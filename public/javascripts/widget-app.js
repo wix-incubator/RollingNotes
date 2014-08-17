@@ -2,6 +2,8 @@
 
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
+var DEFAULT_NOTE_TEXT = "This is a note. Click to edit.";
+
 var previewNotesInterval;
 var playNotesInterval;
 
@@ -135,6 +137,10 @@ var WidgetApp = React.createClass({
     /*****************************
      * Rolling Note Animation Controllers
      *****************************/
+    getSlideDuration: function() {
+      return (this.state.settings.transition.duration * 1000) + 2000;
+    },
+
 
     refreshWidget: function() {
       window.location.reload();
@@ -150,7 +156,7 @@ var WidgetApp = React.createClass({
         //this.nextNote();
         playNotesInterval = setInterval(function() {
             that.nextNote();
-        }, (this.state.settings.transition.duration * 1000) + 2000);
+        }, this.getSlideDuration());
     },
 
     pauseNotes: function() {
@@ -175,7 +181,7 @@ var WidgetApp = React.createClass({
             if (counter >= that.getNumOfVisibleNotes() - 1) {
                 that.refreshWidget();
             }
-        }, (that.state.settings.transition.duration * 1000) + 2000);
+        }, this.getSlideDuration());
     },
 
 
@@ -219,7 +225,7 @@ var WidgetApp = React.createClass({
         var notecontent;
 
         if (this.state.settings.notes.length === 0 || numofVisibleNotes === 0) {
-            notecontent = {msg: 'This is a note. Click to edit.', link: {url:"", target:""}};
+            notecontent = {msg: DEFAULT_NOTE_TEXT, link: {url:"", target:""}};
         } else {
             notecontent = this.state.settings.notes[this.state.slideIndex];
         }
@@ -252,7 +258,8 @@ var WidgetApp = React.createClass({
 
 //TODO common utils method
 var parseRBGA = function(rgba) {
-    return rgba.substring(5, rgba.length-1).replace(/ /g, '').split(',');
+    if (rgba) return rgba.substring(5, rgba.length-1).replace(/ /g, '').split(',');
+    else return [255,255,255,1];
 }
 
 React.renderComponent(<WidgetApp settings={window.settings} />, document.getElementById('content'));
