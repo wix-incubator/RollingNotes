@@ -5,7 +5,7 @@
 var templates = require("./defaultTemplates");
 
 (function(){
-    var app = angular.module("settingsApp", ['ui.sortable']);
+    var app = angular.module("settingsApp", ['ui.sortable','ngAnimate']);
 
     app.controller('settingsController', ['$window', '$scope', '$http', '$timeout', function($window, $scope, $http, $timeout) {
 
@@ -264,6 +264,7 @@ var templates = require("./defaultTemplates");
 
         var shouldPreviewRun = true;
         var timeout;
+        this.transitionFade = false;
 
         Wix.UI.onChange('transition', function(newSettings){
             settings.transition.effect = newSettings.value;

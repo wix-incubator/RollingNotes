@@ -209,7 +209,52 @@ Tab content styles
 }
 
 .dur-group .transitionButtonBlock .btn:first-child {
-  background-image: url("../images/trans1.png")
+  background-image: url("../images/testTrans1.png");
+  opacity: 1;
+  transition: all 1s;
+}
+
+.dur-group .transitionButtonBlock .btn:first-child:hover {
+  background-image: url("../images/testTrans2.png");
+  -webkit-transform:scale(1) translate(0px, 0px);
+  -moz-transform:scale(1) translate(0px, 0px);
+  -ms-transform:scale(1) translate(0px, 0px);
+  -o-transform:scale(1) translate(0px, 0px);
+  transform:scale(1) translate(0px,0px);//  opacity: .5;
+}
+
+.fadeTrans.ng-enter,
+.fadeTrans.ng-leave,
+.fadeTrans.ng-move {
+  -webkit-transition: 0.5s linear all;
+  -moz-transition: 0.5s linear all;
+  -o-transition: 0.5s linear all;
+  transition: 0.5s linear all;
+}
+
+.fadeTrans.ng-enter,
+.fadeTrans.ng-move {
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.fadeTrans.ng-move.ng-move-active,
+.fadeTrans.ng-enter.ng-enter-active {
+  opacity: 1;
+  height: 120px;
+}
+
+.fadeTrans.ng-leave {
+  opacity: 1;
+  overflow: hidden;
+}
+
+.fadeTrans.ng-leave.ng-leave-active {
+  opacity: 0;
+  height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .dur-group .transitionButtonBlock:nth-child(2) .btn {
@@ -332,9 +377,17 @@ Manage Notes Screen Styles
   margin-top: 10px;
 }
 
+#addNotePlus {
+  font-size: 20px;
+  font-weight: 900;
+  margin-right: 2px;
+  font-family: helvetica;
+}
+
 .add-note-btn {
   float:right;
   margin-right: 19px;
+  padding: 4px 8px;
 }
 
 .max-note-btn {
@@ -375,6 +428,8 @@ Manage Notes Screen Styles
   width: 540px;
   height: 75px;
   display: inline-block;
+  background-color: white;
+  cursor: move;
 }
 
 .unwatched-note {
@@ -406,7 +461,7 @@ Manage Notes Screen Styles
   height: 30px;
   width: 400px;
   margin-left: 13px;
-  margin-top: 19px;
+  margin-top: 5px;
 }
 
 textarea {
@@ -415,23 +470,47 @@ textarea {
 
 .note-text {
   display: inline-block;
-  height: 30px;
+  height: 40px;
   border: none;
   width: 400px;
-  font-size: 11px;
+  font-size: 12px;
+  font-family: Helvetica Neue,Helvetica,Arial;
   resize: none;
   -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
   -moz-box-sizing: border-box;    /* Firefox, other Gecko */
   box-sizing: border-box;
-
+  border-radius: 3px;
   border: 1px transparent solid;
+  padding: 5px;
 
 }
 
+.note-text:focus {
+  border: 1px solid #75c8fa;
+  box-shadow: 0 0 6px #c8eeff;
+  outline: none;
+}
+
+//::-webkit-input-placeholder {
+//  color: #d3d3d3;
+//}
+//
+//:-moz-placeholder { /* Firefox 18- */
+//  color: red;
+//}
+//
+//::-moz-placeholder {  /* Firefox 19+ */
+//  color: red;
+//}
+//
+//:-ms-input-placeholder {
+//  color: red;
+//}
+
 .note-text-max-count {
   outline: none;
-  box-shadow: red 0px 0px 3px;
-  border: red 1px solid;
+  box-shadow: red 0px 0px 3px !important;
+  border: red 1px solid !important;
 }
 
 .character-count-normal {
@@ -474,7 +553,7 @@ textarea {
 
 .link-container a {
   display: inline-block;
-  font-size: 10px;
+  font-size: 12px;
   text-decoration: none;
   color: #3291e3;
 }

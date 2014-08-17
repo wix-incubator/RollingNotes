@@ -97,7 +97,10 @@ Includes design settings, template settings and the manage notes screen.
                                 <!-- Transition options -->
                                 <div class="dur-group" wix-model="transition" wix-ctrl="ButtonGroup" wix-options="{value: '{{ctrl.settings.transition.effect}}'}">
                                     <div class="transitionButtonBlock">
-                                        <button value="fade"></button>
+                                        <button value="fade" ng-mouseenter="ctrl.transitionFade = !ctrl.transitionFade" ng-mouseleave="ctrl.transitionFade = !ctrl.transitionFade">
+                                            <!--<img ng-show="!ctrl.transitionFade" src="/images/trans1.png" class="fadeTrans fade1"/>-->
+                                            <!--<img ng-show="ctrl.transitionFade"  src="/images/trans2.png" class="fadeTrans fade2"/>-->
+                                        </button>
                                         <p>Fade</p>
                                     </div>
                                     <div class="transitionButtonBlock">
@@ -132,7 +135,7 @@ Includes design settings, template settings and the manage notes screen.
             <div id="manage-notes" class="manage-notes-screen hidden-manage-notes">
                 <div id="manage-notes-header">
                    <a class="back-to-settings-button" ng-click="ctrl.hideManageNotes()" href="#"> < Back to Settings</a>
-                   <button class="uilib-btn add-note-btn" ng-click="ctrl.addNote()" ng-class="{'max-note-btn' : ctrl.settings.notes.length >= 50}">+ Add a note</button>
+                   <button class="uilib-btn add-note-btn" ng-click="ctrl.addNote()" ng-class="{'max-note-btn' : ctrl.settings.notes.length >= 50}"><span id="addNotePlus">+</span> Add a note</button>
                     <p class="max-notes-msg" ng-show="ctrl.settings.notes.length >= 50">50 note maximum</p>
                 </div>
                 <!-- link popup becomes visible when user clicks add link button -->
@@ -187,7 +190,7 @@ Includes design settings, template settings and the manage notes screen.
                     <li ng-repeat="note in ctrl.settings.notes" class="note-container">
                         <div class="content-row">
                             <div class="drag-container">
-                                <a><img class="drag-img" src="/images/drag-icon.png" /></a>
+                                <img class="drag-img" src="/images/drag-icon.png" />
                             </div>
                             <div class="note-text-container">
                                 <textarea ng-model="note.msg" ng-blur="ctrl.blur()" ng-trim="false" ng-keydown="ctrl.textLength($event, note.msg)"
@@ -223,6 +226,7 @@ Includes design settings, template settings and the manage notes screen.
         <script type="text/javascript" src="/javascripts/bower_components/visibilityjs/lib/visibility.core.js"></script>
         <script type="text/javascript" src="/javascripts/bower_components/visibilityjs/lib/visibility.timers.js"></script>
         <script type="text/javascript" src="/javascripts/bower_components/deep-diff/releases/deep-diff-0.2.0.min.js"></script>
+        <script type="text/javascript" src="/javascripts/bower_components/angular-animate/angular-animate.js"></script>
         <script type="text/javascript" src="/javascripts/settings-bundle.js"></script>
 
         <!-- get global settings JSON  from database -->
