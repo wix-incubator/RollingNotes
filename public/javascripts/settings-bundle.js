@@ -347,6 +347,12 @@ var templates = require("./defaultTemplates");
 
         };
 
+        this.editNoteButton = function(e, index) {
+          if (this.settings.notes[index].visibility) {
+            this.focusText(e);
+          }
+        };
+
         this.focusText = function (element) {
             $timeout(function() {
                 if (!($("textarea:focus")) ) {
