@@ -134,7 +134,7 @@ Includes design settings, template settings and the manage notes screen.
             <!-- Manage notes screen, where user adds and edits notes, toggles visibility, adds links and deletes notes -->
             <div id="manage-notes" class="manage-notes-screen hidden-manage-notes">
                 <div id="manage-notes-header">
-                   <a class="back-to-settings-button" ng-click="ctrl.hideManageNotes()" href="#"> < Back to Settings</a>
+                   <a class="back-to-settings-button" ng-click="ctrl.hideManageNotes()" href="#"> ⟨ Back to Settings</a>
                    <button class="uilib-btn add-note-btn" ng-click="ctrl.addNote()" ng-class="{'max-note-btn' : ctrl.settings.notes.length >= 50}"><span id="addNotePlus">+</span> Add a note</button>
                     <p class="max-notes-msg" ng-show="ctrl.settings.notes.length >= 50">50 note maximum</p>
                 </div>
@@ -187,6 +187,7 @@ Includes design settings, template settings and the manage notes screen.
                 </div>
                 <!-- List of all existing notes, added drag and drop functionality, updated dynamically with angular ng-repeat directive -->
                 <ul ui:sortable ng-model="ctrl.settings.notes" id="manage-notes-content" class="box">
+                    <div ng-show="ctrl.settings.notes.length > 0" class="addNoteLine"></div>
                     <li ng-repeat="note in ctrl.settings.notes" class="note-container">
                         <div class="content-row">
                             <div class="drag-container">
