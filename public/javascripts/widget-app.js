@@ -92,14 +92,20 @@ var WidgetApp = React.createClass({
 
     updateAnchorStyle: function() {
         var anchorStyle = {};
-        if (this.getNoteContent().link.url) anchorStyle.cursor = 'pointer';
-        else anchorStyle.cursor = 'default';
+        if (this.getNoteContent().link.url) {
+            anchorStyle.cursor = 'pointer';
+        } else {
+            anchorStyle.cursor = 'default';
+        }
         return anchorStyle;
     },
 
     updateHeaderStyle: function() {
       var headerStyle = {};
-      if (this.state.settings.design.template == "postit-note") {
+        //TODO template updates itself?
+
+        if (this.state.settings.design.template === "postit-note") {
+          //TODO put as utils method
           var currRGBA = parseRBGA(this.state.settings.design.background.color);
           headerStyle.backgroundColor = "rgba(" +
               Math.abs((currRGBA[0] - 26) % 255) + "," +
@@ -132,9 +138,12 @@ var WidgetApp = React.createClass({
       window.location.reload();
     },
 
+    //TODO add toggleNote method instead of play/pause notes
     playNotes: function() {
         var that = this;
-        if (this.state.mode == 'play') return;
+        if (this.state.mode == 'play') {
+            return;
+        }
         this.setState({mode: 'play'});
         //this.nextNote();
         playNotesInterval = setInterval(function() {
@@ -143,7 +152,9 @@ var WidgetApp = React.createClass({
     },
 
     pauseNotes: function() {
-        if (this.state.mode == 'pause') return;
+        if (this.state.mode == 'pause') {
+            return;
+        }
         this.setState({mode: 'pause'});
         clearInterval(playNotesInterval);
     },
@@ -173,20 +184,26 @@ var WidgetApp = React.createClass({
     getNumOfVisibleNotes: function() {
         var count = 0;
         for (var i = 0; i < this.state.settings.notes.length; i++) {
-          if (this.state.settings.notes[i].visibility == true) count++;
+          if (this.state.settings.notes[i].visibility == true) {
+              count++;
+          }
         }
         return count;
     },
 
     getFirstVisibleNoteIndex: function() {
         for (var i = 0; i < this.state.settings.notes.length; i++) {
-            if (this.state.settings.notes[i].visibility == true) return i;
+            if (this.state.settings.notes[i].visibility == true) {
+                return i;
+            }
         }
         return 0;
     },
 
     nextNote: function() {
-        if (this.state.settings.notes.length <= 1) return;
+        if (this.state.settings.notes.length <= 1) {
+            return;
+        }
         var nextVisibleSlide = ((this.state.slideIndex) + 1) % this.state.settings.notes.length;;
         while (this.state.settings.notes[nextVisibleSlide].visibility == false) {
             nextVisibleSlide = (nextVisibleSlide +1) % this.state.settings.notes.length;
@@ -230,10 +247,6 @@ var WidgetApp = React.createClass({
 /*****************************
  * helper methods
  *****************************/
-
-var parseCompId = function(key){
-    return key.substring(key.indexOf(".") + 1);
-}
 
 //TODO common utils method
 var parseRBGA = function(rgba) {
