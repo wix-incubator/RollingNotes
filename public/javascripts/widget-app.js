@@ -81,14 +81,7 @@ var WidgetApp = React.createClass({
         widgetStyle.fontFamily = design.text.family;
         widgetStyle.fontStyle = design.text.style;
 
-<<<<<<< HEAD
-        widgetStyle.borderColor = this.state.settings.design.border.color;
-        widgetStyle.borderWidth = this.state.settings.design.border.width;
-        widgetStyle.borderRadius = this.state.settings.design.border.radius + '%';
-
-=======
         widgetStyle.backgroundColor = design.background.color;
->>>>>>> 7bae037b546194e602c0914c1327cd2e5ee9bceb
 
         widgetStyle.borderColor = design.border.color;
         widgetStyle.borderWidth = design.border.width;

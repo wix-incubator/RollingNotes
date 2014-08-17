@@ -234,7 +234,7 @@ var templates = require("./defaultTemplates");
                     $("textarea:focus").blur();
                 }
                 $(element.target).closest('.note-container').find('textarea').focus();
-            }, 2000, false);
+            }, 0, false);
         };
 
         this.deleteNote = function(array, index) {
