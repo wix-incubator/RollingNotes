@@ -6,6 +6,7 @@ var DEFAULT_NOTE_TEXT = "This is a note. Click to edit.";
 
 var previewNotesInterval;
 var playNotesInterval;
+var hoverTimeout;
 
 var WidgetApp = React.createClass({
 
@@ -88,7 +89,7 @@ var WidgetApp = React.createClass({
 
         widgetStyle.borderColor = design.border.color;
         widgetStyle.borderWidth = design.border.width;
-        widgetStyle.borderRadius = design.border.radius + '%';
+        widgetStyle.borderRadius = design.border.radius;
 
         return widgetStyle
     },
@@ -130,7 +131,7 @@ var WidgetApp = React.createClass({
     handleMouseLeave: function(e) {
         console.log("mouseoff");
         $(e.target).closest('.note-widget').css({"background-color":this.state.settings.design.background.color});
-        this.playNotes();
+        this.hoverOffPlay();
     },
 
     /*****************************
@@ -143,6 +144,20 @@ var WidgetApp = React.createClass({
 
     refreshWidget: function() {
       window.location.reload();
+    },
+
+    hoverOffPlay: function() {
+        var that = this;
+        if (this.state.mode === 'play') {
+            console.log('playing in hover: return');
+            return;
+        }
+        this.setState({mode: 'play'});
+        hoverTimeout = setTimeout(function() {
+            that.nextNote();
+            that.pauseNotes();
+            that.playNotes();
+        },2000);
     },
 
     //TODO add toggleNote method instead of play/pause notes
@@ -164,6 +179,7 @@ var WidgetApp = React.createClass({
         }
         this.setState({mode: 'pause'});
         clearInterval(playNotesInterval);
+        clearTimeout(hoverTimeout);
     },
 
     previewRollingNotes: function() {
