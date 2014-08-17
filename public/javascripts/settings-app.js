@@ -345,7 +345,7 @@ var templates = require("./defaultTemplates");
         $scope.optionsVisible = false;
 
         this.showLinkPopup = function(note) {
-
+            console.log('show link popup firing');
             this.noteForLink = note;
             //TODO LOAD PAGES for pagelink option
 
@@ -377,7 +377,9 @@ var templates = require("./defaultTemplates");
         };
 
         this.closeLinkPopup = function(){
-            $('#link-popup').css('visibility', 'hidden');
+//            $('#link-popup').css('visibility', 'hidden');
+            $scope.popupVisible = false;
+
             makeBackActive();
             hideButtons();
             hideContent();
@@ -476,7 +478,9 @@ var templates = require("./defaultTemplates");
 
             updateComponent(settings);
 
-            $('#link-popup').css('visibility', 'hidden');
+//            $('#link-popup').css('visibility', 'hidden');
+            $scope.popupVisible = false;
+
             makeBackActive();
             hideButtons();
             hideContent();
@@ -498,6 +502,8 @@ var templates = require("./defaultTemplates");
             updateComponent(settings);
 
             this.closeLinkPopup();
+//            $scope.popupVisible = true;
+
         }
 
         var hideButtons = function() {
