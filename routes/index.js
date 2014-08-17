@@ -29,7 +29,9 @@ router.get('/settings', function(req, res) {
 /* Update component. */
 //TODO allow authentication by passing in proper id from other fxn
 router.post('/updateComponent', function(req, res) {
+    req.query.instance = req.body.instance
     auth.authenticate(req,res);
+    console.log(JSON.stringify(req.body));
     db.updateComponent(req.body);
 });
 

@@ -22,7 +22,8 @@ var templates = require("./defaultTemplates");
         var updateComponent = function(newSettings) {
               this.settings = newSettings;
 
-            //+ window.location.search.substring(window.location.search.indexOf('instance') + 9, window.location.search.indexOf('&'))
+            var instance = window.location.search.substring(window.location.search.indexOf('instance') + 9, window.location.search.indexOf('&'));
+            this.settings.instance = instance;
             $http.post('/updateComponent', this.settings).success(function() {
                 console.log('posting');
             }).error(function(data, status, headers, config) {
@@ -41,7 +42,7 @@ var templates = require("./defaultTemplates");
             Wix.UI.set('borderColor', {cssColor: template.border.color});
             Wix.UI.set('borderWidth', template.border.width);
             Wix.UI.set('radius', template.border.radius);
-            Wix.UI.set('hoverCheckbox', template.hover.on);
+            Wix.UI.set('hoverCheckbox', template.hover.selected);
             return template;
         };
 
@@ -103,12 +104,12 @@ var templates = require("./defaultTemplates");
         });
 
         Wix.UI.onChange('hoverCheckbox', function(newSettings){
-            settings.design.hover.on = newSettings;
+            settings.design.hover.selected = newSettings;
             updateComponent(settings);
         });
 
         Wix.UI.onChange('hcolorWOpacity', function(newSettings){
-            if (!settings.design.hover.on) Wix.UI.set('hoverCheckbox', true);
+            if (!settings.design.hover.selected) Wix.UI.set('hoverCheckbox', true);
             settings.design.hover.color = newSettings.rgba;
             settings.design.hover.opacity = newSettings.opacity;
             Wix.UI.set('hOpacitySlider', settings.design.hover.opacity * 100);
@@ -116,7 +117,7 @@ var templates = require("./defaultTemplates");
         });
 
         Wix.UI.onChange('hOpacitySlider', function(newSettings){
-            if (!settings.design.hover.on) Wix.UI.set('hoverCheckbox', true);
+            if (!settings.design.hover.selected) Wix.UI.set('hoverCheckbox', true);
             var currRGBA = parseRBGA(settings.design.hover.color);
             settings.design.hover.color = "rgba(" + currRGBA[0] + "," + currRGBA[1] + "," + currRGBA[2] + "," + newSettings/100 + ")";
             settings.design.hover.opacity = newSettings/100;
@@ -188,7 +189,6 @@ var templates = require("./defaultTemplates");
             key = (s4() + s4() + '-' + s4() + '-' + s4() + '-' +
                 s4() + '-' + s4() + s4() + s4());
             return key;
-
         };
 
         var loadNotesArray = function() {
@@ -418,7 +418,7 @@ var templates = require("./defaultTemplates");
 
                 Wix.Worker.getSiteInfo(function(siteInfo) {
                     // do something with the siteInfo
-                    that.noteForLink.link.url = siteInfo.baseUrl + '/' + that.settings.pageIds[index];
+                    that.noteForLink.link.url = siteInfo.baseUrl + '#!/' + that.settings.pageIds[index];
                     console.log('Url in settings: ' + that.noteForLink.link.url);
                     updateComponent(that.settings);
                 });

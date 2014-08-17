@@ -17,7 +17,7 @@ exports.defaultNote = {
             "opacity" : "1"
         },
         "hover" : {
-            "on" : true,
+            "selected" : true,
             "color" : "rgba(223,209,239,1)",
             "opacity" : "1"
         },
@@ -50,7 +50,7 @@ exports.spiralNote = {
             "opacity" : "1"
         },
         "hover" : {
-            "on" : true,
+            "selected" : true,
             "color" : "rgba(175,204,255,1)",
             "opacity" : "1"
         },
@@ -84,7 +84,7 @@ exports.postitNote = {
             "opacity" : "1"
         },
         "hover" : {
-            "on" : true,
+            "selected" : true,
             "color" : "rgba(251,227,97,1)",
             "opacity" : "1"
         },
@@ -117,7 +117,7 @@ exports.chalkboardNote = {
             "opacity" : "1"
         },
         "hover" : {
-            "on" : true,
+            "selected" : true,
             "color" : "rgba(94,141,48,1)",
             "opacity" : "1"
         },
