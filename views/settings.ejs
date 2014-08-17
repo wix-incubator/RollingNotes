@@ -159,7 +159,7 @@ Includes design settings, template settings and the manage notes screen.
                     <div class="link-options" ng-show="optionsVisible">
                         <div class="option web-link" ng-show="linkOption == 1">
                             Insert a web address:
-                            <input class="web-text input" type="text" ng-model="ctrl.noteForLink.webLink"
+                            <input autofocus="autofocus" class="web-text input" type="text" ng-model="ctrl.noteForLink.webLink"
                                    placeholder="E.g http://www.wix.com" http-prefix>
                             <input class="radios" type="radio" ng-model="ctrl.noteForLink.link.targetVal" value="0"> Open in new window <br>
                             <input class="radios" type="radio" ng-model="ctrl.noteForLink.link.targetVal" value="1"> Open in same window
