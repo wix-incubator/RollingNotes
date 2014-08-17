@@ -166,7 +166,8 @@ Includes design settings, template settings and the manage notes screen.
                             <input class="email-text input subject-text" type="text" ng-model="ctrl.noteForLink.link.subject" placeholder="E.g Request Information">
                         </div>
                         <div class="option doc-link">
-                            {{ctrl.noteForLink.link.display || "No Document Selected"}}
+                            <!--{{ctrl.noteForLink.link.display || "No Document Selected"}}-->
+                            {{ctrl.getDocDislay()}}
                             <br>
                             <button class="uilib-btn btn-large" ng-click="ctrl.docLink()">
                                 <span>Upload</span>

@@ -176,7 +176,6 @@ var templates = require("./defaultTemplates");
         this.blur = function() {
             $('.character-count-normal').css('color','black');
             $('textarea').removeClass('note-text-max-count');
-            console.log("we blurred?");
             updateComponent(settings);
         };
 
@@ -374,7 +373,6 @@ var templates = require("./defaultTemplates");
                 }
                 settings.pages = titles;
                 settings.pageIds = ids;
-                console.log(ids);
                 $('#link-popup').css('visibility', 'visible');
                 makeBackInactive();
                 showButtons();
@@ -408,9 +406,18 @@ var templates = require("./defaultTemplates");
             Wix.Settings.openMediaDialog( Wix.Settings.MediaType.DOCUMENT, false, function(data) {
                 var documentUrl = Wix.Utils.Media.getDocumentUrl(data.relativeUri);
                 that.noteForLink.docLink = documentUrl;
-                that.noteForLink.link.display = data.fileName;
-
+                $scope.$apply(function () {
+                    that.noteForLink.link.display = data.fileName;
+                });
             });
+        }
+
+        this.getDocDislay = function() {
+            if(this.noteForLink && this.noteForLink.docLink) {
+                return this.noteForLink.link.display;
+            } else {
+                return 'No Document Selected'
+            }
         }
 
         //when OK button clicked, will construct link chosen or none
@@ -450,7 +457,6 @@ var templates = require("./defaultTemplates");
                 Wix.Worker.getSiteInfo(function(siteInfo) {
                     // do something with the siteInfo
                     that.noteForLink.link.url = siteInfo.baseUrl + '/' + that.settings.pageIds[index];
-                    console.log('Url in settings: ' + that.noteForLink.link.url);
                     updateComponent(that.settings);
                 });
             } else if ($('.email-link').css('visibility') === 'visible') {
@@ -468,7 +474,7 @@ var templates = require("./defaultTemplates");
                 this.noteForLink.pageLink = "";
                 this.noteForLink.link.subject = "";
                 this.noteForLink.link.target = '_blank';
-
+                console.log('Doc link: ' + this.noteForLink.docLink);
                 this.noteForLink.link.url = this.noteForLink.docLink;
             }
 
