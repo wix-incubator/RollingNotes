@@ -357,27 +357,14 @@ var templates = require("./defaultTemplates");
             $scope.linkOption = 0;
 
             loadPageDropdown();
+        };
 
-//        this.showLinkPopup = function(note){
-//            this.noteForLink = note;
-//            Wix.getSitePages(function(sitePages){
-//                var arr = $.map(sitePages, function(el) {
-//                    return el;
-//                });
-//                var titles = [];
-//                var ids = [];
-//                for (x = 0; x < arr.length; x++) {
-//                    titles[x] = arr[x].title;
-//                    ids[x] = arr[x].id;
-//                }
-//                settings.pages = titles;
-//                settings.pageIds = ids;
-//                $('#link-popup').css('visibility', 'visible');
-//                makeBackInactive();
-//                showButtons();
-//            });
-
-;
+        this.closeLinkPopup = function(){
+            $scope.popupVisible = false;
+            $scope.upperTextVisible = false;
+            $scope.buttonsVisible = false;
+            $scope.optionsVisible = false;
+            $scope.linkOption = 0;
         };
 
         var loadPageDropdown = function() {
@@ -397,19 +384,7 @@ var templates = require("./defaultTemplates");
         };
 
 
-        this.closeLinkPopup = function(){
-//            $('#link-popup').css('visibility', 'hidden');
-            $scope.popupVisible = false;
-            $scope.upperTextVisible = false;
-            $scope.buttonsVisible = false;
-            $scope.optionsVisible = false;
-            $scope.linkOption = 0;
 
-            //TODO make background active again
-//            makeBackActive();
-//            hideButtons();
-//            hideContent();
-        };
 
         var mailLink = function(recepient, opts) {
             var link = "mailto:";
@@ -455,9 +430,7 @@ var templates = require("./defaultTemplates");
                 if (!this.noteForLink.link.url) {
                     this.noteForLink.link.url = "";
                 }
-//                if (this.noteForLink.link.url && !/^https?:\/\//i.test(this.noteForLink.link)) {
-//                    this.noteForLink.link.url = 'http://' + this.noteForLink.link.url;
-//                }
+
                 this.noteForLink.link.type = "web"
                 this.noteForLink.link.display = this.noteForLink.link.url;
                 if(this.noteForLink.link.targetVal === 0) {
@@ -504,17 +477,7 @@ var templates = require("./defaultTemplates");
 
             updateComponent(settings);
 
-//            $('#link-popup').css('visibility', 'hidden');
-//            $scope.popupVisible = false;
-//            $scope.upperTextVisible = false;
-//            $scope.buttonsVisible = false;
-//            $scope.optionsVisible = false;
-//            $scope.linkOption = 0;
             this.closeLinkPopup();
-
-//            TODO makeBackActive();
-//            hideButtons();
-//            hideContent();
         }
 
         this.removeLink = function() {
@@ -528,26 +491,10 @@ var templates = require("./defaultTemplates");
             this.noteForLink.link.display = "";
             this.noteForLink.docLink.display = "";
 
-
-
             updateComponent(settings);
 
             this.closeLinkPopup();
-//            $scope.popupVisible = true;
-
         }
-
-//        var hideButtons = function() {
-////            $('.link-options .btn-secondary').css('visibility', 'hidden');
-////            $('.learn-more p').html(' ');
-////            $('.learn-more a').html(' < Back to link options ');
-//        }
-//        var showButtons = function() {
-//            $('.link-options .btn-secondary').css('visibility', 'visible');
-//            //will need to change
-////            $('.learn-more p').html('Choose type of link');
-////            $('.learn-more a').html('Learn more');
-//        }
 
         this.backToOptions = function() {
 
@@ -555,20 +502,7 @@ var templates = require("./defaultTemplates");
             $scope.buttonsVisible = true;
             $scope.linkOption = 0;
 
-//            hideContent();
-//            showButtons();
         }
-
-//        var hideContent = function() {
-//            $('.option').css('visibility', 'hidden');
-//        }
-
-//        var makeBackInactive = function() {
-//            $('#manage-notes-content').css('pointer-events', 'none');
-//        }
-//        var makeBackActive = function() {
-//            $('#manage-notes-content').css('pointer-events', 'auto');
-//        }
 
         this.showLink = function(type) {
             //hideButtons();
@@ -580,19 +514,6 @@ var templates = require("./defaultTemplates");
             $scope.linkOption = type;
 
             //TODO auto focus email and web links / load page links
-
-//            if(type === 1) {
-//                $('.web-link').css('visibility','visible');
-//                $('.web-text').focus();
-//            } else if (type === 2) {
-//                $('.page-link').css('visibility','visible');
-//            } else if (type === 3) {
-//                $('.email-link').css('visibility','visible');
-//                $('.email').focus();
-//
-//            } else {
-//                $('.doc-link').css('visibility','visible');
-//            }
         }
 
     }]);

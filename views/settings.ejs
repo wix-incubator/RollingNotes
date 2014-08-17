@@ -159,7 +159,7 @@ Includes design settings, template settings and the manage notes screen.
                     <div class="link-options" ng-show="optionsVisible">
                         <div class="option web-link" ng-show="linkOption == 1">
                             Insert a web address:
-                            <input autofocus="autofocus" class="web-text input" type="text" ng-model="ctrl.noteForLink.webLink"
+                            <input autofocus class="web-text input" type="text" ng-model="ctrl.noteForLink.webLink"
                                    placeholder="E.g http://www.wix.com" http-prefix>
                             <input class="radios" type="radio" ng-model="ctrl.noteForLink.link.targetVal" value="0"> Open in new window <br>
                             <input class="radios" type="radio" ng-model="ctrl.noteForLink.link.targetVal" value="1"> Open in same window
@@ -170,7 +170,7 @@ Includes design settings, template settings and the manage notes screen.
                         </div>
                         <div class="option email-link" ng-show="linkOption == 3">
                             Insert an email address <br>
-                            <input class="email-text input email" type="text" ng-model="ctrl.noteForLink.emailLink" placeholder="E.g info@wix.com">
+                            <input autofocus class="email-text input email" type="text" ng-model="ctrl.noteForLink.emailLink" placeholder="E.g info@wix.com">
                             Insert a subject <br>
                             <input class="email-text input subject-text" type="text" ng-model="ctrl.noteForLink.link.subject" placeholder="E.g Request Information">
                         </div>
