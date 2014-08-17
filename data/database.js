@@ -1,54 +1,59 @@
 /**************************
  * Rolling Notes database using mongoDB to save note settings
  **************************/
+var q = require('q');
+var pmongo = require('promised-mongo');
 
-var mongojs = require('mongojs');
+// require database files
 var mongoUri = process.env.MONGOLAB_URI ||
     process.env.MONGOHQ_URL ||
     'mongodb://localhost/db';
 
 var collections = ["rollingnotes"]
-var db = mongojs.connect(mongoUri, collections);
+var db = pmongo.connect(mongoUri, collections);
 
 
-// require database files
-//var mongojs = require("mongojs");
-//var db = mongojs("db",["rollingnotes"]);
-// require default JSON objects for new instances   
+// require default JSON objects for new instances
 var templates = require("../public/javascripts/defaultTemplates");
 
+//TODO add input validation on key and callback
+
 //inserts new widget instance or loads existing one
-function getCompByKey(key, callback) {
-    // search for instance of setting in databse by unique key
-    db.rollingnotes.findOne({_id: key}, function(err, doc) {
+function getCompByKey(key) {
+    var deferred = q.defer();
+    return db.rollingnotes.findOne({_id: key
+    }).then(function(doc) {
         var comp;
-        if(err || !doc) {
-            console.log('Component did not exist, was created and returned');
-            // if doc doesn't exist, assign default component
+        if(!doc) {
             comp = templates.defaultNote;
+
             // assign new component unique key
             comp._id = key;
+
             // insert new comp instance in db
-            db.rollingnotes.insert(comp);
+            db.rollingnotes.insert(comp).then(function(comp) {
+                "use strict";
+                deferred.resolve(comp);
+            });
+
         } else {
-            // if doc exists, assign existing setting
             console.log('Comp Doc existed and returned');
             comp = doc;
+            deferred.resolve(comp);
         }
-        // do something with comp object
-        callback(comp);
+        return deferred.promise;
+    }, function(err) {
+        console.log('Error in getCompByKey')
+        deferred.reject(err);
     });
 };
 
 function updateComponent(updatedComp) {
-    db.rollingnotes.save(updatedComp, function(err, data) {
-        if (err)  {
-            console.log(err);
-        } else {
-                console.log('worked');
-        }
+    db.rollingnotes.save(updatedComp).then(function(data) {
+            console.log('db successfully updated')
+    }, function(err) {
+        console.log('Error: ' + err);
     });
-    console.log("update didn't crash");
 }
 
 exports.getCompByKey = getCompByKey;

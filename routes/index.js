@@ -5,43 +5,34 @@ var sys = require('sys');
 var auth = require('../authenticate');
 var router = express.Router();
 
+function handleRequest(req, res, compId, template) {
+    auth.authenticate(req, res);
+    var key = req.instanceId  + '.' + compId;
+    // get settings object from db based on key
+    db.getCompByKey(key).then(function (data) {
+        console.log('Data: ' + JSON.stringify(data));
+        res.render(template, { settings:  JSON.stringify(data)});
+    });
+}
+
 /* GET widget. */
 router.get('/widget', function(req, res) {
-    auth.authenticate(req,res);
-    var key = req.instanceId  + '.' + req.compId;
-    // get settings object from db based on key
-    db.getCompByKey(key, function (data) {
-        console.log('Data: ' + JSON.stringify(data));
-        res.render('widget.ejs', { settings:  JSON.stringify(data)});
-    });
+    handleRequest(req, res, req.compId, 'widget.ejs');
 });
 
 /* GET settings. */
 router.get('/settings', function(req, res) {
-    // get db key
-    auth.authenticate(req,res);
-    var key = req.instanceId  + '.' + req.origCompId;
-    // get settings object from db based on key
-    db.getCompByKey(key, function (data) {
-        res.render('settings.ejs', { settings:  JSON.stringify(data)});
-    });
+    handleRequest(req, res, req.origCompId, 'settings.ejs');
+
 });
 
 /* Update component. */
+//TODO allow authentication by passing in proper id from other fxn
 router.post('/updateComponent', function(req, res) {
     auth.authenticate(req,res);
     db.updateComponent(req.body);
 });
 
-/* Upload file */
-router.post('/upload', function(req, res) {
-    console.log('upload post!');
-//    var form = new formidable.IncomingForm(); form.parse(req, function(error, fields, files) {
-////        res.writeHead(200, {'content-type': 'text/plain'});
-////        res.write('received upload:\n\n');
-//        res.end(sys.inspect({fields: fields, files: files}));
-//    });
-//    return;
-});
+//TODO use Wix Media thing to upload documents
 
 module.exports = router;

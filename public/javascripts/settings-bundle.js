@@ -240,6 +240,7 @@ var templates = require("./defaultTemplates");
             updateComponent(settings);
         });
 
+        //TODO extract to common utils, I've seen this before
         var parseRBGA = function(rgba) {
             return rgba.substring(5, rgba.length-1).replace(/ /g, '').split(',');
         }
@@ -499,6 +500,9 @@ var templates = require("./defaultTemplates");
         /**********************************
          *  Add Link Popup dialog box
          **********************************/
+
+        //TODO Use angular the right way
+        //TODO ngshow/class etc.
 
         this.showLinkPopup = function(note){
             this.noteForLink = note;

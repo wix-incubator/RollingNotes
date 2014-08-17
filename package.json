@@ -23,6 +23,8 @@
     "formidable": "*",
     "bower": "*",
     "mocha": "*",
-    "chai": "*"
+    "chai": "*",
+    "q": "*",
+    "promised-mongo": "*"
   }
 }

@@ -16,55 +16,56 @@ var WidgetApp = React.createClass({
 
     componentWillMount: function() {
         this.setState({slideIndex: this.getFirstVisibleNoteIndex()});
-        autoSizeText();
     },
 
     componentDidMount: function() {
         var that = this;
+        var viewMode = Wix.Worker.Utils.getViewMode();
+        //TODO extract to common utils, I've seen this before
 
         // add event listeners to connect updated settings to widget
-        Wix.addEventListener(Wix.Events.SETTINGS_UPDATED, function(updatedSettings){
-            that.setState({settings: updatedSettings});
-            that.setState({slideIndex: that.getFirstVisibleNoteIndex()});
-            if (that.state.settings.transition.preview == true) {
-                that.previewRollingNotes();
+        if (viewMode === 'editor') {
+            Wix.addEventListener(Wix.Events.SETTINGS_UPDATED, function(updatedSettings){
+                that.setState({settings: updatedSettings});
+                that.setState({slideIndex: that.getFirstVisibleNoteIndex()});
+                if (that.state.settings.transition.preview == true) {
+                    that.previewRollingNotes();
 
-            }
-        });
+                }
+            });
+            //TODO make button interval and preview the same to avoid hacky code
+            Wix.addEventListener(Wix.Events.EDIT_MODE_CHANGE, function(data) {
+                if (data.editMode == 'preview') {
+                    if(previewNotesInterval != null) {
+                        clearInterval(previewNotesInterval);
+                        previewNotesInterval = null;
+                        that.pauseNotes();
+                    }
+                    that.playNotes();
+                }
+                if (data.editMode == 'editor') {
+                    that.refreshWidget();
+                }
+            });
+        }
 
         that.setState({slideIndex: that.getFirstVisibleNoteIndex()});
-
-        Wix.addEventListener(Wix.Events.EDIT_MODE_CHANGE, function(data) {
-            if (data.editMode == 'preview') {
-                if(previewNotesInterval != null) {
-                    clearInterval(previewNotesInterval);
-                    previewNotesInterval = null;
-                    that.pauseNotes();
-                }
-                that.playNotes();
-            }
-            if (data.editMode == 'editor') {
-                that.refreshWidget();
-            }
-        });
-
-        if (Wix.Worker.Utils.getViewMode() == 'site') this.playNotes();
+        if (viewMode == 'site') {
+            this.playNotes();
+        }
 
         Visibility.change(function(e, state) {
-
-            if(state == 'hidden' && previewNotesInterval != null) {
-                that.refreshWidget();
-            } else if (state == 'hidden' && (Wix.Utils.getViewMode() == 'preview' ||  Wix.Utils.getViewMode() == 'site')) {
-                that.pauseNotes();
-
-            } else if (state == 'visible' && (Wix.Utils.getViewMode() == 'preview' ||  Wix.Utils.getViewMode() == 'site')){
+            var viewMode = Wix.Worker.Utils.getViewMode();
+            if(state == 'hidden') {
+                if(previewNotesInterval != null) {
+                    that.refreshWidget();
+                } else if (viewMode == 'preview' ||  viewMode == 'site') {
+                    that.pauseNotes();
+                }
+            } else if (state == 'visible' && (viewMode == 'preview' || viewMode == 'site')){
                 that.playNotes();
             }
         });
-    },
-
-    componentDidUpdate: function() {
-        autoSizeText();
     },
 
     /*****************************
@@ -73,33 +74,45 @@ var WidgetApp = React.createClass({
 
     updateStyles: function () {
         var widgetStyle = {};
+        var design = this.state.settings.design;
         //widgetStyle.font = this.state.settings.design.font;
-        widgetStyle.color = this.state.settings.design.text.color;
-        widgetStyle.fontSize = this.state.settings.design.text.size;
-        widgetStyle.fontFamily = this.state.settings.design.text.family;
-        widgetStyle.fontStyle = this.state.settings.design.text.style;
+        widgetStyle.color = design.text.color;
+        widgetStyle.fontSize = design.text.size;
+        widgetStyle.fontFamily = design.text.family;
+        widgetStyle.fontStyle = design.text.style;
 
-        widgetStyle.backgroundColor = this.state.settings.design.background.color;
-
+<<<<<<< HEAD
         widgetStyle.borderColor = this.state.settings.design.border.color;
         widgetStyle.borderWidth = this.state.settings.design.border.width;
         widgetStyle.borderRadius = this.state.settings.design.border.radius + '%';
 
+=======
+        widgetStyle.backgroundColor = design.background.color;
+>>>>>>> 7bae037b546194e602c0914c1327cd2e5ee9bceb
 
+        widgetStyle.borderColor = design.border.color;
+        widgetStyle.borderWidth = design.border.width;
+        widgetStyle.borderRadius = design.border.radius + '%';
 
         return widgetStyle
     },
 
     updateAnchorStyle: function() {
         var anchorStyle = {};
-        if (this.getNoteContent().link.url) anchorStyle.cursor = 'pointer';
-        else anchorStyle.cursor = 'default';
+        if (this.getNoteContent().link.url) {
+            anchorStyle.cursor = 'pointer';
+        } else {
+            anchorStyle.cursor = 'default';
+        }
         return anchorStyle;
     },
 
     updateHeaderStyle: function() {
       var headerStyle = {};
-      if (this.state.settings.design.template == "postit-note") {
+        //TODO template updates itself?
+
+        if (this.state.settings.design.template === "postit-note") {
+          //TODO put as utils method
           var currRGBA = parseRBGA(this.state.settings.design.background.color);
           headerStyle.backgroundColor = "rgba(" +
               Math.abs((currRGBA[0] - 26) % 255) + "," +
@@ -132,20 +145,23 @@ var WidgetApp = React.createClass({
       window.location.reload();
     },
 
+    //TODO add toggleNote method instead of play/pause notes
     playNotes: function() {
         var that = this;
-        if (this.state.mode == 'play') return;
+        if (this.state.mode == 'play') {
+            return;
+        }
         this.setState({mode: 'play'});
         //this.nextNote();
-        autoSizeText();
         playNotesInterval = setInterval(function() {
             that.nextNote();
-            autoSizeText();
         }, (this.state.settings.transition.duration * 1000) + 2000);
     },
 
     pauseNotes: function() {
-        if (this.state.mode == 'pause') return;
+        if (this.state.mode == 'pause') {
+            return;
+        }
         this.setState({mode: 'pause'});
         clearInterval(playNotesInterval);
     },
@@ -175,20 +191,26 @@ var WidgetApp = React.createClass({
     getNumOfVisibleNotes: function() {
         var count = 0;
         for (var i = 0; i < this.state.settings.notes.length; i++) {
-          if (this.state.settings.notes[i].visibility == true) count++;
+          if (this.state.settings.notes[i].visibility == true) {
+              count++;
+          }
         }
         return count;
     },
 
     getFirstVisibleNoteIndex: function() {
         for (var i = 0; i < this.state.settings.notes.length; i++) {
-            if (this.state.settings.notes[i].visibility == true) return i;
+            if (this.state.settings.notes[i].visibility == true) {
+                return i;
+            }
         }
         return 0;
     },
 
     nextNote: function() {
-        if (this.state.settings.notes.length <= 1) return;
+        if (this.state.settings.notes.length <= 1) {
+            return;
+        }
         var nextVisibleSlide = ((this.state.slideIndex) + 1) % this.state.settings.notes.length;;
         while (this.state.settings.notes[nextVisibleSlide].visibility == false) {
             nextVisibleSlide = (nextVisibleSlide +1) % this.state.settings.notes.length;
@@ -233,38 +255,9 @@ var WidgetApp = React.createClass({
  * helper methods
  *****************************/
 
-var parseCompId = function(key){
-    return key.substring(key.indexOf(".") + 1);
-}
-
+//TODO common utils method
 var parseRBGA = function(rgba) {
     return rgba.substring(5, rgba.length-1).replace(/ /g, '').split(',');
-}
-
-var autoSizeText = function() {
-
-    //shows note text from top until it gets cut off
-    //DOES NOT resize font-size
-//    var elements = $('.rSlides');
-//
-//    for(var i = 0; i < elements.length; i++) {
-//        if(elements[i].scrollHeight > elements[i].offsetHeight) {
-////            var newFontSize = (parseInt($(elements[i]).css('font-size').slice(0, -2)) - 1) + 'px';
-//            $(elements[i]).css('align-items', 'initial');
-//        } else {
-//            $(elements[i]).css('align-items', 'center');
-//        }
-//    }
-
-    //auto resize of font-size
-//    var elements = $('.rSlides');
-//
-//    for(var i = 0; i < elements.length; i++) {
-//        while(elements[i].scrollHeight > elements[i].offsetHeight) {
-//            var newFontSize = (parseInt($(elements[i]).css('font-size').slice(0, -2)) - 1) + 'px';
-//            $(elements[i]).css('font-size', newFontSize);
-//         }
-//    }
 }
 
 React.renderComponent(<WidgetApp settings={window.settings} />, document.getElementById('content'));
