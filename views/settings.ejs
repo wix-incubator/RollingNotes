@@ -48,7 +48,7 @@ Includes design settings, template settings and the manage notes screen.
                                     <button value="postitNote"></button>
                                     <button value="chalkboardNote"></button>
                                 </div>
-                                <button id="resetTemplateButton" class="uilib-btn btn-small" ng-click="ctrl.resetTemplate()">Reset</button>
+                                <!--<button id="resetTemplateButton" class="uilib-btn btn-small" ng-click="ctrl.resetTemplate()">Reset</button>-->
                             </li>
                         </div>
                         <!-- Custom design and text settings using Wix ui lib components and wix ui models -->
@@ -81,10 +81,13 @@ Includes design settings, template settings and the manage notes screen.
                                 <div class="borderSpinner"wix-model="borderWidth" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:20, value:'{{ctrl.settings.border.width}}' }"></div>
                             </li>
                             <!-- border radius -->
-                            <li class="li-group cornerGroup" wix-label="Roundness">
+                            <li class="li-group cornerGroup" wix-label="Corner">
                                 <span class="radius-slider-label">Radius</span>
                                 <div  wix-model="radius" wix-ctrl="Slider" wix-options="{ maxValue:50, preLabel:'0', postLabel:'50', value:'{{ctrl.settings.design.border.radius}}'}"></div>
                                 <div class="cornerSpinner" wix-model="radius" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:50 }"></div>
+                            </li>
+                            <li class="li-group cornerGroup">
+                                <a class="reset-design" ng-click="ctrl.resetTemplate()">Reset Design</a>
                             </li>
                         </div>
                     </ui>
@@ -98,8 +101,8 @@ Includes design settings, template settings and the manage notes screen.
                                 <div class="dur-group" wix-model="transition" wix-ctrl="ButtonGroup" wix-options="{value: '{{ctrl.settings.transition.effect}}'}">
                                     <div class="transitionButtonBlock">
                                         <button value="fade" ng-mouseenter="ctrl.transitionFade = !ctrl.transitionFade" ng-mouseleave="ctrl.transitionFade = !ctrl.transitionFade">
-                                            <!--<img ng-show="!ctrl.transitionFade" src="/images/trans1.png" class="fadeTrans fade1"/>-->
-                                            <!--<img ng-show="ctrl.transitionFade"  src="/images/trans2.png" class="fadeTrans fade2"/>-->
+                                            <img ng-show="!ctrl.transitionFade" src="/images/trans1.png" class="fadeTrans fade1"/>
+                                            <img ng-show="ctrl.transitionFade"  src="/images/trans2.png" class="fadeTrans fade2"/>
                                         </button>
                                         <p>Fade</p>
                                     </div>
@@ -209,7 +212,9 @@ Includes design settings, template settings and the manage notes screen.
                         <div class="link-container">
 
                                 <a ng-click="ctrl.showLinkPopup(note)"><img class="link-icon" src="/images/link-icon.png"/></a>
-                                <a ng-click="ctrl.showLinkPopup(note)">{{note.link.display || "Add a link" }}</a>
+                                <!--<a ng-click="ctrl.showLinkPopup(note)">{{note.link.display || "Add a link" }}</a>-->
+                                <a ng-click="ctrl.showLinkPopup(note)" ng-show="!note.link.display">Add a link</a>
+                                <a ng-click="ctrl.showLinkPopup(note)" ng-show="note.link.display" class="note-link-display">{{note.link.display}}</a>
                         </div>
                     </li>
                 </ul>

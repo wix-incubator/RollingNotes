@@ -26,7 +26,7 @@ Tab content styles
 
 .tab-pane .list .li-group {
   list-style: none;
-  padding: 10px 0 10px 28px;
+  padding: 10px 0 7px 28px;
 }
 
 .tab-pane .list .settings-group {
@@ -42,7 +42,7 @@ Tab content styles
 @borderColor: #0099ff;
 
 .lower-settings {
-  margin-top: 14px;
+  margin-top: 10px;
   margin-left: -15px;
 
 }
@@ -50,6 +50,11 @@ Tab content styles
 .uilib-btn.black-text.btn-selected, .uilib-btn.btn-black-text:active, .uilib-btn.btn-secondary.btn-selected,
 .uilib-btn.btn-secondary:active, .uilib-btn.btn-upgrade.btn-selected {
   border: 2px @borderColor solid;
+}
+
+.skins-group.btn-group {
+  margin-left: -73px;
+  margin-bottom: 14px;
 }
 
 .btn-group {
@@ -89,7 +94,7 @@ Tab content styles
 }
 
 .skins-group .btn {
-  margin-left: 33px!important;
+  margin-left: 55px !important;
   width: 76px;
   height: 63px;
   border-radius: 0px;
@@ -124,6 +129,11 @@ Tab content styles
     left: 32px;
     padding: 5px 22px;
     top: -8px;
+}
+
+.reset-design {
+  color: #3291e3;
+  text-decoration: underline;
 }
 
 
@@ -387,14 +397,15 @@ Manage Notes Screen Styles
 #addNotePlus {
   font-size: 20px;
   font-weight: 900;
-  margin-right: 2px;
+  margin-right: 4px;
   font-family: helvetica;
 }
 
 .add-note-btn {
-  float:right;
+  float: right;
   margin-right: 19px;
-  padding: 4px 8px;
+  padding: 5px 12px;
+  font-size: 13px;
 }
 
 .max-note-btn {
@@ -437,6 +448,11 @@ Manage Notes Screen Styles
   display: inline-block;
   background-color: white;
   cursor: move;
+}
+
+.ui-sortable-helper {
+  border: 1px solid #75c8fa;
+  box-shadow: 0 0 8px #c8eeff;
 }
 
 .unwatched-note {
@@ -563,6 +579,10 @@ textarea {
   font-size: 12px;
   text-decoration: none;
   color: #3291e3;
+}
+
+.note-link-display {
+  color: #cccccc !important;
 }
 
 .item, .placeholder {
