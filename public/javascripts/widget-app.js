@@ -81,14 +81,8 @@ var WidgetApp = React.createClass({
         widgetStyle.fontFamily = design.text.family;
         widgetStyle.fontStyle = design.text.style;
 
-<<<<<<< HEAD
-        widgetStyle.borderColor = this.state.settings.design.border.color;
-        widgetStyle.borderWidth = this.state.settings.design.border.width;
-        widgetStyle.borderRadius = this.state.settings.design.border.radius + '%';
 
-=======
         widgetStyle.backgroundColor = design.background.color;
->>>>>>> 7bae037b546194e602c0914c1327cd2e5ee9bceb
 
         widgetStyle.borderColor = design.border.color;
         widgetStyle.borderWidth = design.border.width;
@@ -111,7 +105,7 @@ var WidgetApp = React.createClass({
       var headerStyle = {};
         //TODO template updates itself?
 
-        if (this.state.settings.design.template === "postit-note") {
+        if (this.state.settings.design.template === "postitNote") {
           //TODO put as utils method
           var currRGBA = parseRBGA(this.state.settings.design.background.color);
           headerStyle.backgroundColor = "rgba(" +

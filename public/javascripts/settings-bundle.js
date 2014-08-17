@@ -15,12 +15,12 @@ exports.defaultNote = {
         },
         "background" : {
             "color" : "rgba(255,255,255,1)",
-            "opacity" : "100"
+            "opacity" : "1"
         },
         "hover" : {
             "on" : true,
             "color" : "rgba(223,209,239,1)",
-            "opacity" : "100"
+            "opacity" : "1"
         },
         "border" : {
             "color" : "#30366b",
@@ -48,12 +48,12 @@ exports.spiralNote = {
         },
         "background" : {
             "color" : "rgba(255,255,255,1)",
-            "opacity" : "100"
+            "opacity" : "1"
         },
         "hover" : {
             "on" : true,
             "color" : "rgba(175,204,255,1)",
-            "opacity" : "100"
+            "opacity" : "1"
         },
         "border" : {
             "color" : "#505C73",
@@ -82,12 +82,12 @@ exports.postitNote = {
         },
         "background" : {
             "color" : "rgba(251,239,172,1)",
-            "opacity" : "100"
+            "opacity" : "1"
         },
         "hover" : {
             "on" : true,
             "color" : "rgba(251,227,97,1)",
-            "opacity" : "100"
+            "opacity" : "1"
         },
         "border" : {
             "color" : "#3f3a26",
@@ -115,12 +115,12 @@ exports.chalkboardNote = {
         },
         "background" : {
             "color" : "rgba(72,104,35,1)",
-            "opacity" : "100"
+            "opacity" : "1"
         },
         "hover" : {
             "on" : true,
             "color" : "rgba(94,141,48,1)",
-            "opacity" : "100"
+            "opacity" : "1"
         },
         "border" : {
             "color" : "#FFFFFF",
@@ -172,64 +172,44 @@ var templates = require("./defaultTemplates");
             Wix.Settings.triggerSettingsUpdatedEvent(settings, parseCompId(settings._id));
         };
 
+        var setDesignOptions = function (template) {
+            Wix.UI.set('color', {cssColor: template.text.color});
+            Wix.UI.set('bcolorWOpacity', {rgba: template.background.color, opacity:template.background.opacity});
+            Wix.UI.set('bOpacitySpinner', template.background.opacity * 100);
+            Wix.UI.set('hcolorWOpacity', {rgba: template.hover.color, opacity:template.hover.opacity});
+            Wix.UI.set('hOpacitySlider', template.hover.opacity * 100);
+            Wix.UI.set('borderColor', {cssColor: template.border.color});
+            Wix.UI.set('borderWidth', template.border.width);
+            Wix.UI.set('radius', template.border.radius);
+            Wix.UI.set('hoverCheckbox', template.hover.on);
+            return template;
+        };
+
         this.resetTemplate = function() {
-//            Wix.UI.set('template', {value: settings.design.template});
-//            settings.design = templates[settings.design.template].design;
-//            var template = settings.design;
-//            console.log(JSON.stringify(template));
-//            Wix.UI.set('color', template.text.color);
-//            Wix.UI.set('bcolorWOpacity', {rgba: template.background.color, opacity:template.background.opacity});
-//            Wix.UI.set('bOpacitySpinner', template.background.opacity);
-//            Wix.UI.set('hcolorWOpacity', {rgba: template.hover.color, opacity:template.hover.opacity});
-//            Wix.UI.set('hOpacitySlider', template.hover.opacity);
-//            Wix.UI.set('borderColor', template.border.color);
-//            Wix.UI.set('borderWidth', template.border.width);
-//            Wix.UI.set('radius', template.border.radius);
-//            Wix.UI.set('hoverCheckbox', template.hover.on);
-//            updateComponent(settings);
+            var template = JSON.parse(JSON.stringify(templates[settings.design.template].design));
+            settings.design = setDesignOptions(template);
+            updateComponent(settings);
         };
 
 
         Wix.UI.onChange('template', function(newSettings){
+            var that = this;
+            // get instance of the original template values
             var originalDesign =  templates[settings.design.template].design;
-//            console.log('test old settings retrieval: ' + JSON.stringify(templates[oldTemplate].design));
+            // get instance of the current user values
             var customDesign = JSON.parse(JSON.stringify(settings.design));
+            // get instance of selected template
+            var template = JSON.parse(JSON.stringify(templates[newSettings.value].design));
 
-
-            $scope.settings.design.template = newSettings.value;
-            var template;
-            if (settings.design.template == 'defaultNote') {
-                template = JSON.parse(JSON.stringify(templates.defaultNote.design));
-            } else if (settings.design.template == 'spiralNote') {
-                template = JSON.parse(JSON.stringify(templates.spiralNote.design));
-            } else if (settings.design.template == 'postitNote') {
-                template = JSON.parse(JSON.stringify(templates.postitNote.design));
-            }  else if (settings.design.template == 'chalkboardNote') {
-                template = JSON.parse(JSON.stringify(templates.chalkboardNote.design));
-            }
-
-            var testDeepDiff = DeepDiff.observableDiff(originalDesign, customDesign, function (d) {
-                // Apply all changes except those to the 'name' property...
-//                console.log('d: ' + JSON.stringify(d));
-//                console.log('apply change before: ' + JSON.stringify(template));
-                    DeepDiff.applyChange(template,template, d);
-//                console.log('apply change after: ' +  JSON.stringify(template));
-
+            // iterate over all changes between the original template values and current user values
+            // to determine where the user made changes to the defaults
+            DeepDiff.observableDiff(originalDesign, customDesign, function (difference) {
+                // apply the change to the newly selected template
+                DeepDiff.applyChange(template,template, difference);
             });
 
-
-
-            Wix.UI.set('color', template.text.color);
-            Wix.UI.set('bcolorWOpacity', {rgba: template.background.color, opacity:template.background.opacity/100});
-            Wix.UI.set('bOpacitySpinner', template.background.opacity);
-            Wix.UI.set('hcolorWOpacity', {rgba: template.hover.color, opacity:template.hover.opacity/100});
-            Wix.UI.set('hOpacitySlider', template.hover.opacity);
-            Wix.UI.set('borderColor', template.border.color);
-            Wix.UI.set('borderWidth', template.border.width);
-            Wix.UI.set('radius', template.border.radius);
-            Wix.UI.set('hoverCheckbox', template.hover.on);
-
-            settings.design = template;
+            // set the design options in the Settings UI
+            settings.design = setDesignOptions(template);
             updateComponent(settings);
         });
 
