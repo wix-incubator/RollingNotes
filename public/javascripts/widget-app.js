@@ -84,7 +84,6 @@ var WidgetApp = React.createClass({
         widgetStyle.fontFamily = design.text.family;
         widgetStyle.fontStyle = design.text.style;
 
-
         widgetStyle.backgroundColor = design.background.color;
 
         widgetStyle.borderColor = design.border.color;

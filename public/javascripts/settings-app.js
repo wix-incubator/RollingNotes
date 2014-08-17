@@ -157,7 +157,6 @@ var templates = require("./defaultTemplates");
         this.blur = function() {
             $('.character-count-normal').css('color','black');
             $('textarea').removeClass('note-text-max-count');
-            console.log("we blurred?");
             updateComponent(settings);
         };
 
@@ -214,7 +213,7 @@ var templates = require("./defaultTemplates");
                     $("textarea:focus").blur();
                 }
                 $(element.target).closest('.note-container').find('textarea').focus();
-            }, 2000, false);
+            }, 0, false);
         };
 
         this.deleteNote = function(array, index) {
@@ -354,7 +353,6 @@ var templates = require("./defaultTemplates");
                 }
                 settings.pages = titles;
                 settings.pageIds = ids;
-                console.log(ids);
                 $('#link-popup').css('visibility', 'visible');
                 makeBackInactive();
                 showButtons();
@@ -383,6 +381,24 @@ var templates = require("./defaultTemplates");
             return link;
         };
 
+        this.docLink = function() {
+            var that = this;
+            Wix.Settings.openMediaDialog( Wix.Settings.MediaType.DOCUMENT, false, function(data) {
+                var documentUrl = Wix.Utils.Media.getDocumentUrl(data.relativeUri);
+                that.noteForLink.docLink = documentUrl;
+                $scope.$apply(function () {
+                    that.noteForLink.link.display = data.fileName;
+                });
+            });
+        }
+
+        this.getDocDislay = function() {
+            if(this.noteForLink && this.noteForLink.docLink) {
+                return this.noteForLink.link.display;
+            } else {
+                return 'No Document Selected'
+            }
+        }
 
         //when OK button clicked, will construct link chosen or none
         this.setLink = function() {
@@ -393,7 +409,9 @@ var templates = require("./defaultTemplates");
                 this.noteForLink.docLink = "";
                 this.noteForLink.link.subject = "";
                 this.noteForLink.link.url= this.noteForLink.webLink;
-                if (!this.noteForLink.link.url) this.noteForLink.link.url = "";
+                if (!this.noteForLink.link.url) {
+                    this.noteForLink.link.url = "";
+                }
 //                if (this.noteForLink.link.url && !/^https?:\/\//i.test(this.noteForLink.link)) {
 //                    this.noteForLink.link.url = 'http://' + this.noteForLink.link.url;
 //                }
@@ -436,7 +454,8 @@ var templates = require("./defaultTemplates");
                 this.noteForLink.emailLink = "";
                 this.noteForLink.pageLink = "";
                 this.noteForLink.link.subject = "";
-
+                this.noteForLink.link.target = '_blank';
+                console.log('Doc link: ' + this.noteForLink.docLink);
                 this.noteForLink.link.url = this.noteForLink.docLink;
             }
 
@@ -457,6 +476,8 @@ var templates = require("./defaultTemplates");
             this.noteForLink.link.type = "";
             this.noteForLink.link.subject = "";
             this.noteForLink.link.display = "";
+            this.noteForLink.docLink.display = "";
+
 
 
             updateComponent(settings);

@@ -166,17 +166,12 @@ Includes design settings, template settings and the manage notes screen.
                             <input class="email-text input subject-text" type="text" ng-model="ctrl.noteForLink.link.subject" placeholder="E.g Request Information">
                         </div>
                         <div class="option doc-link">
-
-                            <form action="/upload" enctype="multipart/form-data" method="post">'+
-                                <input type="text" name="title"><br>
-                                <input type="file" name="upload" multiple="multiple"><br>
-                                <input type="submit" value="Upload">
-                            </form>
-                            <!--No Document Selected <br>-->
-                            <!--<button class="uilib-btn btn-large">-->
-                                <!--<span>Upload</span>-->
-                                <!--<input type="file" name="fileUpload" class="upload">-->
-                            <!--</button>-->
+                            <!--{{ctrl.noteForLink.link.display || "No Document Selected"}}-->
+                            {{ctrl.getDocDislay()}}
+                            <br>
+                            <button class="uilib-btn btn-large" ng-click="ctrl.docLink()">
+                                <span>Upload</span>
+                            </button>
                         </div>
                         <button class="uilib-btn btn-secondary link-btn" ng-click="ctrl.showLinkContent(1)">Web Address</button>
                         <button class="uilib-btn btn-secondary link-btn" ng-click="ctrl.showLinkContent(2)">Page</button>
