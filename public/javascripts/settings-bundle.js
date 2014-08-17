@@ -479,26 +479,39 @@ var templates = require("./defaultTemplates");
         //TODO Use angular the right way
         //TODO ngshow/class etc.
 
+        $scope.popupVisible = false;
+        $scope.upperTextVisible = false;
+        $scope.buttonsVisible = false;
+        $scope.optionsVisible = false;
 
+        this.showLinkPopup = function(note) {
 
-        this.showLinkPopup = function(note){
             this.noteForLink = note;
-            Wix.getSitePages(function(sitePages){
-                var arr = $.map(sitePages, function(el) {
-                    return el;
-                });
-                var titles = [];
-                var ids = [];
-                for (x = 0; x < arr.length; x++) {
-                    titles[x] = arr[x].title;
-                    ids[x] = arr[x].id;
-                }
-                settings.pages = titles;
-                settings.pageIds = ids;
-                $('#link-popup').css('visibility', 'visible');
-                makeBackInactive();
-                showButtons();
-            });
+            //TODO LOAD PAGES for pagelink option
+
+            $scope.popupVisible = true;
+            //TODO make the background inactive
+            $scope.buttonsVisible = true;
+
+
+//        this.showLinkPopup = function(note){
+//            this.noteForLink = note;
+//            Wix.getSitePages(function(sitePages){
+//                var arr = $.map(sitePages, function(el) {
+//                    return el;
+//                });
+//                var titles = [];
+//                var ids = [];
+//                for (x = 0; x < arr.length; x++) {
+//                    titles[x] = arr[x].title;
+//                    ids[x] = arr[x].id;
+//                }
+//                settings.pages = titles;
+//                settings.pageIds = ids;
+//                $('#link-popup').css('visibility', 'visible');
+//                makeBackInactive();
+//                showButtons();
+//            });
 
 
         };

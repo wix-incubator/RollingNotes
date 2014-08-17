@@ -135,7 +135,7 @@ Includes design settings, template settings and the manage notes screen.
                     <p class="max-notes-msg" ng-show="ctrl.settings.notes.length >= 50">50 note maximum</p>
                 </div>
                 <!-- link popup becomes visible when user clicks add link button -->
-                <div id="link-popup">
+                <div id="link-popup" ng-show="popupVisible">
                     <div class="link-popup-header">
                         Link
                         <div class="close-link-container">
