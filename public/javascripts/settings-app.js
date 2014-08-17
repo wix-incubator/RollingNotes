@@ -339,6 +339,8 @@ var templates = require("./defaultTemplates");
         //TODO Use angular the right way
         //TODO ngshow/class etc.
 
+
+
         this.showLinkPopup = function(note){
             this.noteForLink = note;
             Wix.getSitePages(function(sitePages){
@@ -487,14 +489,14 @@ var templates = require("./defaultTemplates");
 
         var hideButtons = function() {
             $('.link-options .btn-secondary').css('visibility', 'hidden');
-            $('.learn-more p').html(' ');
-            $('.learn-more a').html(' < Back to link options ');
+//            $('.learn-more p').html(' ');
+//            $('.learn-more a').html(' < Back to link options ');
         }
         var showButtons = function() {
             $('.link-options .btn-secondary').css('visibility', 'visible');
             //will need to change
-            $('.learn-more p').html('Choose type of link');
-            $('.learn-more a').html('Learn more');
+//            $('.learn-more p').html('Choose type of link');
+//            $('.learn-more a').html('Learn more');
         }
 
         this.backToOptions = function() {

@@ -143,10 +143,19 @@ Includes design settings, template settings and the manage notes screen.
                         </div>
                     </div>
                     <hr class="horizontal">
-                    <div class="learn-more">
+                    <div class="upper-text">
                         <p>Choose type of link</p>
-                        <a ng-click="ctrl.backToOptions()">Learn More</a>
+                        <!--<a ng-click="ctrl.backToOptions()">Learn More</a>-->
+                        <a ng-click="ctrl.backToOptions()">< Back to link options</a>
                     </div>
+
+                    <div class="link-buttons">
+                        <button class="uilib-btn btn-secondary link-btn" ng-click="ctrl.showLinkContent(1)">Web Address</button>
+                        <button class="uilib-btn btn-secondary link-btn" ng-click="ctrl.showLinkContent(2)">Page</button>
+                        <button class="uilib-btn btn-secondary link-btn" ng-click="ctrl.showLinkContent(3)">Email</button>
+                        <button class="uilib-btn btn-secondary link-btn" ng-click="ctrl.showLinkContent(4)">Document</button>
+                    </div>
+
                     <div class="link-options">
                         <div class="option web-link">
                             Insert a web address:
@@ -173,12 +182,9 @@ Includes design settings, template settings and the manage notes screen.
                                 <span>Upload</span>
                             </button>
                         </div>
-                        <button class="uilib-btn btn-secondary link-btn" ng-click="ctrl.showLinkContent(1)">Web Address</button>
-                        <button class="uilib-btn btn-secondary link-btn" ng-click="ctrl.showLinkContent(2)">Page</button>
-                        <button class="uilib-btn btn-secondary link-btn" ng-click="ctrl.showLinkContent(3)">Email</button>
-                        <button class="uilib-btn btn-secondary link-btn" ng-click="ctrl.showLinkContent(4)">Document</button>
-                        <a class="remove-link" ng-click="ctrl.removeLink()">Remove link</a>
                     </div>
+
+                    <a class="remove-link" ng-click="ctrl.removeLink()">Remove link</a>
                     <button class="uilib-btn btn-large submit-link-btn" ng-click="ctrl.setLink()">OK</button>
                 </div>
                 <!-- List of all existing notes, added drag and drop functionality, updated dynamically with angular ng-repeat directive -->
