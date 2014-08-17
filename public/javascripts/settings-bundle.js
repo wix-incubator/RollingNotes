@@ -524,8 +524,6 @@ var templates = require("./defaultTemplates");
         };
 
 
-
-
         var mailLink = function(recepient, opts) {
             var link = "mailto:";
             link += window.encodeURIComponent(recepient);
@@ -538,6 +536,58 @@ var templates = require("./defaultTemplates");
             }
             return link;
         };
+
+        //when OK button clicked, will construct link chosen or none
+        this.setLink = function() {
+            var options = {
+                1 : 'webLink',
+                2: 'pageLink',
+                3: 'emailLink',
+                4: 'docLink'
+            }
+            var chosenLink = options[$scope.linkOption];
+            var link = this.noteForLink[chosenLink];
+            clearLinks(this.noteForLink);
+
+            this.noteForLink[chosenLink] = link;
+            this.noteForLink.link.url = link;
+//            this.noteForLink.link.display = link;
+
+            if($scope.linkOption === 1) {
+                this.noteForLink.link.display = link;
+                if(this.noteForLink.link.targetVal === 0) {
+                    this.noteForLink.link.target = '_blank';
+                } else {
+                    this.noteForLink.link.target = '_top';
+                }
+
+            } else if ($scope.linkOption === 2) {
+                var that = this;
+
+                var index = settings.pages.indexOf(this.noteForLink.pageLink);
+                this.noteForLink.link.display = link;
+                this.noteForLink.link.target = '_top';
+
+                Wix.Worker.getSiteInfo(function(siteInfo) {
+                    // do something with the siteInfo
+                    that.noteForLink.link.url = siteInfo.baseUrl + '#!/' + that.settings.pageIds[index];
+                    updateComponent(that.settings);
+                });
+            } else if ($scope.linkOption === 3) {
+                this.noteForLink.link.url = mailLink(this.noteForLink.emailLink,{subject: this.noteForLink.link.subject});
+                this.noteForLink.link.display = "mail to: " + this.noteForLink.emailLink;
+                this.noteForLink.link.target = '';
+
+            } else if ($scope.linkOption === 4) {
+                this.noteForLink.link.target = '_blank';
+            }
+
+            this.noteForLink.link.display = this.noteForLink.link.display.substring(0, 30);
+
+            updateComponent(settings);
+
+            this.closeLinkPopup();
+        }
 
         this.docLink = function() {
             var that = this;
@@ -558,81 +608,17 @@ var templates = require("./defaultTemplates");
             }
         }
 
-        //when OK button clicked, will construct link chosen or none
-        this.setLink = function() {
-            updateComponent(settings);
-            if($scope.linkOption === 1) {
-                this.noteForLink.pageLink = "";
-                this.noteForLink.emailLink = "";
-                this.noteForLink.docLink = "";
-                this.noteForLink.link.subject = "";
-                this.noteForLink.link.url= this.noteForLink.webLink;
-                if (!this.noteForLink.link.url) {
-                    this.noteForLink.link.url = "";
-                }
 
-                this.noteForLink.link.type = "web"
-                this.noteForLink.link.display = this.noteForLink.link.url;
-                if(this.noteForLink.link.targetVal === 0) {
-                    this.noteForLink.link.target = '_blank';
-                } else {
-                    this.noteForLink.link.target = '_top';
-                }
-
-            } else if ($scope.linkOption === 2) {
-                var that = this;
-
-                this.noteForLink.webLink = "";
-                this.noteForLink.emailLink = "";
-                this.noteForLink.docLink = "";
-                this.noteForLink.link.subject = "";
-                var index = settings.pages.indexOf(this.noteForLink.pageLink);
-                this.noteForLink.link.display = this.noteForLink.pageLink;
-                this.noteForLink.link.target = '_top';
-
-                Wix.Worker.getSiteInfo(function(siteInfo) {
-                    // do something with the siteInfo
-                    that.noteForLink.link.url = siteInfo.baseUrl + '#!/' + that.settings.pageIds[index];
-                    console.log('Url in settings: ' + that.noteForLink.link.url);
-                    updateComponent(that.settings);
-                });
-            } else if ($scope.linkOption === 3) {
-                this.noteForLink.webLink = "";
-                this.noteForLink.pageLink = "";
-                this.noteForLink.docLink = "";
-                this.noteForLink.link.url = mailLink(this.noteForLink.emailLink,{subject: this.noteForLink.link.subject});
-                this.noteForLink.link.type = "mail"
-                this.noteForLink.link.display = "mail to: " + this.noteForLink.emailLink;
-                this.noteForLink.link.target = '';
-
-            } else if ($scope.linkOption === 4) {
-                this.noteForLink.webLink = "";
-                this.noteForLink.emailLink = "";
-                this.noteForLink.pageLink = "";
-                this.noteForLink.link.subject = "";
-                this.noteForLink.link.target = '_blank';
-                console.log('Doc link: ' + this.noteForLink.docLink);
-                this.noteForLink.link.url = this.noteForLink.docLink;
-            }
-
-            updateComponent(settings);
-
-            this.closeLinkPopup();
+        var clearLinks = function(note) {
+            note.webLink = "";
+            note.pageLink = "";
+            note.emailLink = "";
+            note.docLink = "";
         }
 
         this.removeLink = function() {
-            this.noteForLink.pageLink = "";
-            this.noteForLink.emailLink = "";
-            this.noteForLink.docLink = "";
-            this.noteForLink.webLink = "";
-            this.noteForLink.link.url = "";
-            this.noteForLink.link.type = "";
-            this.noteForLink.link.subject = "";
-            this.noteForLink.link.display = "";
-            this.noteForLink.docLink.display = "";
-
+            clearLinks(this.noteForLink);
             updateComponent(settings);
-
             this.closeLinkPopup();
         }
 
