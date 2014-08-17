@@ -14,12 +14,12 @@ exports.defaultNote = {
         },
         "background" : {
             "color" : "rgba(255,255,255,1)",
-            "opacity" : "100"
+            "opacity" : "1"
         },
         "hover" : {
             "on" : true,
             "color" : "rgba(223,209,239,1)",
-            "opacity" : "100"
+            "opacity" : "1"
         },
         "border" : {
             "color" : "#30366b",
@@ -47,12 +47,12 @@ exports.spiralNote = {
         },
         "background" : {
             "color" : "rgba(255,255,255,1)",
-            "opacity" : "100"
+            "opacity" : "1"
         },
         "hover" : {
             "on" : true,
             "color" : "rgba(175,204,255,1)",
-            "opacity" : "100"
+            "opacity" : "1"
         },
         "border" : {
             "color" : "#505C73",
@@ -81,12 +81,12 @@ exports.postitNote = {
         },
         "background" : {
             "color" : "rgba(251,239,172,1)",
-            "opacity" : "100"
+            "opacity" : "1"
         },
         "hover" : {
             "on" : true,
             "color" : "rgba(251,227,97,1)",
-            "opacity" : "100"
+            "opacity" : "1"
         },
         "border" : {
             "color" : "#3f3a26",
@@ -114,12 +114,12 @@ exports.chalkboardNote = {
         },
         "background" : {
             "color" : "rgba(72,104,35,1)",
-            "opacity" : "100"
+            "opacity" : "1"
         },
         "hover" : {
             "on" : true,
             "color" : "rgba(94,141,48,1)",
-            "opacity" : "100"
+            "opacity" : "1"
         },
         "border" : {
             "color" : "#FFFFFF",

@@ -32,64 +32,44 @@ var templates = require("./defaultTemplates");
             Wix.Settings.triggerSettingsUpdatedEvent(settings, parseCompId(settings._id));
         };
 
+        var setDesignOptions = function (template) {
+            Wix.UI.set('color', {cssColor: template.text.color});
+            Wix.UI.set('bcolorWOpacity', {rgba: template.background.color, opacity:template.background.opacity});
+            Wix.UI.set('bOpacitySpinner', template.background.opacity * 100);
+            Wix.UI.set('hcolorWOpacity', {rgba: template.hover.color, opacity:template.hover.opacity});
+            Wix.UI.set('hOpacitySlider', template.hover.opacity * 100);
+            Wix.UI.set('borderColor', {cssColor: template.border.color});
+            Wix.UI.set('borderWidth', template.border.width);
+            Wix.UI.set('radius', template.border.radius);
+            Wix.UI.set('hoverCheckbox', template.hover.on);
+            return template;
+        };
+
         this.resetTemplate = function() {
-//            Wix.UI.set('template', {value: settings.design.template});
-//            settings.design = templates[settings.design.template].design;
-//            var template = settings.design;
-//            console.log(JSON.stringify(template));
-//            Wix.UI.set('color', template.text.color);
-//            Wix.UI.set('bcolorWOpacity', {rgba: template.background.color, opacity:template.background.opacity});
-//            Wix.UI.set('bOpacitySpinner', template.background.opacity);
-//            Wix.UI.set('hcolorWOpacity', {rgba: template.hover.color, opacity:template.hover.opacity});
-//            Wix.UI.set('hOpacitySlider', template.hover.opacity);
-//            Wix.UI.set('borderColor', template.border.color);
-//            Wix.UI.set('borderWidth', template.border.width);
-//            Wix.UI.set('radius', template.border.radius);
-//            Wix.UI.set('hoverCheckbox', template.hover.on);
-//            updateComponent(settings);
+            var template = JSON.parse(JSON.stringify(templates[settings.design.template].design));
+            settings.design = setDesignOptions(template);
+            updateComponent(settings);
         };
 
 
         Wix.UI.onChange('template', function(newSettings){
+            var that = this;
+            // get instance of the original template values
             var originalDesign =  templates[settings.design.template].design;
-//            console.log('test old settings retrieval: ' + JSON.stringify(templates[oldTemplate].design));
+            // get instance of the current user values
             var customDesign = JSON.parse(JSON.stringify(settings.design));
+            // get instance of selected template
+            var template = JSON.parse(JSON.stringify(templates[newSettings.value].design));
 
-
-            $scope.settings.design.template = newSettings.value;
-            var template;
-            if (settings.design.template == 'defaultNote') {
-                template = JSON.parse(JSON.stringify(templates.defaultNote.design));
-            } else if (settings.design.template == 'spiralNote') {
-                template = JSON.parse(JSON.stringify(templates.spiralNote.design));
-            } else if (settings.design.template == 'postitNote') {
-                template = JSON.parse(JSON.stringify(templates.postitNote.design));
-            }  else if (settings.design.template == 'chalkboardNote') {
-                template = JSON.parse(JSON.stringify(templates.chalkboardNote.design));
-            }
-
-            var testDeepDiff = DeepDiff.observableDiff(originalDesign, customDesign, function (d) {
-                // Apply all changes except those to the 'name' property...
-//                console.log('d: ' + JSON.stringify(d));
-//                console.log('apply change before: ' + JSON.stringify(template));
-                    DeepDiff.applyChange(template,template, d);
-//                console.log('apply change after: ' +  JSON.stringify(template));
-
+            // iterate over all changes between the original template values and current user values
+            // to determine where the user made changes to the defaults
+            DeepDiff.observableDiff(originalDesign, customDesign, function (difference) {
+                // apply the change to the newly selected template
+                DeepDiff.applyChange(template,template, difference);
             });
 
-
-
-            Wix.UI.set('color', template.text.color);
-            Wix.UI.set('bcolorWOpacity', {rgba: template.background.color, opacity:template.background.opacity/100});
-            Wix.UI.set('bOpacitySpinner', template.background.opacity);
-            Wix.UI.set('hcolorWOpacity', {rgba: template.hover.color, opacity:template.hover.opacity/100});
-            Wix.UI.set('hOpacitySlider', template.hover.opacity);
-            Wix.UI.set('borderColor', template.border.color);
-            Wix.UI.set('borderWidth', template.border.width);
-            Wix.UI.set('radius', template.border.radius);
-            Wix.UI.set('hoverCheckbox', template.hover.on);
-
-            settings.design = template;
+            // set the design options in the Settings UI
+            settings.design = setDesignOptions(template);
             updateComponent(settings);
         });
 
@@ -193,7 +173,7 @@ var templates = require("./defaultTemplates");
         });
 
         this.addNote = function () {
-            settings.notes.push({"visibility" : true, "msg" : "", key:uniqueNoteKey(), link:{type:"",url:"#",display:"", targetVal:"0"}});
+            settings.notes.push({"visibility" : true, "msg" : "", key:uniqueNoteKey(), link:{type:"",url:"",display:"", targetVal:"0"}});
             focusNewNote();
         };
 
@@ -293,13 +273,13 @@ var templates = require("./defaultTemplates");
         var getNumVisibleNotes = function() {
             var count = 0;
             for (var i = 0; i < this.settings.notes.length; i++) {
-                if (this.settings.notes[i].visibility == true) count++;
+                if (this.settings.notes[i].visibility === true) count++;
             }
             return count;
         };
 
         Visibility.change(function(e, state){
-            if(state == 'hidden') {
+            if(state === 'hidden') {
                 $('#previewTransitionButton').removeClass('stopPreviewButton');
                 document.getElementById("previewTransitionButton").innerHTML = "Preview";
                 $('.overlay-gray').css('visibility', 'hidden');
@@ -437,7 +417,7 @@ var templates = require("./defaultTemplates");
 //                }
                 this.noteForLink.link.type = "web"
                 this.noteForLink.link.display = this.noteForLink.link.url;
-                if(this.noteForLink.link.targetVal == 0) {
+                if(this.noteForLink.link.targetVal === 0) {
                     this.noteForLink.link.target = '_blank';
                 } else {
                     this.noteForLink.link.target = '_top';
@@ -557,11 +537,11 @@ var templates = require("./defaultTemplates");
             link: function(scope, element, attrs, controller) {
                 function ensureHttpPrefix(value) {
                     // Need to add prefix if we don't have http:// prefix already AND we don't have part of it
-                    if(value && !/^(http):\/\//i.test(value)
-                        && 'http://'.indexOf(value) === -1) {
-                        controller.$setViewValue('http://' + value);
+                    if(value && !/^(https):\/\//i.test(value)
+                        && 'https://'.indexOf(value) === -1) {
+                        controller.$setViewValue('https://' + value);
                         controller.$render();
-                        return 'http://' + value;
+                        return 'https://' + value;
                     }
                     else
                         return value;

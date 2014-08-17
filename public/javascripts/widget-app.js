@@ -2,6 +2,8 @@
 
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
+var DEFAULT_NOTE_TEXT = "This is a note. Click to edit.";
+
 var previewNotesInterval;
 var playNotesInterval;
 
@@ -28,14 +30,14 @@ var WidgetApp = React.createClass({
             Wix.addEventListener(Wix.Events.SETTINGS_UPDATED, function(updatedSettings){
                 that.setState({settings: updatedSettings});
                 that.setState({slideIndex: that.getFirstVisibleNoteIndex()});
-                if (that.state.settings.transition.preview == true) {
+                if (that.state.settings.transition.preview === true) {
                     that.previewRollingNotes();
 
                 }
             });
             //TODO make button interval and preview the same to avoid hacky code
             Wix.addEventListener(Wix.Events.EDIT_MODE_CHANGE, function(data) {
-                if (data.editMode == 'preview') {
+                if (data.editMode === 'preview') {
                     if(previewNotesInterval != null) {
                         clearInterval(previewNotesInterval);
                         previewNotesInterval = null;
@@ -43,29 +45,30 @@ var WidgetApp = React.createClass({
                     }
                     that.playNotes();
                 }
-                if (data.editMode == 'editor') {
+                if (data.editMode === 'editor') {
                     that.refreshWidget();
                 }
             });
         }
 
-        that.setState({slideIndex: that.getFirstVisibleNoteIndex()});
-        if (viewMode == 'site') {
-            this.playNotes();
-        }
-
         Visibility.change(function(e, state) {
             var viewMode = Wix.Worker.Utils.getViewMode();
-            if(state == 'hidden') {
+            if(state === 'hidden') {
                 if(previewNotesInterval != null) {
                     that.refreshWidget();
-                } else if (viewMode == 'preview' ||  viewMode == 'site') {
+                } else if (viewMode ==='preview' ||  viewMode === 'site') {
                     that.pauseNotes();
                 }
-            } else if (state == 'visible' && (viewMode == 'preview' || viewMode == 'site')){
+            } else if (state === 'visible' && (viewMode === 'preview' || viewMode === 'site')){
                 that.playNotes();
             }
         });
+
+        that.setState({slideIndex: that.getFirstVisibleNoteIndex()});
+
+        if (viewMode === 'site') {
+            this.playNotes();
+        }
     },
 
     /*****************************
@@ -104,7 +107,7 @@ var WidgetApp = React.createClass({
       var headerStyle = {};
         //TODO template updates itself?
 
-        if (this.state.settings.design.template === "postit-note") {
+        if (this.state.settings.design.template === "postitNote") {
           //TODO put as utils method
           var currRGBA = parseRBGA(this.state.settings.design.background.color);
           headerStyle.backgroundColor = "rgba(" +
@@ -133,6 +136,10 @@ var WidgetApp = React.createClass({
     /*****************************
      * Rolling Note Animation Controllers
      *****************************/
+    getSlideDuration: function() {
+      return (this.state.settings.transition.duration * 1000) + 2000;
+    },
+
 
     refreshWidget: function() {
       window.location.reload();
@@ -141,18 +148,18 @@ var WidgetApp = React.createClass({
     //TODO add toggleNote method instead of play/pause notes
     playNotes: function() {
         var that = this;
-        if (this.state.mode == 'play') {
+        if (this.state.mode === 'play') {
             return;
         }
         this.setState({mode: 'play'});
         //this.nextNote();
         playNotesInterval = setInterval(function() {
             that.nextNote();
-        }, (this.state.settings.transition.duration * 1000) + 2000);
+        }, this.getSlideDuration());
     },
 
     pauseNotes: function() {
-        if (this.state.mode == 'pause') {
+        if (this.state.mode === 'pause') {
             return;
         }
         this.setState({mode: 'pause'});
@@ -173,7 +180,7 @@ var WidgetApp = React.createClass({
             if (counter >= that.getNumOfVisibleNotes() - 1) {
                 that.refreshWidget();
             }
-        }, (that.state.settings.transition.duration * 1000) + 2000);
+        }, this.getSlideDuration());
     },
 
 
@@ -184,7 +191,7 @@ var WidgetApp = React.createClass({
     getNumOfVisibleNotes: function() {
         var count = 0;
         for (var i = 0; i < this.state.settings.notes.length; i++) {
-          if (this.state.settings.notes[i].visibility == true) {
+          if (this.state.settings.notes[i].visibility === true) {
               count++;
           }
         }
@@ -193,7 +200,7 @@ var WidgetApp = React.createClass({
 
     getFirstVisibleNoteIndex: function() {
         for (var i = 0; i < this.state.settings.notes.length; i++) {
-            if (this.state.settings.notes[i].visibility == true) {
+            if (this.state.settings.notes[i].visibility === true) {
                 return i;
             }
         }
@@ -205,7 +212,7 @@ var WidgetApp = React.createClass({
             return;
         }
         var nextVisibleSlide = ((this.state.slideIndex) + 1) % this.state.settings.notes.length;;
-        while (this.state.settings.notes[nextVisibleSlide].visibility == false) {
+        while (this.state.settings.notes[nextVisibleSlide].visibility === false) {
             nextVisibleSlide = (nextVisibleSlide +1) % this.state.settings.notes.length;
             console.log("nextVisinLoop: " + nextVisibleSlide);
         }
@@ -216,8 +223,8 @@ var WidgetApp = React.createClass({
         var numofVisibleNotes = this.getNumOfVisibleNotes();
         var notecontent;
 
-        if (this.state.settings.notes.length == 0 || numofVisibleNotes == 0) {
-            notecontent = {msg: 'This is a note. Click to edit.', link: {url:"", target:""}};
+        if (this.state.settings.notes.length === 0 || numofVisibleNotes === 0) {
+            notecontent = {msg: DEFAULT_NOTE_TEXT, link: {url:"", target:""}};
         } else {
             notecontent = this.state.settings.notes[this.state.slideIndex];
         }
@@ -250,7 +257,8 @@ var WidgetApp = React.createClass({
 
 //TODO common utils method
 var parseRBGA = function(rgba) {
-    return rgba.substring(5, rgba.length-1).replace(/ /g, '').split(',');
+    if (rgba) return rgba.substring(5, rgba.length-1).replace(/ /g, '').split(',');
+    else return [255,255,255,1];
 }
 
 React.renderComponent(<WidgetApp settings={window.settings} />, document.getElementById('content'));
