@@ -131,7 +131,8 @@ Includes design settings, template settings and the manage notes screen.
             <div id="manage-notes" class="manage-notes-screen hidden-manage-notes">
                 <div id="manage-notes-header">
                    <a class="back-to-settings-button" ng-click="ctrl.hideManageNotes()" href="#"> < Back to Settings</a>
-                   <button class="uilib-btn add-note-btn" ng-click="ctrl.addNote()">Add a note</button>
+                   <button class="uilib-btn add-note-btn" ng-click="ctrl.addNote()" ng-class="{'max-note-btn' : ctrl.settings.notes.length >= 50}">+ Add a note</button>
+                    <p class="max-notes-msg" ng-show="ctrl.settings.notes.length >= 50">50 note maximum</p>
                 </div>
                 <!-- link popup becomes visible when user clicks add link button -->
                 <div id="link-popup">

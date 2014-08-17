@@ -174,10 +174,6 @@ var templates = require("./defaultTemplates");
         });
 
         this.addNote = function () {
-            if (settings.notes.length == 50) {
-                alert("You have reached the maximum number of notes.");
-                return;
-            }
             settings.notes.push({"visibility" : true, "msg" : "", key:uniqueNoteKey(), link:{type:"",url:"#",display:"", targetVal:"0"}});
             focusNewNote();
         };
