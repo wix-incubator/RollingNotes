@@ -1,4 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"/Users/elanas/Desktop/Wix Projects/rolling-notes/public/javascripts/defaultTemplates.js":[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"/Users/Adam_Cole/Documents/WixApps/rolling-notes/public/javascripts/defaultTemplates.js":[function(require,module,exports){
 /********************************
  * Exports initial settings for default templates
  * chosen at the top of settings
@@ -137,7 +137,7 @@ exports.chalkboardNote = {
 
     "notes":[]
 };
-},{}],"/Users/elanas/Desktop/Wix Projects/rolling-notes/public/javascripts/settings-app.js":[function(require,module,exports){
+},{}],"/Users/Adam_Cole/Documents/WixApps/rolling-notes/public/javascripts/settings-app.js":[function(require,module,exports){
 /**
  * Created by elanas on 7/16/14.
  */
@@ -314,7 +314,7 @@ var templates = require("./defaultTemplates");
         });
 
         this.addNote = function () {
-            settings.notes.push({"visibility" : true, "msg" : "", key:uniqueNoteKey(), link:{type:"",url:"#",display:"", targetVal:"0"}});
+            settings.notes.push({"visibility" : true, "msg" : "", key:uniqueNoteKey(), link:{type:"",url:"",display:"", targetVal:"0"}});
             focusNewNote();
         };
 
@@ -414,13 +414,13 @@ var templates = require("./defaultTemplates");
         var getNumVisibleNotes = function() {
             var count = 0;
             for (var i = 0; i < this.settings.notes.length; i++) {
-                if (this.settings.notes[i].visibility == true) count++;
+                if (this.settings.notes[i].visibility === true) count++;
             }
             return count;
         };
 
         Visibility.change(function(e, state){
-            if(state == 'hidden') {
+            if(state === 'hidden') {
                 $('#previewTransitionButton').removeClass('stopPreviewButton');
                 document.getElementById("previewTransitionButton").innerHTML = "Preview";
                 $('.overlay-gray').css('visibility', 'hidden');
@@ -539,7 +539,7 @@ var templates = require("./defaultTemplates");
 //                }
                 this.noteForLink.link.type = "web"
                 this.noteForLink.link.display = this.noteForLink.link.url;
-                if(this.noteForLink.link.targetVal == 0) {
+                if(this.noteForLink.link.targetVal === 0) {
                     this.noteForLink.link.target = '_blank';
                 } else {
                     this.noteForLink.link.target = '_top';
@@ -554,7 +554,7 @@ var templates = require("./defaultTemplates");
                 this.noteForLink.link.subject = "";
                 var index = settings.pages.indexOf(this.noteForLink.pageLink);
                 this.noteForLink.link.display = this.noteForLink.pageLink;
-                this.noteForLink.link.target = '_blank';
+                this.noteForLink.link.target = '_top';
 
                 Wix.Worker.getSiteInfo(function(siteInfo) {
                     // do something with the siteInfo
@@ -657,11 +657,11 @@ var templates = require("./defaultTemplates");
             link: function(scope, element, attrs, controller) {
                 function ensureHttpPrefix(value) {
                     // Need to add prefix if we don't have http:// prefix already AND we don't have part of it
-                    if(value && !/^(http):\/\//i.test(value)
-                        && 'http://'.indexOf(value) === -1) {
-                        controller.$setViewValue('http://' + value);
+                    if(value && !/^(https):\/\//i.test(value)
+                        && 'https://'.indexOf(value) === -1) {
+                        controller.$setViewValue('https://' + value);
                         controller.$render();
-                        return 'http://' + value;
+                        return 'https://' + value;
                     }
                     else
                         return value;
@@ -676,4 +676,4 @@ var templates = require("./defaultTemplates");
 
 
 
-},{"./defaultTemplates":"/Users/elanas/Desktop/Wix Projects/rolling-notes/public/javascripts/defaultTemplates.js"}]},{},["/Users/elanas/Desktop/Wix Projects/rolling-notes/public/javascripts/settings-app.js"]);
+},{"./defaultTemplates":"/Users/Adam_Cole/Documents/WixApps/rolling-notes/public/javascripts/defaultTemplates.js"}]},{},["/Users/Adam_Cole/Documents/WixApps/rolling-notes/public/javascripts/settings-app.js"]);

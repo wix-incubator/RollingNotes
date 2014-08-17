@@ -174,7 +174,7 @@ var templates = require("./defaultTemplates");
         });
 
         this.addNote = function () {
-            settings.notes.push({"visibility" : true, "msg" : "", key:uniqueNoteKey(), link:{type:"",url:"#",display:"", targetVal:"0"}});
+            settings.notes.push({"visibility" : true, "msg" : "", key:uniqueNoteKey(), link:{type:"",url:"",display:"", targetVal:"0"}});
             focusNewNote();
         };
 
@@ -274,13 +274,13 @@ var templates = require("./defaultTemplates");
         var getNumVisibleNotes = function() {
             var count = 0;
             for (var i = 0; i < this.settings.notes.length; i++) {
-                if (this.settings.notes[i].visibility == true) count++;
+                if (this.settings.notes[i].visibility === true) count++;
             }
             return count;
         };
 
         Visibility.change(function(e, state){
-            if(state == 'hidden') {
+            if(state === 'hidden') {
                 $('#previewTransitionButton').removeClass('stopPreviewButton');
                 document.getElementById("previewTransitionButton").innerHTML = "Preview";
                 $('.overlay-gray').css('visibility', 'hidden');
@@ -399,7 +399,7 @@ var templates = require("./defaultTemplates");
 //                }
                 this.noteForLink.link.type = "web"
                 this.noteForLink.link.display = this.noteForLink.link.url;
-                if(this.noteForLink.link.targetVal == 0) {
+                if(this.noteForLink.link.targetVal === 0) {
                     this.noteForLink.link.target = '_blank';
                 } else {
                     this.noteForLink.link.target = '_top';
@@ -414,7 +414,7 @@ var templates = require("./defaultTemplates");
                 this.noteForLink.link.subject = "";
                 var index = settings.pages.indexOf(this.noteForLink.pageLink);
                 this.noteForLink.link.display = this.noteForLink.pageLink;
-                this.noteForLink.link.target = '_blank';
+                this.noteForLink.link.target = '_top';
 
                 Wix.Worker.getSiteInfo(function(siteInfo) {
                     // do something with the siteInfo
@@ -517,11 +517,11 @@ var templates = require("./defaultTemplates");
             link: function(scope, element, attrs, controller) {
                 function ensureHttpPrefix(value) {
                     // Need to add prefix if we don't have http:// prefix already AND we don't have part of it
-                    if(value && !/^(http):\/\//i.test(value)
-                        && 'http://'.indexOf(value) === -1) {
-                        controller.$setViewValue('http://' + value);
+                    if(value && !/^(https):\/\//i.test(value)
+                        && 'https://'.indexOf(value) === -1) {
+                        controller.$setViewValue('https://' + value);
                         controller.$render();
-                        return 'http://' + value;
+                        return 'https://' + value;
                     }
                     else
                         return value;
