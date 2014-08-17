@@ -343,6 +343,7 @@ var templates = require("./defaultTemplates");
         $scope.upperTextVisible = false;
         $scope.buttonsVisible = false;
         $scope.optionsVisible = false;
+        $scope.linkOption = 0;
 
         this.showLinkPopup = function(note) {
             console.log('show link popup firing');
@@ -352,6 +353,9 @@ var templates = require("./defaultTemplates");
             $scope.popupVisible = true;
             //TODO make the background inactive
             $scope.buttonsVisible = true;
+
+            $scope.linkOption = 0;
+
 
 
 //        this.showLinkPopup = function(note){
@@ -379,10 +383,15 @@ var templates = require("./defaultTemplates");
         this.closeLinkPopup = function(){
 //            $('#link-popup').css('visibility', 'hidden');
             $scope.popupVisible = false;
+            $scope.upperTextVisible = false;
+            $scope.buttonsVisible = false;
+            $scope.optionsVisible = false;
+            $scope.linkOption = 0;
 
-            makeBackActive();
-            hideButtons();
-            hideContent();
+            //TODO make background active again
+//            makeBackActive();
+//            hideButtons();
+//            hideContent();
         };
 
         var mailLink = function(recepient, opts) {
@@ -479,11 +488,16 @@ var templates = require("./defaultTemplates");
             updateComponent(settings);
 
 //            $('#link-popup').css('visibility', 'hidden');
-            $scope.popupVisible = false;
+//            $scope.popupVisible = false;
+//            $scope.upperTextVisible = false;
+//            $scope.buttonsVisible = false;
+//            $scope.optionsVisible = false;
+//            $scope.linkOption = 0;
+            this.closeLinkPopup();
 
-            makeBackActive();
-            hideButtons();
-            hideContent();
+//            TODO makeBackActive();
+//            hideButtons();
+//            hideContent();
         }
 
         this.removeLink = function() {
@@ -506,48 +520,62 @@ var templates = require("./defaultTemplates");
 
         }
 
-        var hideButtons = function() {
-            $('.link-options .btn-secondary').css('visibility', 'hidden');
-//            $('.learn-more p').html(' ');
-//            $('.learn-more a').html(' < Back to link options ');
-        }
-        var showButtons = function() {
-            $('.link-options .btn-secondary').css('visibility', 'visible');
-            //will need to change
-//            $('.learn-more p').html('Choose type of link');
-//            $('.learn-more a').html('Learn more');
-        }
+//        var hideButtons = function() {
+////            $('.link-options .btn-secondary').css('visibility', 'hidden');
+////            $('.learn-more p').html(' ');
+////            $('.learn-more a').html(' < Back to link options ');
+//        }
+//        var showButtons = function() {
+//            $('.link-options .btn-secondary').css('visibility', 'visible');
+//            //will need to change
+////            $('.learn-more p').html('Choose type of link');
+////            $('.learn-more a').html('Learn more');
+//        }
 
         this.backToOptions = function() {
-            hideContent();
-            showButtons();
+
+            $scope.optionsVisible = false;
+            $scope.buttonsVisible = true;
+            $scope.linkOption = 0;
+
+//            hideContent();
+//            showButtons();
         }
 
-        var hideContent = function() {
-            $('.option').css('visibility', 'hidden');
-        }
+//        var hideContent = function() {
+//            $('.option').css('visibility', 'hidden');
+//        }
 
-        var makeBackInactive = function() {
-            $('#manage-notes-content').css('pointer-events', 'none');
-        }
-        var makeBackActive = function() {
-            $('#manage-notes-content').css('pointer-events', 'auto');
-        }
+//        var makeBackInactive = function() {
+//            $('#manage-notes-content').css('pointer-events', 'none');
+//        }
+//        var makeBackActive = function() {
+//            $('#manage-notes-content').css('pointer-events', 'auto');
+//        }
 
-        this.showLinkContent = function(type) {
-            hideButtons();
-            if(type === 1) {
-                $('.web-link').css('visibility','visible');
-                $('.web-text').focus();
-            } else if (type === 2) {
-                $('.page-link').css('visibility','visible');
-            } else if (type === 3) {
-                $('.email-link').css('visibility','visible');
-                $('.email').focus();
+        this.showLink = function(type) {
+            //hideButtons();
+            $scope.buttonsVisible = false;
 
-            } else {
-                $('.doc-link').css('visibility','visible');
-            }
+            $scope.optionsVisible = true;
+
+
+            $scope.linkOption = type;
+
+            //TODO auto focus email and web links / load page links
+
+//            if(type === 1) {
+//                $('.web-link').css('visibility','visible');
+//                $('.web-text').focus();
+//            } else if (type === 2) {
+//                $('.page-link').css('visibility','visible');
+//            } else if (type === 3) {
+//                $('.email-link').css('visibility','visible');
+//                $('.email').focus();
+//
+//            } else {
+//                $('.doc-link').css('visibility','visible');
+//            }
         }
 
     }]);

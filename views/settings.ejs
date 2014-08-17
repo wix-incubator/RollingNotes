@@ -144,37 +144,37 @@ Includes design settings, template settings and the manage notes screen.
                     </div>
                     <hr class="horizontal">
                     <div class="upper-text">
-                        <p>Choose type of link</p>
+                        <p ng-show="buttonsVisible">Choose type of link</p>
                         <!--<a ng-click="ctrl.backToOptions()">Learn More</a>-->
-                        <a ng-click="ctrl.backToOptions()">< Back to link options</a>
+                        <a ng-show="optionsVisible" ng-click="ctrl.backToOptions()">< Back to link options</a>
                     </div>
 
-                    <div class="link-buttons">
-                        <button class="uilib-btn btn-secondary link-btn" ng-click="ctrl.showLinkContent(1)">Web Address</button>
-                        <button class="uilib-btn btn-secondary link-btn" ng-click="ctrl.showLinkContent(2)">Page</button>
-                        <button class="uilib-btn btn-secondary link-btn" ng-click="ctrl.showLinkContent(3)">Email</button>
-                        <button class="uilib-btn btn-secondary link-btn" ng-click="ctrl.showLinkContent(4)">Document</button>
+                    <div class="link-buttons" ng-show="buttonsVisible">
+                        <button class="uilib-btn btn-secondary link-btn" ng-click="ctrl.showLink(1)">Web Address</button>
+                        <button class="uilib-btn btn-secondary link-btn" ng-click="ctrl.showLink(2)">Page</button>
+                        <button class="uilib-btn btn-secondary link-btn" ng-click="ctrl.showLink(3)">Email</button>
+                        <button class="uilib-btn btn-secondary link-btn" ng-click="ctrl.showLink(4)">Document</button>
                     </div>
 
-                    <div class="link-options">
-                        <div class="option web-link">
+                    <div class="link-options" ng-show="optionsVisible">
+                        <div class="option web-link" ng-show="linkOption == 1">
                             Insert a web address:
                             <input class="web-text input" type="text" ng-model="ctrl.noteForLink.webLink"
                                    placeholder="E.g http://www.wix.com" http-prefix>
                             <input class="radios" type="radio" ng-model="ctrl.noteForLink.link.targetVal" value="0"> Open in new window <br>
                             <input class="radios" type="radio" ng-model="ctrl.noteForLink.link.targetVal" value="1"> Open in same window
                         </div>
-                        <div class="option page-link">
+                        <div class="option page-link" ng-show="linkOption == 2">
                             Select Page:
                             <select ng-model="ctrl.noteForLink.pageLink" ng-options="titles.toString() for titles in ctrl.settings.pages"></select>
                         </div>
-                        <div class="option email-link">
+                        <div class="option email-link" ng-show="linkOption == 3">
                             Insert an email address <br>
                             <input class="email-text input email" type="text" ng-model="ctrl.noteForLink.emailLink" placeholder="E.g info@wix.com">
                             Insert a subject <br>
                             <input class="email-text input subject-text" type="text" ng-model="ctrl.noteForLink.link.subject" placeholder="E.g Request Information">
                         </div>
-                        <div class="option doc-link">
+                        <div class="option doc-link" ng-show="linkOption == 4">
                             <!--{{ctrl.noteForLink.link.display || "No Document Selected"}}-->
                             {{ctrl.getDocDislay()}}
                             <br>
