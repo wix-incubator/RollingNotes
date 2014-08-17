@@ -197,7 +197,7 @@ Includes design settings, template settings and the manage notes screen.
                             <div class="note-text-container">
                                 <textarea ng-model="note.msg" ng-blur="ctrl.blur()" ng-trim="false" ng-keydown="ctrl.textLength($event, note.msg)"
                                         rows="0" class="note-text" ng-class="{'unwatched-note': note.visibility == false}" type="text" maxlength="140"
-                                        placeholder="This is a note. Click to edit"></textarea>
+                                        placeholder="This is a note. Click to edit" ng-blur="popupVisible"></textarea>
                                 <div class="character-count-normal">{{note.msg.length}}/140</div>
                             </div>
                             <div class="edit-icons-container">
