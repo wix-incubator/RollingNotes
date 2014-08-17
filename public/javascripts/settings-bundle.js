@@ -214,6 +214,7 @@ var templates = require("./defaultTemplates");
             updateComponent(settings);
         });
 
+        //TODO extract to common utils, I've seen this before
         var parseRBGA = function(rgba) {
             return rgba.substring(5, rgba.length-1).replace(/ /g, '').split(',');
         }

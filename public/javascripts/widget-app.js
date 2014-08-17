@@ -16,42 +16,45 @@ var WidgetApp = React.createClass({
 
     componentWillMount: function() {
         this.setState({slideIndex: this.getFirstVisibleNoteIndex()});
-        autoSizeText();
     },
 
     componentDidMount: function() {
         var that = this;
+        //TODO extract to common utils, I've seen this before
 
         // add event listeners to connect updated settings to widget
-        Wix.addEventListener(Wix.Events.SETTINGS_UPDATED, function(updatedSettings){
-            that.setState({settings: updatedSettings});
-            that.setState({slideIndex: that.getFirstVisibleNoteIndex()});
-            if (that.state.settings.transition.preview == true) {
-                that.previewRollingNotes();
+        if (Wix.Worker.Utils.getViewMode() === 'editor') {
+            Wix.addEventListener(Wix.Events.SETTINGS_UPDATED, function(updatedSettings){
+                that.setState({settings: updatedSettings});
+                that.setState({slideIndex: that.getFirstVisibleNoteIndex()});
+                if (that.state.settings.transition.preview == true) {
+                    that.previewRollingNotes();
 
-            }
-        });
+                }
+            });
+
+            Wix.addEventListener(Wix.Events.EDIT_MODE_CHANGE, function(data) {
+                if (data.editMode == 'preview') {
+                    if(previewNotesInterval != null) {
+                        clearInterval(previewNotesInterval);
+                        previewNotesInterval = null;
+                        that.pauseNotes();
+                    }
+                    that.playNotes();
+                }
+                if (data.editMode == 'editor') {
+                    that.refreshWidget();
+                }
+            });
+        }
 
         that.setState({slideIndex: that.getFirstVisibleNoteIndex()});
+        if (Wix.Worker.Utils.getViewMode() == 'site') {
+            this.playNotes();
+        }
 
-        Wix.addEventListener(Wix.Events.EDIT_MODE_CHANGE, function(data) {
-            if (data.editMode == 'preview') {
-                if(previewNotesInterval != null) {
-                    clearInterval(previewNotesInterval);
-                    previewNotesInterval = null;
-                    that.pauseNotes();
-                }
-                that.playNotes();
-            }
-            if (data.editMode == 'editor') {
-                that.refreshWidget();
-            }
-        });
-
-        if (Wix.Worker.Utils.getViewMode() == 'site') this.playNotes();
 
         Visibility.change(function(e, state) {
-
             if(state == 'hidden' && previewNotesInterval != null) {
                 that.refreshWidget();
             } else if (state == 'hidden' && (Wix.Utils.getViewMode() == 'preview' ||  Wix.Utils.getViewMode() == 'site')) {
@@ -61,10 +64,6 @@ var WidgetApp = React.createClass({
                 that.playNotes();
             }
         });
-    },
-
-    componentDidUpdate: function() {
-        autoSizeText();
     },
 
     /*****************************
@@ -141,10 +140,8 @@ var WidgetApp = React.createClass({
         if (this.state.mode == 'play') return;
         this.setState({mode: 'play'});
         //this.nextNote();
-        autoSizeText();
         playNotesInterval = setInterval(function() {
             that.nextNote();
-            autoSizeText();
         }, (this.state.settings.transition.duration * 1000) + 2000);
     },
 
@@ -241,34 +238,9 @@ var parseCompId = function(key){
     return key.substring(key.indexOf(".") + 1);
 }
 
+//TODO common utils method
 var parseRBGA = function(rgba) {
     return rgba.substring(5, rgba.length-1).replace(/ /g, '').split(',');
-}
-
-var autoSizeText = function() {
-
-    //shows note text from top until it gets cut off
-    //DOES NOT resize font-size
-//    var elements = $('.rSlides');
-//
-//    for(var i = 0; i < elements.length; i++) {
-//        if(elements[i].scrollHeight > elements[i].offsetHeight) {
-////            var newFontSize = (parseInt($(elements[i]).css('font-size').slice(0, -2)) - 1) + 'px';
-//            $(elements[i]).css('align-items', 'initial');
-//        } else {
-//            $(elements[i]).css('align-items', 'center');
-//        }
-//    }
-
-    //auto resize of font-size
-//    var elements = $('.rSlides');
-//
-//    for(var i = 0; i < elements.length; i++) {
-//        while(elements[i].scrollHeight > elements[i].offsetHeight) {
-//            var newFontSize = (parseInt($(elements[i]).css('font-size').slice(0, -2)) - 1) + 'px';
-//            $(elements[i]).css('font-size', newFontSize);
-//         }
-//    }
 }
 
 React.renderComponent(<WidgetApp settings={window.settings} />, document.getElementById('content'));
