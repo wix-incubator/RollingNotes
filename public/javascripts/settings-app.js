@@ -81,6 +81,11 @@ var templates = require("./defaultTemplates");
             updateComponent(settings);
         });
 
+        Wix.UI.onChange('textAlignGroup', function(newSettings){
+            settings.design.text.alignment = newSettings.value;
+            updateComponent(settings);
+        });
+
         //TODO extract to common utils, I've seen this before
         var parseRBGA = function(rgba) {
             return rgba.substring(5, rgba.length-1).replace(/ /g, '').split(',');

@@ -11,7 +11,7 @@ exports.defaultNote = {
         "text" : {
             "color" : "#ff7766",
             "preset": "Body-L",
-            "alignment" : "ltr"
+            "alignment" : "center"
         },
         "background" : {
             "color" : "rgba(255,255,255,1)",
@@ -44,7 +44,7 @@ exports.spiralNote = {
         "text" : {
             "color" : "#000000",
             "preset": "Body-L",
-            "alignment" : "ltr"
+            "alignment" : "center"
         },
         "background" : {
             "color" : "rgba(255,255,255,1)",
@@ -78,7 +78,7 @@ exports.postitNote = {
         "text" : {
             "color" : "#000000",
             "preset": "Body-L",
-            "alignment" : "ltr"
+            "alignment" : "center"
         },
         "background" : {
             "color" : "rgba(251,239,172,1)",
@@ -111,7 +111,7 @@ exports.chalkboardNote = {
         "text" : {
             "color" : "#FFFFFF",
             "preset": "Body-L",
-            "alignment" : "ltr"
+            "alignment" : "center"
         },
         "background" : {
             "color" : "rgba(72,104,35,1)",
@@ -218,6 +218,11 @@ var templates = require("./defaultTemplates");
 
         Wix.UI.onChange('color', function(newSettings){
             settings.design.text.color = newSettings.cssColor;
+            updateComponent(settings);
+        });
+
+        Wix.UI.onChange('textAlignGroup', function(newSettings){
+            settings.design.text.alignment = newSettings.value;
             updateComponent(settings);
         });
 

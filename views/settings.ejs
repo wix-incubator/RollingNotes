@@ -59,6 +59,11 @@ Includes design settings, template settings and the manage notes screen.
                                 <div wix-model="color" wix-ctrl="ColorPicker"  wix-options="{startWithColor:'color-13', value:'{{ctrl.settings.design.text.color || '#ff7766'}}' }"></div>
                                 <!-- example of using a wix-param, linked to the html with inline styles at the top of widget.ejs-->
                                 <div wix-param="font" wix-ctrl="FontStylePicker"></div>
+                                <div wix-model="textAlignGroup" wix-ctrl="ButtonGroup" class="textAlignOptions" wix-options="{value:'{{ctrl.settings.design.text.alignment}}'}">
+                                    <button value="left" class= "ltr"><img src="/images/left.png"/></button>
+                                    <button value="center" class="center"><img src="/images/center.png"/></button>
+                                    <button value="right" class="rtl"><img src="/images/right.png"/></button>
+                                </div>
                             </li>
                             <!-- background color and opacity-->
                             <li class="li-group" wix-label="Background Color">

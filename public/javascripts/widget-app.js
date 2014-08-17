@@ -84,6 +84,8 @@ var WidgetApp = React.createClass({
         widgetStyle.fontSize = design.text.size;
         widgetStyle.fontFamily = design.text.family;
         widgetStyle.fontStyle = design.text.style;
+        widgetStyle.textAlign = design.text.alignment;
+
 
         widgetStyle.backgroundColor = design.background.color;
 
@@ -91,6 +93,8 @@ var WidgetApp = React.createClass({
         widgetStyle.borderWidth = design.border.width;
         widgetStyle.borderRadius = design.border.radius;
 
+
+        console.log(widgetStyle.textAlign);
         return widgetStyle
     },
 
