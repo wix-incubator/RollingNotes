@@ -46,21 +46,17 @@ function getCompByKey(key) {
             deferred.resolve(comp);
         }
         return deferred.promise;
-
     });
 };
 
 
 //TODO change this to use promises
 function updateComponent(updatedComp) {
-    db.rollingnotes.save(updatedComp, function(err, data) {
-        if (err)  {
-            console.log(err);
-        } else {
-                console.log('worked');
-        }
+    db.rollingnotes.save(updatedComp).then(function(data) {
+            console.log('db successfully updated')
+    }, function(err) {
+        console.log('Error: ' + err);
     });
-    console.log("update didn't crash");
 }
 
 exports.getCompByKey = getCompByKey;
