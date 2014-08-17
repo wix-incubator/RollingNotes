@@ -6,12 +6,10 @@
 
 exports.defaultNote = {
     "design" : {
-        "template" : "default-note",
+        "template" : "defaultNote",
         "text" : {
             "color" : "#ff7766",
             "preset": "Body-L",
-            "size:" : "",
-            "family": "",
             "alignment" : "ltr"
         },
         "background" : {
@@ -41,7 +39,7 @@ exports.defaultNote = {
 
 exports.spiralNote = {
     "design" : {
-        "template" : "spiral-note",
+        "template" : "spiralNote",
         "text" : {
             "color" : "#000000",
             "preset": "Body-L",
@@ -75,7 +73,7 @@ exports.spiralNote = {
 
 exports.postitNote = {
     "design" : {
-        "template" : "postit-note",
+        "template" : "postitNote",
         "text" : {
             "color" : "#000000",
             "preset": "Body-L",
@@ -108,7 +106,7 @@ exports.postitNote = {
 
 exports.chalkboardNote = {
     "design" : {
-        "template" : "chalkboard-note",
+        "template" : "chalkboardNote",
         "text" : {
             "color" : "#FFFFFF",
             "preset": "Body-L",
