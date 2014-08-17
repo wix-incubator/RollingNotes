@@ -403,6 +403,15 @@ var templates = require("./defaultTemplates");
             return link;
         };
 
+        this.docLink = function() {
+            var that = this;
+            Wix.Settings.openMediaDialog( Wix.Settings.MediaType.DOCUMENT, false, function(data) {
+                var documentUrl = Wix.Utils.Media.getDocumentUrl(data.relativeUri);
+                that.noteForLink.docLink = documentUrl;
+                that.noteForLink.link.display = data.fileName;
+
+            });
+        }
 
         //when OK button clicked, will construct link chosen or none
         this.setLink = function() {
@@ -413,7 +422,9 @@ var templates = require("./defaultTemplates");
                 this.noteForLink.docLink = "";
                 this.noteForLink.link.subject = "";
                 this.noteForLink.link.url= this.noteForLink.webLink;
-                if (!this.noteForLink.link.url) this.noteForLink.link.url = "";
+                if (!this.noteForLink.link.url) {
+                    this.noteForLink.link.url = "";
+                }
 //                if (this.noteForLink.link.url && !/^https?:\/\//i.test(this.noteForLink.link)) {
 //                    this.noteForLink.link.url = 'http://' + this.noteForLink.link.url;
 //                }
@@ -434,7 +445,7 @@ var templates = require("./defaultTemplates");
                 this.noteForLink.link.subject = "";
                 var index = settings.pages.indexOf(this.noteForLink.pageLink);
                 this.noteForLink.link.display = this.noteForLink.pageLink;
-                this.noteForLink.link.target = '_blank';
+                this.noteForLink.link.target = '_top';
 
                 Wix.Worker.getSiteInfo(function(siteInfo) {
                     // do something with the siteInfo
@@ -456,6 +467,7 @@ var templates = require("./defaultTemplates");
                 this.noteForLink.emailLink = "";
                 this.noteForLink.pageLink = "";
                 this.noteForLink.link.subject = "";
+                this.noteForLink.link.target = '_blank';
 
                 this.noteForLink.link.url = this.noteForLink.docLink;
             }
@@ -477,6 +489,8 @@ var templates = require("./defaultTemplates");
             this.noteForLink.link.type = "";
             this.noteForLink.link.subject = "";
             this.noteForLink.link.display = "";
+            this.noteForLink.docLink.display = "";
+
 
 
             updateComponent(settings);
