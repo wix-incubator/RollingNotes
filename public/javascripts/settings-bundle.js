@@ -491,10 +491,104 @@ var templates = require("./defaultTemplates");
         //TODO Use angular the right way
         //TODO ngshow/class etc.
 
-        this.showLinkPopup = function(note){
+        $scope.popupVisible = false;
+        $scope.upperTextVisible = false;
+        $scope.buttonsVisible = false;
+        $scope.optionsVisible = false;
+        $scope.linkOption = 0;
+
+        this.showLinkPopup = function(note) {
+            console.log('show link popup firing');
             this.noteForLink = note;
-            Wix.getSitePages(function(sitePages){
-                var arr = $.map(sitePages, function(el) {
+            //TODO LOAD PAGES for pagelink option
+
+            $scope.popupVisible = true;
+            //TODO make the background inactive
+            $scope.buttonsVisible = true;
+
+            $scope.linkOption = 0;
+
+            loadPageDropdown();
+        };
+
+
+
+        this.showLink = function(type) {
+            //hideButtons();
+            $scope.buttonsVisible = false;
+
+            $scope.optionsVisible = true;
+
+
+            $scope.linkOption = type;
+
+            //TODO auto focus email and web links / load page links
+        }
+
+        this.closeLinkPopup = function(){
+            $scope.popupVisible = false;
+            $scope.upperTextVisible = false;
+            $scope.buttonsVisible = false;
+            $scope.optionsVisible = false;
+            $scope.linkOption = 0;
+        };
+
+        //when OK button clicked, will construct link chosen or none
+        this.setLink = function() {
+            var options = {
+                1 : 'webLink',
+                2: 'pageLink',
+                3: 'emailLink',
+                4: 'docLink'
+            }
+            var chosenLink = options[$scope.linkOption];
+            var link = this.noteForLink[chosenLink];
+            clearLinks(this.noteForLink);
+
+            this.noteForLink[chosenLink] = link;
+            this.noteForLink.link.url = link;
+//            this.noteForLink.link.display = link;
+
+            if($scope.linkOption === 1) {
+                this.noteForLink.link.display = link;
+                if(this.noteForLink.link.targetVal === 0) {
+                    this.noteForLink.link.target = '_blank';
+                } else {
+                    this.noteForLink.link.target = '_top';
+                }
+
+            } else if ($scope.linkOption === 2) {
+                var that = this;
+
+                var index = settings.pages.indexOf(this.noteForLink.pageLink);
+                this.noteForLink.link.display = link;
+                this.noteForLink.link.target = '_top';
+
+                Wix.Worker.getSiteInfo(function(siteInfo) {
+                    // do something with the siteInfo
+                    that.noteForLink.link.url = siteInfo.baseUrl + '#!/' + that.settings.pageIds[index];
+                    updateComponent(that.settings);
+                });
+            } else if ($scope.linkOption === 3) {
+                this.noteForLink.link.url = mailLink(this.noteForLink.emailLink,{subject: this.noteForLink.link.subject});
+                this.noteForLink.link.display = "mail to: " + this.noteForLink.emailLink;
+                this.noteForLink.link.target = '';
+
+            } else if ($scope.linkOption === 4) {
+                this.noteForLink.link.target = '_blank';
+            }
+
+            this.noteForLink.link.display = this.noteForLink.link.display.substring(0, 30);
+
+            updateComponent(settings);
+
+            this.closeLinkPopup();
+        }
+
+
+        var loadPageDropdown = function() {
+            Wix.getSitePages(function (sitePages) {
+                var arr = $.map(sitePages, function (el) {
                     return el;
                 });
                 var titles = [];
@@ -505,20 +599,9 @@ var templates = require("./defaultTemplates");
                 }
                 settings.pages = titles;
                 settings.pageIds = ids;
-                $('#link-popup').css('visibility', 'visible');
-                makeBackInactive();
-                showButtons();
             });
-
-
         };
 
-        this.closeLinkPopup = function(){
-            $('#link-popup').css('visibility', 'hidden');
-            makeBackActive();
-            hideButtons();
-            hideContent();
-        };
 
         var mailLink = function(recepient, opts) {
             var link = "mailto:";
@@ -533,6 +616,7 @@ var templates = require("./defaultTemplates");
             return link;
         };
 
+
         this.docLink = function() {
             var that = this;
             Wix.Settings.openMediaDialog( Wix.Settings.MediaType.DOCUMENT, false, function(data) {
@@ -540,145 +624,34 @@ var templates = require("./defaultTemplates");
                 that.noteForLink.docLink = documentUrl;
                 $scope.$apply(function () {
                     that.noteForLink.link.display = data.fileName;
+                    that.noteForLink.link.display = that.noteForLink.link.display.substring(0, 30);
                 });
+                updateComponent(settings);
             });
         }
 
-        this.getDocDislay = function() {
-            if(this.noteForLink && this.noteForLink.docLink) {
-                return this.noteForLink.link.display;
-            } else {
-                return 'No Document Selected'
-            }
+        this.backToOptions = function() {
+
+            $scope.optionsVisible = false;
+            $scope.buttonsVisible = true;
+            $scope.linkOption = 0;
+
         }
 
-        //when OK button clicked, will construct link chosen or none
-        this.setLink = function() {
-            updateComponent(settings);
-            if($('.web-link').css('visibility') === 'visible') {
-                this.noteForLink.pageLink = "";
-                this.noteForLink.emailLink = "";
-                this.noteForLink.docLink = "";
-                this.noteForLink.link.subject = "";
-                this.noteForLink.link.url= this.noteForLink.webLink;
-                if (!this.noteForLink.link.url) {
-                    this.noteForLink.link.url = "";
-                }
-//                if (this.noteForLink.link.url && !/^https?:\/\//i.test(this.noteForLink.link)) {
-//                    this.noteForLink.link.url = 'http://' + this.noteForLink.link.url;
-//                }
-                this.noteForLink.link.type = "web"
-                this.noteForLink.link.display = this.noteForLink.link.url;
-                if(this.noteForLink.link.targetVal === 0) {
-                    this.noteForLink.link.target = '_blank';
-                } else {
-                    this.noteForLink.link.target = '_top';
-                }
-
-            } else if ($('.page-link').css('visibility') === 'visible') {
-                var that = this;
-
-                this.noteForLink.webLink = "";
-                this.noteForLink.emailLink = "";
-                this.noteForLink.docLink = "";
-                this.noteForLink.link.subject = "";
-                var index = settings.pages.indexOf(this.noteForLink.pageLink);
-                this.noteForLink.link.display = this.noteForLink.pageLink;
-                this.noteForLink.link.target = '_top';
-
-                Wix.Worker.getSiteInfo(function(siteInfo) {
-                    // do something with the siteInfo
-                    that.noteForLink.link.url = siteInfo.baseUrl + '#!/' + that.settings.pageIds[index];
-                    console.log('Url in settings: ' + that.noteForLink.link.url);
-                    updateComponent(that.settings);
-                });
-            } else if ($('.email-link').css('visibility') === 'visible') {
-                this.noteForLink.webLink = "";
-                this.noteForLink.pageLink = "";
-                this.noteForLink.docLink = "";
-                this.noteForLink.link.url = mailLink(this.noteForLink.emailLink,{subject: this.noteForLink.link.subject});
-                this.noteForLink.link.type = "mail"
-                this.noteForLink.link.display = "mail to: " + this.noteForLink.emailLink;
-                this.noteForLink.link.target = '';
-
-            } else if ($('.doc-link').css('visibility') === 'visible') {
-                this.noteForLink.webLink = "";
-                this.noteForLink.emailLink = "";
-                this.noteForLink.pageLink = "";
-                this.noteForLink.link.subject = "";
-                this.noteForLink.link.target = '_blank';
-                console.log('Doc link: ' + this.noteForLink.docLink);
-                this.noteForLink.link.url = this.noteForLink.docLink;
-            }
-
-            updateComponent(settings);
-
-            $('#link-popup').css('visibility', 'hidden');
-            makeBackActive();
-            hideButtons();
-            hideContent();
+        var clearLinks = function(note) {
+            note.webLink = "";
+            note.pageLink = "";
+            note.emailLink = "";
+            note.docLink = "";
+            note.link.subject = "";
+            note.link.url = "";
         }
 
         this.removeLink = function() {
-            this.noteForLink.pageLink = "";
-            this.noteForLink.emailLink = "";
-            this.noteForLink.docLink = "";
-            this.noteForLink.webLink = "";
-            this.noteForLink.link.url = "";
-            this.noteForLink.link.type = "";
-            this.noteForLink.link.subject = "";
+            clearLinks(this.noteForLink);
             this.noteForLink.link.display = "";
-            this.noteForLink.docLink.display = "";
-
-
-
             updateComponent(settings);
-
             this.closeLinkPopup();
-        }
-
-        var hideButtons = function() {
-            $('.link-options .btn-secondary').css('visibility', 'hidden');
-            $('.learn-more p').html(' ');
-            $('.learn-more a').html(' < Back to link options ');
-        }
-        var showButtons = function() {
-            $('.link-options .btn-secondary').css('visibility', 'visible');
-            //will need to change
-            $('.learn-more p').html('Choose type of link');
-            $('.learn-more a').html('Learn more');
-        }
-
-        this.backToOptions = function() {
-            hideContent();
-            showButtons();
-        }
-
-        var hideContent = function() {
-            $('.option').css('visibility', 'hidden');
-        }
-
-        var makeBackInactive = function() {
-            $('#manage-notes-content').css('pointer-events', 'none');
-        }
-        var makeBackActive = function() {
-            $('#manage-notes-content').css('pointer-events', 'auto');
-        }
-
-        this.showLinkContent = function(type) {
-            hideButtons();
-            if(type === 1) {
-                $('.web-link').css('visibility','visible');
-                $('.web-text').focus();
-            } else if (type === 2) {
-                $('.page-link').css('visibility','visible');
-            } else if (type === 3) {
-                $('.email-link').css('visibility','visible');
-                $('.email').focus();
-
-            } else {
-                $('.doc-link').css('visibility','visible');
-            }
         }
 
     }]);

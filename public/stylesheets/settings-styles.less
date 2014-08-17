@@ -643,7 +643,7 @@ textarea {
   box-shadow: 0 0 10px #888888;
   display: inline-block;
   top: 11px;
-  visibility: hidden;
+//  visibility: hidden;
   border-radius: 4px;
 }
 
@@ -673,15 +673,35 @@ textarea {
   border-top: 1px solid #ccc;
 }
 
-.learn-more {
+.upper-text {
   font-size: 10px;
-  margin-left: 7px;
+  margin-left: 8px;
+  margin-top: 26px;
 }
 
 .link-options {
   width: 285px;
   height: 100px;
-  margin: 66px 8px;
+  padding-top: 7px;
+  padding-bottom: 13px;
+  -moz-box-shadow: inset 0 0 2px gray;
+  -webkit-box-shadow: inset 0 0 2px gray;
+  box-shadow: inset 0 0 2px gray;
+  border-radius: 5px;
+  /* margin-top: -90px; */
+  position: absolute;
+  /* margin-left: 8px; */
+  bottom: 48px;
+  right: 8px;
+//  visibility: hidden;
+}
+
+.link-buttons {
+  /* margin-top: 25px; */
+  /* margin-left: 8px; */
+  /* border: 1px solid black; */
+  width: 285px;
+  height: 100px;
   padding-top: 7px;
   padding-bottom: 13px;
   -moz-box-shadow: inset 0 0 2px gray;
@@ -689,7 +709,9 @@ textarea {
   box-shadow: inset 0 0 2px gray;
   border-radius: 5px;
   position: absolute;
-  top: 39px;
+  bottom: 48px;
+  right: 8px;
+  /* visibility: hidden; */
 }
 
 .link-btn {
@@ -703,9 +725,12 @@ textarea {
 
 .remove-link {
   font-size: 10px;
-  float: right;
-  margin-top: 12px;
-  margin-right: 8px;
+  /* float: right; */
+  /* margin-top: -20px; */
+  /* margin-right: 15px; */
+  position: absolute;
+  right: 16px;
+  bottom: 58px;
 }
 
 .submit-link-btn {
@@ -727,22 +752,22 @@ textarea {
 
 .web-link {
   position: absolute;
-  visibility: hidden;
+//  visibility: hidden;
 }
 
 .page-link {
   position: absolute;
-  visibility: hidden;
+//  visibility: hidden;
 }
 
 .email-link {
   position: absolute;
-  visibility: hidden;
+//  visibility: hidden;
 }
 
 .doc-link {
   position: absolute;
-  visibility: hidden;
+//  visibility: hidden;
 }
 
 .web-link .radios {
@@ -765,7 +790,7 @@ textarea {
 }
 
 .doc-link .uilib-btn {
-  margin-top: 22px;
+  margin-top: -12px;
   width: 261px;
   position: relative;
   overflow: hidden;
@@ -781,4 +806,13 @@ textarea {
   cursor: pointer;
   opacity: 0;
   filter: alpha(opacity=0);
+}
+
+//miscellaneous
+.disabled {
+  pointer-events: none;
+}
+
+.enabled {
+  pointer-events: auto;
 }
