@@ -10,7 +10,7 @@ router.get('/widget', function(req, res) {
     auth.authenticate(req,res);
     var key = req.instanceId  + '.' + req.compId;
     // get settings object from db based on key
-    db.getCompByKey(key, function (data) {
+    db.getCompByKey(key).then(function(data) {
         console.log('Data: ' + JSON.stringify(data));
         res.render('widget.ejs', { settings:  JSON.stringify(data)});
     });
@@ -22,7 +22,7 @@ router.get('/settings', function(req, res) {
     auth.authenticate(req,res);
     var key = req.instanceId  + '.' + req.origCompId;
     // get settings object from db based on key
-    db.getCompByKey(key, function (data) {
+    db.getCompByKey(key).then(function(data) {
         res.render('settings.ejs', { settings:  JSON.stringify(data)});
     });
 });
