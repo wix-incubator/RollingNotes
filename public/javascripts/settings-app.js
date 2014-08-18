@@ -154,31 +154,29 @@ var templates = require("./defaultTemplates");
          *  Manage Notes Screen
          **********************************/
 
+        $scope.visibleManageNotes = false;
         this.showManageNotes = function() {
-            $('#manage-notes').removeClass('hidden-manage-notes');
+            $scope.visibleManageNotes = true;
+            $('.character-count-normal').removeClass('character-count-max');
+            $('textarea').removeClass('note-text-max-count');
+
         };
 
         this.hideManageNotes = function() {
-            $('#manage-notes').addClass('hidden-manage-notes');
+            $scope.visibleManageNotes = false;
         };
 
         this.blur = function() {
-            $('.character-count-normal').css('color','black');
+            $('.character-count-normal').removeClass('character-count-max');
             $('textarea').removeClass('note-text-max-count');
             updateComponent(settings);
+
         };
 
         $scope.settings = $window.settings;
 
         $scope.$watchCollection('settings.notes', function(newNames, oldNames) {
-            if(settings.notes.length === 0) {
-                $('#manage-notes-content').addClass('empty-notes-background');
-            } else {
-                $('#manage-notes-content').removeClass('empty-notes-background');
-            }
-
             updateComponent(settings);
-//            focusNote();
         });
 
         this.addNote = function () {
@@ -187,7 +185,7 @@ var templates = require("./defaultTemplates");
         };
 
         var uniqueNoteKey = function() {
-            var key = 1;
+            var key;
             function s4() {
                 return Math.floor((1 + Math.random()) * 0x10000)
                     .toString(16)
@@ -234,13 +232,14 @@ var templates = require("./defaultTemplates");
             array.splice(index, 1);
         };
 
+        $scope.hiddenNote = false;
         this.toggleWatch = function(element, index) {
             var el = $(element.target);
+            $scope.hiddenNote = !$scope.hiddenNote;
+//            el.toggleClass('icon-watch');
+//            el.toggleClass('icon-unwatch');
 
-            el.toggleClass('icon-watch');
-            el.toggleClass('icon-unwatch');
-
-            if(el.hasClass('icon-unwatch')) {
+            if($scope.hiddenNote) {
                 el.closest('.content-row').find('.note-text').addClass('unwatched-note');
                 settings.notes[index].visibility = false;
             } else {
@@ -250,21 +249,6 @@ var templates = require("./defaultTemplates");
             updateComponent(settings);
 
         };
-
-        this.textLength = function(element, msg) {
-            if (element.keyCode === 8 || element.keyCode === 44) {
-                $(element.target).parent().find('.character-count-normal').css('color','black');
-                $(element.target).removeClass('note-text-max-count');
-            } else if(msg.length >= 139) {
-                $(element.target).parent().find('.character-count-normal').css('color','red');
-                $(element.target).addClass('note-text-max-count');
-            } else {
-                $(element.target).parent().find('.character-count-normal').css('color','black');
-                $(element.target).removeClass('note-text-max-count');
-
-            }
-        };
-
 
         /**********************************
          *  Transition Settings (second tab of settings)
@@ -351,9 +335,6 @@ var templates = require("./defaultTemplates");
          *  Add Link Popup dialog box
          **********************************/
 
-        //TODO Use angular the right way
-        //TODO ngshow/class etc.
-
         $scope.popupVisible = false;
         $scope.upperTextVisible = false;
         $scope.buttonsVisible = false;
@@ -363,29 +344,17 @@ var templates = require("./defaultTemplates");
         this.showLinkPopup = function(note) {
             console.log('show link popup firing');
             this.noteForLink = note;
-            //TODO LOAD PAGES for pagelink option
-
             $scope.popupVisible = true;
-            //TODO make the background inactive
             $scope.buttonsVisible = true;
-
             $scope.linkOption = 0;
-
             loadPageDropdown();
         };
 
-
-
         this.showLink = function(type) {
-            //hideButtons();
             $scope.buttonsVisible = false;
-
             $scope.optionsVisible = true;
-
-
             $scope.linkOption = type;
-
-            //TODO auto focus email and web links / load page links
+            //TODO auto focus email and web links
         }
 
         this.closeLinkPopup = function(){
@@ -398,19 +367,14 @@ var templates = require("./defaultTemplates");
 
         //when OK button clicked, will construct link chosen or none
         this.setLink = function() {
-            var options = {
-                1 : 'webLink',
-                2: 'pageLink',
-                3: 'emailLink',
-                4: 'docLink'
-            }
-            var chosenLink = options[$scope.linkOption];
+            $scope.options = {1 : 'webLink', 2: 'pageLink', 3: 'emailLink', 4: 'docLink'};
+
+            var chosenLink = $scope.options[$scope.linkOption];
             var link = this.noteForLink[chosenLink];
             clearLinks(this.noteForLink);
 
             this.noteForLink[chosenLink] = link;
             this.noteForLink.link.url = link;
-//            this.noteForLink.link.display = link;
 
             if($scope.linkOption === 1) {
                 this.noteForLink.link.display = link;
@@ -448,6 +412,27 @@ var templates = require("./defaultTemplates");
             this.closeLinkPopup();
         }
 
+        this.backToOptions = function() {
+            $scope.optionsVisible = false;
+            $scope.buttonsVisible = true;
+            $scope.linkOption = 0;
+        }
+
+        var clearLinks = function(note) {
+            note.webLink = "";
+            note.pageLink = "";
+            note.emailLink = "";
+            note.docLink = "";
+            note.link.subject = "";
+            note.link.url = "";
+        }
+
+        this.removeLink = function() {
+            clearLinks(this.noteForLink);
+            this.noteForLink.link.display = "";
+            updateComponent(settings);
+            this.closeLinkPopup();
+        }
 
         var loadPageDropdown = function() {
             Wix.getSitePages(function (sitePages) {
@@ -494,11 +479,9 @@ var templates = require("./defaultTemplates");
         }
 
         this.backToOptions = function() {
-
             $scope.optionsVisible = false;
             $scope.buttonsVisible = true;
             $scope.linkOption = 0;
-
         }
 
         var clearLinks = function(note) {
@@ -516,9 +499,6 @@ var templates = require("./defaultTemplates");
             updateComponent(settings);
             this.closeLinkPopup();
         }
-
-
-
     }]);
 
     app.directive('httpPrefix', function() {

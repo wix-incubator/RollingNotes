@@ -138,7 +138,7 @@ Includes design settings, template settings and the manage notes screen.
                 </div>
             </div>
             <!-- Manage notes screen, where user adds and edits notes, toggles visibility, adds links and deletes notes -->
-            <div id="manage-notes" class="manage-notes-screen hidden-manage-notes">
+            <div id="manage-notes" class="manage-notes-screen" ng-class="{'hidden-manage-notes': !visibleManageNotes}">
                 <div id="manage-notes-header" ng-class="{'disabled' : popupVisible}">
                    <a class="back-to-settings-button" ng-click="ctrl.hideManageNotes()" href="#"> ⟨ Back to Settings</a>
                    <button class="uilib-btn add-note-btn" ng-click="ctrl.addNote()" ng-class="{'max-note-btn' : ctrl.settings.notes.length >= 50}"><span id="addNotePlus">+</span> Add a note</button>
@@ -199,23 +199,26 @@ Includes design settings, template settings and the manage notes screen.
                 </div>
                 <!-- List of all existing notes, added drag and drop functionality, updated dynamically with angular ng-repeat directive -->
                 <div ng-show="ctrl.settings.notes.length > 0" class="addNoteLine"></div>
-                <ul ui:sortable ng-model="ctrl.settings.notes" id="manage-notes-content" class="box">
+                <ul ui:sortable ng-model="ctrl.settings.notes" id="manage-notes-content" class="box"
+                    ng-class="{'empty-notes-background':ctrl.settings.notes.length == 0}">
                     <li ng-repeat="note in ctrl.settings.notes" class="note-container" ng-class="{'disabled' : popupVisible}">
                         <div class="content-row" >
                             <div class="drag-container">
                                 <img class="drag-img" src="/images/drag-icon.png" />
                             </div>
                             <div class="note-text-container">
-                                <textarea ng-model="note.msg" ng-blur="ctrl.blur()" ng-trim="false" ng-keydown="ctrl.textLength($event, note.msg)"
-                                        rows="0" class="note-text" ng-class="{'unwatched-note': note.visibility == false}" type="text" maxlength="140"
+                                <textarea ng-model="note.msg" ng-blur="ctrl.blur()" ng-trim="false"
+                                        rows="0" class="note-text" ng-class="{'unwatched-note': note.visibility == false,
+                                        'note-text-max-count': (note.msg.length >= 140)}" type="text" maxlength="140"
                                         placeholder="This is a note. Click to edit"></textarea>
-                                <div class="character-count-normal">{{note.msg.length}}/140</div>
-                            </div>
+                                <div class="character-count-normal" ng-class="{'character-count-max':note.msg.length >= 140}">
+                                    {{note.msg.length}}/140</div>
+                                </div>
                             <div class="edit-icons-container">
-                                <!--<a class="icon-edit" ng-click="ctrl.focusText($event)"></a>-->
                                 <a class="icon-edit" ng-click="ctrl.editNoteButton($event, $index)"></a>
                                 <a ng-click="ctrl.deleteNote(ctrl.settings.notes, $index)"><img id="trash-icon" src="/images/trash-icon.png" /></a>
-                                <a ng-click="ctrl.toggleWatch($event, $index)" ng-class="{'icon-watch' : note.visibility == true, 'icon-unwatch' : note.visibility == false}"></a>
+                                <a ng-click="ctrl.toggleWatch($event, $index)"
+                                   ng-class="{'icon-watch' : note.visibility == true, 'icon-unwatch' : note.visibility == false}"></a>
                             </div>
                         </div>
                         <div class="link-container">
