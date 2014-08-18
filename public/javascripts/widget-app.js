@@ -94,7 +94,6 @@ var WidgetApp = React.createClass({
         widgetStyle.borderRadius = design.border.radius;
 
 
-        console.log(widgetStyle.textAlign);
         return widgetStyle
     },
 

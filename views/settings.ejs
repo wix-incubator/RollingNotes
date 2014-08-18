@@ -9,6 +9,22 @@ Includes design settings, template settings and the manage notes screen.
     <title>Settings</title>
     <link rel="stylesheet" href="/javascripts/bower_components/wix-ui-lib2/ui-lib.min.css"/>
     <link rel="stylesheet" href="/stylesheets/settings-styles.css"/>
+    <style type="text/css" wix-style>
+        .note-widget {
+        {{style.font}}
+        }
+
+        site-template-colors {
+            color: {{color-1}};
+            background-color: {{color-8}};
+            border-color: {{color-6}};
+            outline-color: {{color-9}};
+        }
+
+        /*site-template-colors:hover {*/
+            /*background-color: {{color-9}};*/
+        /*}*/
+    </style>
 </head>
 <!-- set angular controller-->
 <body wix-ui ng-controller="settingsController as ctrl">
@@ -263,10 +279,6 @@ Includes design settings, template settings and the manage notes screen.
                     imagesToSync: 0,
                     imageLink: false
                 });
-
-                console.log('do we get here?');
-                $('.manage-notes-screen').css('top','0px');
-
             });
         </script>
     </div>

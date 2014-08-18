@@ -3,6 +3,7 @@
  */
 
 var templates = require("./defaultTemplates");
+var siteColorStyles;
 
 (function(){
     var app = angular.module("settingsApp", ['ui.sortable','ngAnimate']);
@@ -20,7 +21,7 @@ var templates = require("./defaultTemplates");
         }
 
         var updateComponent = function(newSettings) {
-              this.settings = newSettings;
+            this.settings = newSettings;
 
             var instance = window.location.search.substring(window.location.search.indexOf('instance') + 9, window.location.search.indexOf('&'));
             this.settings.instance = instance;
@@ -31,6 +32,17 @@ var templates = require("./defaultTemplates");
                  console.log("data: " + data + "; status: " + status);
             });
             Wix.Settings.triggerSettingsUpdatedEvent(settings, parseCompId(settings._id));
+        };
+
+        var getTemplateDesign = function(templateName) {
+            var template = JSON.parse(JSON.stringify(templates[templateName].design));
+            if (templateName === 'defaultNote') {
+                template.text.color = siteColorStyles['color'];
+                template.background.color = siteColorStyles['background-color'];
+                template.border.color = siteColorStyles['border-color'];
+                template.hover.color = siteColorStyles['hover'];
+            }
+            return template;
         };
 
         var setDesignOptions = function (template) {
@@ -47,20 +59,21 @@ var templates = require("./defaultTemplates");
         };
 
         this.resetTemplate = function() {
-            var template = JSON.parse(JSON.stringify(templates[settings.design.template].design));
+            var template = getTemplateDesign(settings.design.template);
             settings.design = setDesignOptions(template);
             updateComponent(settings);
         };
 
 
         Wix.UI.onChange('template', function(newSettings){
+            getTemplateDesign(newSettings.value);
             var that = this;
             // get instance of the original template values
-            var originalDesign =  templates[settings.design.template].design;
+            var originalDesign = getTemplateDesign(settings.design.template);
             // get instance of the current user values
             var customDesign = JSON.parse(JSON.stringify(settings.design));
             // get instance of selected template
-            var template = JSON.parse(JSON.stringify(templates[newSettings.value].design));
+            var template = getTemplateDesign(newSettings.value);
 
             // iterate over all changes between the original template values and current user values
             // to determine where the user made changes to the defaults
@@ -71,6 +84,7 @@ var templates = require("./defaultTemplates");
 
             // set the design options in the Settings UI
             settings.design = setDesignOptions(template);
+            console.log('changed template: ' );
             updateComponent(settings);
         });
 
@@ -499,6 +513,23 @@ var templates = require("./defaultTemplates");
             updateComponent(settings);
             this.closeLinkPopup();
         }
+
+
+        $(document).ready(function( ){
+            //Loading/Saving color scheme for default note color.. no easy way to do this
+            var siteTemplateColor = document.registerElement('site-template-colors');
+            document.body.appendChild(new siteTemplateColor());
+
+            var styles = ['color', 'background-color', 'border-color'];
+            siteColorStyles = $('site-template-colors').css(styles);
+            siteColorStyles.hover = $('site-template-colors').css('outline-color');
+            if (settings.design.color = 'color-1') {
+                settings.design = getTemplateDesign('defaultNote');
+            }
+        });
+
+
+
     }]);
 
     app.directive('httpPrefix', function() {
@@ -524,5 +555,6 @@ var templates = require("./defaultTemplates");
     });
 
 })();
+
 
 

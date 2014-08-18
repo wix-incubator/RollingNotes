@@ -23,7 +23,7 @@ exports.defaultNote = {
         },
         "border" : {
             "color" : "color-6",
-            "width" : "4",
+            "width" : "5",
             "radius" : "0"
         }
     },
