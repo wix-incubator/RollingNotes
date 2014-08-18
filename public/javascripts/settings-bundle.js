@@ -289,6 +289,9 @@ var templates = require("./defaultTemplates");
         $scope.visibleManageNotes = false;
         this.showManageNotes = function() {
             $scope.visibleManageNotes = true;
+            $('.character-count-normal').removeClass('character-count-max');
+            $('textarea').removeClass('note-text-max-count');
+
         };
 
         this.hideManageNotes = function() {
@@ -296,22 +299,16 @@ var templates = require("./defaultTemplates");
         };
 
         this.blur = function() {
-            $('.character-count-normal').css('color','black');
+            $('.character-count-normal').removeClass('character-count-max');
             $('textarea').removeClass('note-text-max-count');
             updateComponent(settings);
+
         };
 
         $scope.settings = $window.settings;
 
         $scope.$watchCollection('settings.notes', function(newNames, oldNames) {
-            if(settings.notes.length === 0) {
-                $('#manage-notes-content').addClass('empty-notes-background');
-            } else {
-                $('#manage-notes-content').removeClass('empty-notes-background');
-            }
-
             updateComponent(settings);
-//            focusNote();
         });
 
         this.addNote = function () {
@@ -320,7 +317,7 @@ var templates = require("./defaultTemplates");
         };
 
         var uniqueNoteKey = function() {
-            var key = 1;
+            var key;
             function s4() {
                 return Math.floor((1 + Math.random()) * 0x10000)
                     .toString(16)
@@ -367,13 +364,14 @@ var templates = require("./defaultTemplates");
             array.splice(index, 1);
         };
 
+        $scope.hiddenNote = false;
         this.toggleWatch = function(element, index) {
             var el = $(element.target);
+            $scope.hiddenNote = !$scope.hiddenNote;
+//            el.toggleClass('icon-watch');
+//            el.toggleClass('icon-unwatch');
 
-            el.toggleClass('icon-watch');
-            el.toggleClass('icon-unwatch');
-
-            if(el.hasClass('icon-unwatch')) {
+            if($scope.hiddenNote) {
                 el.closest('.content-row').find('.note-text').addClass('unwatched-note');
                 settings.notes[index].visibility = false;
             } else {
