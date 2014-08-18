@@ -250,18 +250,13 @@ var siteColorStyles;
         this.toggleWatch = function(element, index) {
             var el = $(element.target);
             $scope.hiddenNote = !$scope.hiddenNote;
-//            el.toggleClass('icon-watch');
-//            el.toggleClass('icon-unwatch');
 
             if($scope.hiddenNote) {
-                el.closest('.content-row').find('.note-text').addClass('unwatched-note');
                 settings.notes[index].visibility = false;
             } else {
-                el.closest('.content-row').find('.note-text').removeClass('unwatched-note');
                 settings.notes[index].visibility = true;
             }
             updateComponent(settings);
-
         };
 
         /**********************************
@@ -270,7 +265,6 @@ var siteColorStyles;
 
         var shouldPreviewRun = true;
         var timeout;
-        this.transitionFade = false;
 
         Wix.UI.onChange('transition', function(newSettings){
             settings.transition.effect = newSettings.value;
@@ -356,7 +350,6 @@ var siteColorStyles;
         $scope.linkOption = 0;
 
         this.showLinkPopup = function(note) {
-            console.log('show link popup firing');
             this.noteForLink = note;
             $scope.popupVisible = true;
             $scope.buttonsVisible = true;
@@ -506,14 +499,6 @@ var siteColorStyles;
             note.link.subject = "";
             note.link.url = "";
         }
-
-        this.removeLink = function() {
-            clearLinks(this.noteForLink);
-            this.noteForLink.link.display = "";
-            updateComponent(settings);
-            this.closeLinkPopup();
-        }
-
 
         $(document).ready(function( ){
             //Loading/Saving color scheme for default note color.. no easy way to do this
