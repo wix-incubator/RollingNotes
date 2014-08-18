@@ -8,21 +8,21 @@ exports.defaultNote = {
     "design" : {
         "template" : "defaultNote",
         "text" : {
-            "color" : "#ff7766",
+            "color" : "color-1",
             "preset": "Body-L",
-            "alignment" : "ltr"
+            "alignment" : "center"
         },
         "background" : {
-            "color" : "rgba(255,255,255,1)",
+            "color" : "color-8",
             "opacity" : "1"
         },
         "hover" : {
             "selected" : true,
-            "color" : "rgba(223,209,239,1)",
+            "color" : "color-9",
             "opacity" : "1"
         },
         "border" : {
-            "color" : "#30366b",
+            "color" : "color-6",
             "width" : "4",
             "radius" : "0"
         }
@@ -43,7 +43,7 @@ exports.spiralNote = {
         "text" : {
             "color" : "#000000",
             "preset": "Body-L",
-            "alignment" : "ltr"
+            "alignment" : "center"
         },
         "background" : {
             "color" : "rgba(255,255,255,1)",
@@ -77,7 +77,7 @@ exports.postitNote = {
         "text" : {
             "color" : "#000000",
             "preset": "Body-L",
-            "alignment" : "ltr"
+            "alignment" : "center"
         },
         "background" : {
             "color" : "rgba(251,239,172,1)",
@@ -110,7 +110,7 @@ exports.chalkboardNote = {
         "text" : {
             "color" : "#FFFFFF",
             "preset": "Body-L",
-            "alignment" : "ltr"
+            "alignment" : "center"
         },
         "background" : {
             "color" : "rgba(72,104,35,1)",

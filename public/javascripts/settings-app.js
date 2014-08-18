@@ -81,6 +81,11 @@ var templates = require("./defaultTemplates");
             updateComponent(settings);
         });
 
+        Wix.UI.onChange('textAlignGroup', function(newSettings){
+            settings.design.text.alignment = newSettings.value;
+            updateComponent(settings);
+        });
+
         //TODO extract to common utils, I've seen this before
         var parseRBGA = function(rgba) {
             return rgba.substring(5, rgba.length-1).replace(/ /g, '').split(',');
@@ -470,6 +475,31 @@ var templates = require("./defaultTemplates");
             });
         }
 
+        this.backToOptions = function() {
+            $scope.optionsVisible = false;
+            $scope.buttonsVisible = true;
+            $scope.linkOption = 0;
+        }
+
+        var clearLinks = function(note) {
+            note.webLink = "";
+            note.pageLink = "";
+            note.emailLink = "";
+            note.docLink = "";
+            note.link.subject = "";
+            note.link.url = "";
+        }
+
+        this.removeLink = function() {
+            clearLinks(this.noteForLink);
+            this.noteForLink.link.display = "";
+            updateComponent(settings);
+            this.closeLinkPopup();
+        }
+
+        Wix.Styles.getStyleParams( function(styleParams) {
+            console.log(JSON.stringify(styleParams));
+        });
     }]);
 
     app.directive('httpPrefix', function() {
