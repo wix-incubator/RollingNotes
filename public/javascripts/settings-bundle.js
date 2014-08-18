@@ -218,6 +218,9 @@ var templates = require("./defaultTemplates");
 
         Wix.UI.onChange('color', function(newSettings){
             settings.design.text.color = newSettings.cssColor;
+            Wix.Styles.getStyleParams( function(styleParams) {
+                console.log(JSON.stringify(styleParams));
+            });
             updateComponent(settings);
         });
 
@@ -636,10 +639,6 @@ var templates = require("./defaultTemplates");
             updateComponent(settings);
             this.closeLinkPopup();
         }
-
-        Wix.Styles.getStyleParams( function(styleParams) {
-            console.log(JSON.stringify(styleParams));
-        });
     }]);
 
     app.directive('httpPrefix', function() {
