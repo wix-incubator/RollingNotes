@@ -241,10 +241,13 @@ var siteColorStyles;
         $scope.hiddenNote = false;
 
         $scope.showIcons = false;
-        $scope.isFocused = false;
-        this.test = function() {
-            "use strict";
-            console.log('WORKING');
+//        $scope.isFocused = false;
+
+        this.printFocus = function(i) {
+            console.log('isFocused: ' + i)
+//            console.log('scope: ' + $scope.isFocused);
+//            console.log('printing focus: ' + $scope.isFocused);
+            return !i;
         }
 
 
