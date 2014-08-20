@@ -190,25 +190,10 @@ var WidgetApp = React.createClass({
         this.setState({mode:PREVIEW});
         setTimeout(function() {
             that.setState({mode:PLAY,slideIndex:-1});
-            setTimeout(function() {that.setState({slideIndex:0})}, 0);
+            setTimeout(function() {
+                that.setState({slideIndex:0})},
+                0);
         }, 0);
-
-//        this.nextNote();
-
-//        if (this.state.mode !== PAUSE) {
-//            this.refreshWidget();
-//        }
-//        var that = this;
-//        var counter = 0;
-//        this.setState({mode:PLAY, slideIndex: this.getFirstVisibleNoteIndex()});
-//        this.nextNote();
-//        previewNotesInterval = setInterval(function(){
-//            counter++;
-//            that.nextNote();
-//            if (counter >= that.getNumOfVisibleNotes() - 1) {
-//                that.refreshWidget();
-//            }
-//        }, this.getSlideDuration());
     },
 
 
@@ -259,15 +244,18 @@ var WidgetApp = React.createClass({
 
     getNoteContent: function() {
         var notecontent;
-        if (this.state.settings.notes.length === 0 || this.getNumOfVisibleNotes() === 0) {
-            notecontent = {msg: DEFAULT_NOTE_TEXT, link: {url:"", target:""}};
-        } else if (this.state.slideIndex === -1) {
+
+        if (this.state.slideIndex === -1) {
             notecontent = {msg: "", key:"thisisthetestkey", link: {url:"", target:""}};;
+        } else if (this.state.settings.notes.length === 0 || this.getNumOfVisibleNotes() === 0) {
+            notecontent = {msg: DEFAULT_NOTE_TEXT, key:"defaultNote", link: {url:"", target:""}};
         } else {
             notecontent = this.state.settings.notes[this.state.slideIndex];
         }
         return notecontent;
     },
+
+
 
     /************************
      * Widget UI rendered whenever widget state changed
