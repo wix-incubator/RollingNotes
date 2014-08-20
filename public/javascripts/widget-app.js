@@ -8,13 +8,15 @@ var previewNotesInterval;
 var playNotesInterval;
 var hoverTimeout;
 
+var PAUSE = 'pause';
+
 var WidgetApp = React.createClass({
 
     /***************************
      *  Initial values and event listeners for widget
      ****************************/
     getInitialState: function() {
-        return {settings: this.props.settings, mode: "pause", slideIndex: 0};
+        return {settings: this.props.settings, mode: PAUSE, slideIndex: 0};
     },
 
     componentWillMount: function() {
@@ -99,11 +101,7 @@ var WidgetApp = React.createClass({
 
     updateAnchorStyle: function() {
         var anchorStyle = {};
-        if (this.getNoteContent().link.url) {
-            anchorStyle.cursor = 'pointer';
-        } else {
-            anchorStyle.cursor = 'default';
-        }
+        anchorStyle.cursor = this.getNoteContent().link.url ? 'pointer' : 'default';
         return anchorStyle;
     },
 
@@ -177,16 +175,16 @@ var WidgetApp = React.createClass({
     },
 
     pauseNotes: function() {
-        if (this.state.mode === 'pause') {
+        if (this.state.mode === PAUSE) {
             return;
         }
-        this.setState({mode: 'pause'});
+        this.setState({mode: PAUSE});
         clearInterval(playNotesInterval);
         clearTimeout(hoverTimeout);
     },
 
     previewRollingNotes: function() {
-        if (this.state.mode != 'pause') {
+        if (this.state.mode !== PAUSE) {
             this.refreshWidget();
         }
         var that = this;
@@ -209,20 +207,32 @@ var WidgetApp = React.createClass({
 
     getNumOfVisibleNotes: function() {
         var count = 0;
-        for (var i = 0; i < this.state.settings.notes.length; i++) {
-          if (this.state.settings.notes[i].visibility === true) {
-              count++;
-          }
-        }
+        this.state.settings.notes.forEach(function(value) {
+            if (value.visibility === true) {
+                count++;
+            }
+        });
+        console.log('Num Vis Notes: ' + count);
         return count;
     },
 
     getFirstVisibleNoteIndex: function() {
+//        var i;
+//        this.state.settings.notes.forEach(function(value, index) {
+//            console.log("Index: " + value.visibility);
+//            if (value.visibility === true) {
+//                console.log('returning index: ' + index);
+//                return index;
+//            }
+//        });
+
+
         for (var i = 0; i < this.state.settings.notes.length; i++) {
             if (this.state.settings.notes[i].visibility === true) {
                 return i;
             }
-        }
+        };
+
         return 0;
     },
 
@@ -239,10 +249,9 @@ var WidgetApp = React.createClass({
     },
 
     getNoteContent: function() {
-        var numofVisibleNotes = this.getNumOfVisibleNotes();
         var notecontent;
 
-        if (this.state.settings.notes.length === 0 || numofVisibleNotes === 0) {
+        if (this.state.settings.notes.length === 0 || this.getNumOfVisibleNotes() === 0) {
             notecontent = {msg: DEFAULT_NOTE_TEXT, link: {url:"", target:""}};
         } else {
             notecontent = this.state.settings.notes[this.state.slideIndex];

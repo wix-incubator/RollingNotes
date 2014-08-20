@@ -24,6 +24,7 @@
     "angular-mailto": "~0.1.0",
     "visibilityjs": "latest",
     "deep-diff" : "latest",
-    "angular-animate" : "latest"
+    "angular-animate" : "latest",
+    "lodash" : "latest"
   }
 }

@@ -329,7 +329,7 @@ var siteColorStyles;
 
         $scope.settings = $window.settings;
 
-        $scope.$watchCollection('settings.notes', function(newNames, oldNames) {
+        $scope.$watchCollection('settings.notes', function() {
             updateComponent(settings);
         });
 
@@ -350,17 +350,9 @@ var siteColorStyles;
             return key;
         };
 
-        var loadNotesArray = function() {
-            var matchingElements = [];
-            $("textarea").each(function(index, element) {
-                matchingElements.push(element);
-            });
-            return matchingElements;
-        };
-
         var focusNewNote = function () {
             $timeout(function() {
-                var array = loadNotesArray();
+                var array = $("textarea");
                 var el = $(array[array.length-1]);
                 el.focus();
             },0);
@@ -388,9 +380,8 @@ var siteColorStyles;
 
         $scope.hiddenNote = false;
         this.toggleWatch = function(element, index) {
-            var el = $(element.target);
             $scope.hiddenNote = !$scope.hiddenNote;
-
+//            settings.notes[index].visibility = !$scope.hiddenNote;
             if($scope.hiddenNote) {
                 settings.notes[index].visibility = false;
             } else {
@@ -418,7 +409,7 @@ var siteColorStyles;
 
 
         var getNumVisibleNotes = function() {
-            var count = 0;
+            var count = 0;//TODO FOREACH ME
             for (var i = 0; i < this.settings.notes.length; i++) {
                 if (this.settings.notes[i].visibility === true) count++;
             }
@@ -522,16 +513,22 @@ var siteColorStyles;
 
             this.noteForLink[chosenLink] = link;
             this.noteForLink.link.url = link;
-
-            if($scope.linkOption === 1) {
-                this.noteForLink.link.display = link;
-                if(this.noteForLink.link.targetVal === 0) {
-                    this.noteForLink.link.target = '_blank';
-                } else {
-                    this.noteForLink.link.target = '_top';
+            //TODO SWITCH ME
+            switch($scope.linkOption) {
+                case 1:
+                {
+                    this.noteForLink.link.display = link;
+                    if (this.noteForLink.link.targetVal === 0) {
+                        this.noteForLink.link.target = '_blank';
+                    } else {
+                        this.noteForLink.link.target = '_top';
+                    }
+                    break;
                 }
+            }
 
-            } else if ($scope.linkOption === 2) {
+
+            if ($scope.linkOption === 2) {
                 var that = this;
 
                 var index = settings.pages.indexOf(this.noteForLink.pageLink);
@@ -583,17 +580,8 @@ var siteColorStyles;
 
         var loadPageDropdown = function() {
             Wix.getSitePages(function (sitePages) {
-                var arr = $.map(sitePages, function (el) {
-                    return el;
-                });
-                var titles = [];
-                var ids = [];
-                for (x = 0; x < arr.length; x++) {
-                    titles[x] = arr[x].title;
-                    ids[x] = arr[x].id;
-                }
-                settings.pages = titles;
-                settings.pageIds = ids;
+                settings.pages = _.pluck(sitePages, 'title');
+                settings.pageIds = _.pluck(sitePages, 'id');
             });
         };
 
