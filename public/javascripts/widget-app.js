@@ -2,8 +2,6 @@
 
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
-var DEFAULT_NOTE_TEXT = "This is a note. Click to edit.";
-
 var previewNotesInterval;
 var playNotesInterval;
 var hoverTimeout;
@@ -11,6 +9,8 @@ var hoverTimeout;
 var PLAY  = 'play';
 var PAUSE = 'pause';
 var CLEARNOTE = 'clearnote';
+var DEFAULT_NOTE_TEXT = "This is a note. Click to edit.";
+
 
 var WidgetApp = React.createClass({
 
@@ -42,11 +42,11 @@ var WidgetApp = React.createClass({
             //TODO make button interval and preview the same to avoid hacky code
             Wix.addEventListener(Wix.Events.EDIT_MODE_CHANGE, function(data) {
                 if (data.editMode === 'preview') {
-                    if(previewNotesInterval != null) {
-                        clearInterval(previewNotesInterval);
-                        previewNotesInterval = null;
-                        that.pauseNotes();
-                    }
+//                    if(previewNotesInterval != null) {
+//                        clearInterval(previewNotesInterval);
+//                        previewNotesInterval = null;
+//                        that.pauseNotes();
+//                    }
                     that.playNotes();
                 }
                 if (data.editMode === 'editor') {

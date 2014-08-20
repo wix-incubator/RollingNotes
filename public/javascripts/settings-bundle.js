@@ -206,6 +206,7 @@ var siteColorStyles;
 
 
         Wix.UI.onChange('template', function(newSettings){
+            console.log('original template: ' +  JSON.stringify(settings.design));
             getTemplateDesign(newSettings.value);
             var that = this;
             // get instance of the original template values
@@ -224,7 +225,7 @@ var siteColorStyles;
 
             // set the design options in the Settings UI
             settings.design = setDesignOptions(template);
-            console.log('changed template: ' );
+            console.log('changed template: ' + JSON.stringify(settings.design));
             $scope.updateComponent(settings);
         });
 
@@ -593,7 +594,8 @@ var siteColorStyles;
             var styles = ['color', 'background-color', 'border-color'];
             siteColorStyles = $('site-template-colors').css(styles);
             siteColorStyles.hover = $('site-template-colors').css('outline-color');
-            if (settings.design.color = 'color-1') {
+
+            if (settings.design.text.color === 'color-1') {
                 settings.design = getTemplateDesign('defaultNote');
             }
         });
