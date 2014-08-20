@@ -280,65 +280,11 @@ var siteColorStyles;
             return count;
         };
 
-        Visibility.change(function(e, state){
-            if(state === 'hidden') {
-                $('#previewTransitionButton').removeClass('stopPreviewButton');
-                document.getElementById("previewTransitionButton").innerHTML = "Preview";
-                $('.overlay-gray').css('visibility', 'hidden');
-                $('.overlay-lock').children().css('pointer-events', 'auto');
-                shouldPreviewRun = true;
-                clearTimeout(timeout);
-                return;
-            }
-        });
-
         this.replayPreview = function() {
             settings.transition.preview = true;
             $scope.updateComponent(settings);
             settings.transition.preview = false;
         }
-
-        this.previewTransition = function() {
-//          Wix.Settings.refreshAppByCompIds([parseCompId(settings._id)]);
-
-            if (!shouldPreviewRun) {
-                $('#previewTransitionButton').removeClass('stopPreviewButton');
-                document.getElementById("previewTransitionButton").innerHTML = "Preview";
-                $('.overlay-gray').css('visibility', 'hidden');
-                $('.overlay-lock').children().css('pointer-events', 'auto');
-                settings.transition.preview = true;
-                $scope.updateComponent(settings);
-                settings.transition.preview = false;
-                shouldPreviewRun = true;
-                clearTimeout(timeout);
-                return;
-            }
-
-            settings.transition.preview = true;
-            shouldPreviewRun = false;
-
-            var dur = ((settings.transition.duration * 1000) + 2000) * (getNumVisibleNotes() - 1) + 2000;
-
-            $('#previewTransitionButton').addClass('stopPreviewButton');
-            document.getElementById("previewTransitionButton").innerHTML = "Stop ";
-            $('.overlay-gray').css('visibility', 'visible');
-            $('.overlay-lock').children().css('pointer-events', 'none');
-            $('.overlay-gray').css('pointer-events', 'auto');
-
-
-
-            timeout = setTimeout( function() {
-                $('#previewTransitionButton').removeClass('stopPreviewButton');
-                document.getElementById("previewTransitionButton").innerHTML = "Preview";
-                $('.overlay-gray').css('visibility', 'hidden');
-                $('.overlay-lock').children().css('pointer-events', 'auto');
-                shouldPreviewRun = true;
-
-            }, dur - 1500)
-
-            $scope.updateComponent(settings);
-            settings.transition.preview = false;
-        };
 
         /**********************************
          *  Add Link Popup dialog box
@@ -508,13 +454,11 @@ var siteColorStyles;
             var styles = ['color', 'background-color', 'border-color'];
             siteColorStyles = $('site-template-colors').css(styles);
             siteColorStyles.hover = $('site-template-colors').css('outline-color');
-            console.log("col: +" + settings.design.text.color);
+
             if (settings.design.text.color === 'color-1') {
-                console.log("set new template ONREADY");
                 settings.design = getTemplateDesign('defaultNote');
             }
         });
-
     }]);
 
     app.directive('httpPrefix', function() {

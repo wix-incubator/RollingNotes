@@ -9,7 +9,7 @@ exports.defaultNote = {
         "template" : "defaultNote",
         "text" : {
             "color" : "color-1",
-            "preset": "Heading-M",
+            "preset": "Body-L",
             "alignment" : "center"
         },
         "background" : {
@@ -23,7 +23,7 @@ exports.defaultNote = {
         },
         "border" : {
             "color" : "color-6",
-            "width" : "5",
+            "width" : "4",
             "radius" : "0"
         }
     },
