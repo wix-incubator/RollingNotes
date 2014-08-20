@@ -433,9 +433,9 @@ var siteColorStyles;
             note.link.url = "";
         }
 
-        this.removeLink = function() {
-            clearLinks(this.noteForLink);
-            this.noteForLink.link.display = "";
+        this.removeLink = function(note) {
+            clearLinks(note);
+            note.link.display = "";
             $scope.updateComponent(settings);
             this.closeLinkPopup();
         }

@@ -233,8 +233,7 @@ Includes design settings, template settings and the manage notes screen.
                             </button>
                         </div>
                     </div>
-
-                    <a class="remove-link" ng-click="ctrl.removeLink()">Remove link</a>
+                    <a class="remove-link" ng-click="ctrl.removeLink(ctrl.noteForLink)">Remove link</a>
                     <button class="uilib-btn btn-large submit-link-btn" ng-click="ctrl.setLink()">OK</button>
                 </div>
                 <!-- List of all existing notes, added drag and drop functionality, updated dynamically with angular ng-repeat directive -->
@@ -263,11 +262,12 @@ Includes design settings, template settings and the manage notes screen.
                                        ng-class="{'icon-watch' : note.visibility === true, 'icon-unwatch' : note.visibility === false}" ng-show="showIcons == true || note.visibility === false"></a>
                                 </div>
                             </div>
-                            <div class="link-container">
+                            <div class="link-container" ng-mouseenter="overLink = true" ng-mouseleave="overLink = false">
                                     <a ng-click="ctrl.showLinkPopup(note)" ng-show="showIcons || note.link.display"><img class="link-icon" src="/images/link-icon.png"/></a>
                                     <!--<a ng-click="ctrl.showLinkPopup(note)">{{note.link.display || "Add a link" }}</a>-->
                                     <a ng-click="ctrl.showLinkPopup(note)" ng-show="!note.link.display  && showIcons">Add a link</a>
                                     <a ng-click="ctrl.showLinkPopup(note)" ng-show="note.link.display" class="note-link-display">{{note.link.display}}</a>
+                                    <a class="x-link" ng-click="ctrl.removeLink(note)" ng-show="note.link.display && overLink"><span>x</span></a>
                             </div>
                         </li>
                     </div>
