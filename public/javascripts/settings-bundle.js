@@ -1,10 +1,15 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"/Users/elanas/Desktop/Wix Projects/rolling-notes/public/javascripts/defaultTemplates.js":[function(require,module,exports){
-/********************************
- * Exports initial settings for default templates
- * chosen at the top of settings
- *******************************/
+
+/********************************************************************
+ * DEFAULT NOTE TEMPLATES
+ *
+ * Includes four pre-loaded note templates.
+ * Each template is exported to be used in settings-app to load widget.
+ *
+ ********************************************************************/
 
 
+/* Note template that corresponds to user's site color scheme  */
 exports.defaultNote = {
     "design" : {
         "template" : "defaultNote",
@@ -38,6 +43,7 @@ exports.defaultNote = {
     "notes":[]
 };
 
+/* Note template that looks like a spiral notepad  */
 exports.spiralNote = {
     "design" : {
         "template" : "spiralNote",
@@ -71,7 +77,7 @@ exports.spiralNote = {
     "notes":[]
 };
 
-
+/* Note template that looks like a postit note */
 exports.postitNote = {
     "design" : {
         "template" : "postitNote",
@@ -104,7 +110,7 @@ exports.postitNote = {
     "notes":[]
 };
 
-
+/* Note template that looks like a chalkboard  */
 exports.chalkboardNote = {
     "design" : {
         "template" : "chalkboardNote",
