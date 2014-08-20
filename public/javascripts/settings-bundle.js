@@ -379,16 +379,17 @@ var siteColorStyles;
         };
 
         $scope.hiddenNote = false;
-        this.toggleWatch = function(element, index) {
-            $scope.hiddenNote = !$scope.hiddenNote;
-//            settings.notes[index].visibility = !$scope.hiddenNote;
-            if($scope.hiddenNote) {
-                settings.notes[index].visibility = false;
-            } else {
-                settings.notes[index].visibility = true;
-            }
-            $scope.updateComponent(settings);
-        };
+
+        $scope.showIcons = false;
+//        $scope.isFocused = false;
+
+        this.printFocus = function(i) {
+            console.log('isFocused: ' + i)
+//            console.log('scope: ' + $scope.isFocused);
+//            console.log('printing focus: ' + $scope.isFocused);
+            return !i;
+        }
+
 
         /**********************************
          *  Transition Settings (second tab of settings)
@@ -642,8 +643,6 @@ var siteColorStyles;
                 settings.design = getTemplateDesign('defaultNote');
             }
         });
-
-
 
     }]);
 

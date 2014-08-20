@@ -213,7 +213,6 @@ var WidgetApp = React.createClass({
                 count++;
             }
         });
-        console.log('Num Vis Notes: ' + count);
         return count;
     },
 
@@ -244,7 +243,6 @@ var WidgetApp = React.createClass({
         var nextVisibleSlide = ((this.state.slideIndex) + 1) % this.state.settings.notes.length;;
         while (this.state.settings.notes[nextVisibleSlide].visibility === false) {
             nextVisibleSlide = (nextVisibleSlide +1) % this.state.settings.notes.length;
-            console.log("nextVisinLoop: " + nextVisibleSlide);
         }
         this.setState({slideIndex: nextVisibleSlide});
     },
