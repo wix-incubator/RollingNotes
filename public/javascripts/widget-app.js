@@ -54,9 +54,9 @@ var WidgetApp = React.createClass({
             if (viewMode === 'edit') {
                 return;
             } else if(state === 'hidden') {
-                    this.pauseNotes();
+                that.pauseNotes();
             } else if (state === 'visible'){
-                this.playNotes();
+                that.playNotes();
             }
         });
 
