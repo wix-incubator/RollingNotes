@@ -73,20 +73,14 @@ var WidgetApp = React.createClass({
     updateStyles: function () {
         var widgetStyle = {};
         var design = this.state.settings.design;
-        //widgetStyle.font = this.state.settings.design.font;
         widgetStyle.color = design.text.color;
-        widgetStyle.fontSize = design.text.size;
-        widgetStyle.fontFamily = design.text.family;
-        widgetStyle.fontStyle = design.text.style;
         widgetStyle.textAlign = design.text.alignment;
-
 
         widgetStyle.backgroundColor = design.background.color;
 
         widgetStyle.borderColor = design.border.color;
         widgetStyle.borderWidth = design.border.width;
         widgetStyle.borderRadius = design.border.radius;
-
 
         return widgetStyle
     },
@@ -99,10 +93,7 @@ var WidgetApp = React.createClass({
 
     updateHeaderStyle: function() {
       var headerStyle = {};
-        //TODO template updates itself?
-
-        if (this.state.settings.design.template === "postitNote") {
-          //TODO put as utils method
+      if (this.state.settings.design.template === "postitNote") {
           var currRGBA = parseRBGA(this.state.settings.design.background.color);
           headerStyle.backgroundColor = "rgba(" +
               Math.abs((currRGBA[0] - 26) % 255) + "," +
@@ -114,15 +105,13 @@ var WidgetApp = React.createClass({
     },
 
     handleMouseEnter: function(e) {
-        console.log("mouseon");
-        if(this.state.settings.design.hover.selected){
+        if(this.state.settings.design.hover.selected) {
             $(e.target).closest('.note-widget').css({"background-color":this.state.settings.design.hover.color});
         }
         this.pauseNotes();
     },
 
     handleMouseLeave: function(e) {
-        console.log("mouseoff");
         $(e.target).closest('.note-widget').css({"background-color":this.state.settings.design.background.color});
         this.hoverOffPlay();
     },
@@ -142,13 +131,11 @@ var WidgetApp = React.createClass({
     hoverOffPlay: function() {
         var that = this;
         if (this.state.mode === PLAY) {
-            console.log('playing in hover: return');
             return;
         }
         this.setState({mode: PLAY});
         hoverTimeout = setTimeout(function() {
             that.nextNote();
-            that.pauseNotes();
             that.playNotes();
         },2000);
     },
@@ -157,10 +144,9 @@ var WidgetApp = React.createClass({
     playNotes: function() {
         var that = this;
         if (this.state.mode === PLAY) {
-            return;
+            this.pauseNotes();
         }
         this.setState({mode: PLAY});
-        //this.nextNote();
         playNotesInterval = setInterval(function() {
             that.nextNote();
         }, this.getSlideDuration());
