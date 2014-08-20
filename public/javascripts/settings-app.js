@@ -180,7 +180,7 @@ var siteColorStyles;
             $scope.visibleManageNotes = false;
         };
 
-        $scope.blur = function() {
+        this.blur = function() {
             $('.character-count-normal').removeClass('character-count-max');
             $('textarea').removeClass('note-text-max-count');
             $scope.updateComponent(settings);

@@ -223,7 +223,7 @@ Includes design settings, template settings and the manage notes screen.
                                 <img class="drag-img" src="/images/drag-icon.png" />
                             </div>
                             <div class="note-text-container">
-                                <textarea ng-model="note.msg" ng-blur="this.blur(); isFocused = false" ng-trim="false" ng-focus="isFocused = true"
+                                <textarea ng-model="note.msg" ng-blur="ctrl.blur(); isFocused = false" ng-trim="false" ng-focus="isFocused = true"
                                         rows="0" class="note-text" ng-class="{'unwatched-note': note.visibility == false,
                                         'note-text-max-count': (note.msg.length >= 140)}" type="text" maxlength="140"
                                          placeholder="This is a note. Click to edit"></textarea>
