@@ -160,7 +160,7 @@ var siteColorStyles;
             return key.substring(key.indexOf(".") + 1);
         }
 
-        var updateComponent = function(newSettings) {
+        $scope.updateComponent = function(newSettings) {
             this.settings = newSettings;
 
             var instance = window.location.search.substring(window.location.search.indexOf('instance') + 9, window.location.search.indexOf('&'));
@@ -201,7 +201,7 @@ var siteColorStyles;
         this.resetTemplate = function() {
             var template = getTemplateDesign(settings.design.template);
             settings.design = setDesignOptions(template);
-            updateComponent(settings);
+            $scope.updateComponent(settings);
         };
 
 
@@ -225,7 +225,7 @@ var siteColorStyles;
             // set the design options in the Settings UI
             settings.design = setDesignOptions(template);
             console.log('changed template: ' );
-            updateComponent(settings);
+            $scope.updateComponent(settings);
         });
 
         // event listeners for changing settings in design tab, uses wix ui lib
@@ -235,12 +235,12 @@ var siteColorStyles;
             Wix.Styles.getStyleParams( function(styleParams) {
                 console.log(JSON.stringify(styleParams));
             });
-            updateComponent(settings);
+            $scope.updateComponent(settings);
         });
 
         Wix.UI.onChange('textAlignGroup', function(newSettings){
             settings.design.text.alignment = newSettings.value;
-            updateComponent(settings);
+            $scope.updateComponent(settings);
         });
 
         //TODO extract to common utils, I've seen this before
@@ -253,7 +253,7 @@ var siteColorStyles;
             settings.design.background.color = newSettings.rgba;
             settings.design.background.opacity = newSettings.opacity;
             Wix.UI.set('bOpacitySpinner', settings.design.background.opacity * 100);
-            updateComponent(settings);
+            $scope.updateComponent(settings);
         });
 
 
@@ -262,12 +262,12 @@ var siteColorStyles;
             settings.design.background.color = "rgba(" + currRGBA[0] + "," + currRGBA[1] + "," + currRGBA[2] + "," + newSettings/100 + ")";
             settings.design.background.opacity = newSettings/100;
             Wix.UI.set('bcolorWOpacity',{rgba: settings.design.background.color, opacity:settings.design.background.opacity});
-            updateComponent(settings);
+            $scope.updateComponent(settings);
         });
 
         Wix.UI.onChange('hoverCheckbox', function(newSettings){
             settings.design.hover.selected = newSettings;
-            updateComponent(settings);
+            $scope.updateComponent(settings);
         });
 
         Wix.UI.onChange('hcolorWOpacity', function(newSettings){
@@ -275,7 +275,7 @@ var siteColorStyles;
             settings.design.hover.color = newSettings.rgba;
             settings.design.hover.opacity = newSettings.opacity;
             Wix.UI.set('hOpacitySlider', settings.design.hover.opacity * 100);
-            updateComponent(settings);
+            $scope.updateComponent(settings);
         });
 
         Wix.UI.onChange('hOpacitySlider', function(newSettings){
@@ -284,24 +284,24 @@ var siteColorStyles;
             settings.design.hover.color = "rgba(" + currRGBA[0] + "," + currRGBA[1] + "," + currRGBA[2] + "," + newSettings/100 + ")";
             settings.design.hover.opacity = newSettings/100;
             Wix.UI.set('hcolorWOpacity',{rgba: settings.design.hover.color, opacity:settings.design.hover.opacity});
-            updateComponent(settings);
+            $scope.updateComponent(settings);
         });
 
         Wix.UI.onChange('borderColor', function(newSettings){
             settings.design.border.color = newSettings.cssColor;
-            updateComponent(settings);
+            $scope.updateComponent(settings);
         });
 
 
         Wix.UI.onChange('borderWidth', function(newSettings){
             settings.design.border.width = newSettings;
-            updateComponent(settings);
+            $scope.updateComponent(settings);
         });
 
 
         Wix.UI.onChange('radius', function(newSettings){
             settings.design.border.radius = newSettings;
-            updateComponent(settings);
+            $scope.updateComponent(settings);
         });
 
         /**********************************
@@ -323,14 +323,14 @@ var siteColorStyles;
         this.blur = function() {
             $('.character-count-normal').removeClass('character-count-max');
             $('textarea').removeClass('note-text-max-count');
-            updateComponent(settings);
+            $scope.updateComponent(settings);
 
         };
 
         $scope.settings = $window.settings;
 
         $scope.$watchCollection('settings.notes', function() {
-            updateComponent(settings);
+            $scope.updateComponent(settings);
         });
 
         this.addNote = function () {
@@ -387,7 +387,7 @@ var siteColorStyles;
             } else {
                 settings.notes[index].visibility = true;
             }
-            updateComponent(settings);
+            $scope.updateComponent(settings);
         };
 
         /**********************************
@@ -399,12 +399,12 @@ var siteColorStyles;
 
         Wix.UI.onChange('transition', function(newSettings){
             settings.transition.effect = newSettings.value;
-            updateComponent(settings);
+            $scope.updateComponent(settings);
         });
 
         Wix.UI.onChange('duration', function(newSettings){
             settings.transition.duration = Math.round(newSettings);
-            updateComponent(settings);
+            $scope.updateComponent(settings);
         });
 
 
@@ -437,7 +437,7 @@ var siteColorStyles;
                 $('.overlay-gray').css('visibility', 'hidden');
                 $('.overlay-lock').children().css('pointer-events', 'auto');
                 settings.transition.preview = true;
-                updateComponent(settings);
+                $scope.updateComponent(settings);
                 settings.transition.preview = false;
                 shouldPreviewRun = true;
                 clearTimeout(timeout);
@@ -466,7 +466,7 @@ var siteColorStyles;
 
             }, dur - 1500)
 
-            updateComponent(settings);
+            $scope.updateComponent(settings);
             settings.transition.preview = false;
         };
 
@@ -530,6 +530,7 @@ var siteColorStyles;
 
             if ($scope.linkOption === 2) {
                 var that = this;
+                var scope = $scope;
 
                 var index = settings.pages.indexOf(this.noteForLink.pageLink);
                 this.noteForLink.link.display = link;
@@ -538,7 +539,7 @@ var siteColorStyles;
                 Wix.Worker.getSiteInfo(function(siteInfo) {
                     // do something with the siteInfo
                     that.noteForLink.link.url = siteInfo.baseUrl + '#!/' + that.settings.pageIds[index];
-                    updateComponent(that.settings);
+                    scope.updateComponent(that.settings);
                 });
             } else if ($scope.linkOption === 3) {
                 this.noteForLink.link.url = mailLink(this.noteForLink.emailLink,{subject: this.noteForLink.link.subject});
@@ -551,7 +552,7 @@ var siteColorStyles;
 
             this.noteForLink.link.display = this.noteForLink.link.display.substring(0, 30);
 
-            updateComponent(settings);
+            $scope.updateComponent(settings);
 
             this.closeLinkPopup();
         }
@@ -574,7 +575,7 @@ var siteColorStyles;
         this.removeLink = function() {
             clearLinks(this.noteForLink);
             this.noteForLink.link.display = "";
-            updateComponent(settings);
+            $scope.updateComponent(settings);
             this.closeLinkPopup();
         }
 
@@ -602,6 +603,7 @@ var siteColorStyles;
 
         this.docLink = function() {
             var that = this;
+            var scope = $scope;
             Wix.Settings.openMediaDialog( Wix.Settings.MediaType.DOCUMENT, false, function(data) {
                 var documentUrl = Wix.Utils.Media.getDocumentUrl(data.relativeUri);
                 that.noteForLink.docLink = documentUrl;
@@ -609,7 +611,7 @@ var siteColorStyles;
                     that.noteForLink.link.display = data.fileName;
                     that.noteForLink.link.display = that.noteForLink.link.display.substring(0, 30);
                 });
-                updateComponent(settings);
+                scope.updateComponent(settings);
             });
         }
 
