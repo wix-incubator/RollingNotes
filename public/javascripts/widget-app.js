@@ -10,7 +10,7 @@ var hoverTimeout;
 
 var PLAY  = 'play';
 var PAUSE = 'pause';
-var PREVIEW = 'preview';
+var CLEARNOTE = 'clearnote';
 
 var WidgetApp = React.createClass({
 
@@ -102,7 +102,7 @@ var WidgetApp = React.createClass({
 
     updateAnchorStyle: function() {
         var anchorStyle = {};
-        anchorStyle.cursor = this.getNoteContent().link.url ? 'pointer' : 'default';
+        anchorStyle.cursor = this.getNoteMessage().link.url ? 'pointer' : 'default';
         return anchorStyle;
     },
 
@@ -185,15 +185,10 @@ var WidgetApp = React.createClass({
     },
 
     previewRollingNotes: function() {
-        var that = this;
-        console.log("did we preview?");
-        this.setState({mode:PREVIEW});
-        setTimeout(function() {
-            that.setState({mode:PLAY,slideIndex:-1});
-            setTimeout(function() {
-                that.setState({slideIndex:0})},
-                0);
-        }, 0);
+        this.setState({mode:CLEARNOTE});
+        this.setState({mode:PLAY,slideIndex:-1});
+        this.setState({slideIndex: 0});
+        this.pauseNotes();
     },
 
 
@@ -242,7 +237,7 @@ var WidgetApp = React.createClass({
         this.setState({slideIndex: nextVisibleSlide});
     },
 
-    getNoteContent: function() {
+    getNoteMessage: function() {
         var notecontent;
 
         if (this.state.slideIndex === -1) {
@@ -255,35 +250,31 @@ var WidgetApp = React.createClass({
         return notecontent;
     },
 
+    getNoteContent: function() {
+      if (this.state.mode !== CLEARNOTE ) return  (
+          <ReactCSSTransitionGroup  transitionName={this.state.mode}>
+                  <div className={'rSlides ' + this.state.settings.transition.effect} key={this.getNoteMessage().key}>
+                      <p>{this.getNoteMessage().msg}</p>
+                  </div>
+           </ReactCSSTransitionGroup>
+          );
+    },
+
 
 
     /************************
      * Widget UI rendered whenever widget state changed
      ************************/
     render: function() {
-
-        if (this.state.mode !== PREVIEW) return <a href={this.getNoteContent().link.url || "javascript:;"} target={this.getNoteContent().link.target || ''} style={this.updateAnchorStyle()}>
+         return <a href={this.getNoteMessage().link.url || "javascript:;"} target={this.getNoteMessage().link.target || ''} style={this.updateAnchorStyle()}>
             <div className={"note-widget " + this.state.settings.design.template} style={this.updateStyles()}
                     onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
                     <div  className="note-header" style={this.updateHeaderStyle()}></div>
                     <div className="note-content">
-                        <ReactCSSTransitionGroup  transitionName={PLAY}>
-                         <div className={'rSlides ' + this.state.settings.transition.effect} key={this.getNoteContent().key}>
-                              <p>{this.getNoteContent().msg}</p>
-                         </div>
-                        </ReactCSSTransitionGroup>
+                         {this.getNoteContent()}
                     </div>
                </div>
             </a>;
-
-        else return <a href={this.getNoteContent().link.url || "javascript:;"} target={this.getNoteContent().link.target || ''} style={this.updateAnchorStyle()}>
-            <div className={"note-widget " + this.state.settings.design.template} style={this.updateStyles()}
-            onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
-                <div  className="note-header" style={this.updateHeaderStyle()}></div>
-                <div className="note-content">
-                </div>
-            </div>
-        </a>;
     }
 });
 
