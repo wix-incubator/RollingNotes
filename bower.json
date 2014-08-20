@@ -25,6 +25,7 @@
     "visibilityjs": "latest",
     "deep-diff" : "latest",
     "angular-animate" : "latest",
-    "lodash" : "latest"
+    "lodash" : "latest",
+    "slimScroll" : "latest"
   }
 }
