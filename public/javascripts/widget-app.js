@@ -42,11 +42,6 @@ var WidgetApp = React.createClass({
             //TODO make button interval and preview the same to avoid hacky code
             Wix.addEventListener(Wix.Events.EDIT_MODE_CHANGE, function(data) {
                 if (data.editMode === 'preview') {
-//                    if(previewNotesInterval != null) {
-//                        clearInterval(previewNotesInterval);
-//                        previewNotesInterval = null;
-//                        that.pauseNotes();
-//                    }
                     that.playNotes();
                 }
                 if (data.editMode === 'editor') {
