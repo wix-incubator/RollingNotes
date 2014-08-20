@@ -263,7 +263,6 @@ var siteColorStyles;
             settings.transition.preview = true;
             $scope.updateComponent(settings);
             settings.transition.preview = false;
-            console.log('chaging transition');
         });
 
         Wix.UI.onChange('duration', function(newSettings){
@@ -291,6 +290,12 @@ var siteColorStyles;
                 return;
             }
         });
+
+        this.replayPreview = function() {
+            settings.transition.preview = true;
+            $scope.updateComponent(settings);
+            settings.transition.preview = false;
+        }
 
         this.previewTransition = function() {
 //          Wix.Settings.refreshAppByCompIds([parseCompId(settings._id)]);
