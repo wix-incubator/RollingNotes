@@ -238,9 +238,9 @@ Includes design settings, template settings and the manage notes screen.
                 </div>
                 <!-- List of all existing notes, added drag and drop functionality, updated dynamically with angular ng-repeat directive -->
                 <div ng-show="ctrl.settings.notes.length > 0" class="addNoteLine"></div>
-                <ul  ng-model="ctrl.settings.notes" id="manage-notes-content" class="box scrollable-notes-area"
+                <ul id="manage-notes-content" class="box scrollable-notes-area"
                     ng-class="{'empty-notes-background':ctrl.settings.notes.length == 0}">
-                    <div ui:sortable>
+                    <div ui:sortable ng-model="ctrl.settings.notes">
                         <li ng-repeat="note in ctrl.settings.notes" class="note-container" ng-class="{'disabled' : popupVisible}"
                             ng-mouseenter="showIcons = true" ng-mouseleave="showIcons = false">
                             <div class="content-row">

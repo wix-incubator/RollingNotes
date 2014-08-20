@@ -10,6 +10,7 @@ var hoverTimeout;
 
 var PLAY  = 'play';
 var PAUSE = 'pause';
+var PREVIEW = 'preview';
 
 var WidgetApp = React.createClass({
 
@@ -36,7 +37,6 @@ var WidgetApp = React.createClass({
                 that.setState({slideIndex: that.getFirstVisibleNoteIndex()});
                 if (that.state.settings.transition.preview === true) {
                     that.previewRollingNotes();
-
                 }
             });
             //TODO make button interval and preview the same to avoid hacky code
@@ -150,11 +150,11 @@ var WidgetApp = React.createClass({
 
     hoverOffPlay: function() {
         var that = this;
-        if (this.state.mode === 'play') {
+        if (this.state.mode === PLAY) {
             console.log('playing in hover: return');
             return;
         }
-        this.setState({mode: 'play'});
+        this.setState({mode: PLAY});
         hoverTimeout = setTimeout(function() {
             that.nextNote();
             that.pauseNotes();
@@ -165,10 +165,10 @@ var WidgetApp = React.createClass({
     //TODO add toggleNote method instead of play/pause notes
     playNotes: function() {
         var that = this;
-        if (this.state.mode === 'play') {
+        if (this.state.mode === PLAY) {
             return;
         }
-        this.setState({mode: 'play'});
+        this.setState({mode: PLAY});
         //this.nextNote();
         playNotesInterval = setInterval(function() {
             that.nextNote();
@@ -185,20 +185,24 @@ var WidgetApp = React.createClass({
     },
 
     previewRollingNotes: function() {
-        if (this.state.mode !== PAUSE) {
-            this.refreshWidget();
-        }
-        var that = this;
-        var counter = 0;
-        this.setState({mode:'play', slideIndex: this.getFirstVisibleNoteIndex()});
+        console.log("did we preview?");
+        this.setState({mode: PREVIEW, slideIndex: -1});
         this.nextNote();
-        previewNotesInterval = setInterval(function(){
-            counter++;
-            that.nextNote();
-            if (counter >= that.getNumOfVisibleNotes() - 1) {
-                that.refreshWidget();
-            }
-        }, this.getSlideDuration());
+
+//        if (this.state.mode !== PAUSE) {
+//            this.refreshWidget();
+//        }
+//        var that = this;
+//        var counter = 0;
+//        this.setState({mode:PLAY, slideIndex: this.getFirstVisibleNoteIndex()});
+//        this.nextNote();
+//        previewNotesInterval = setInterval(function(){
+//            counter++;
+//            that.nextNote();
+//            if (counter >= that.getNumOfVisibleNotes() - 1) {
+//                that.refreshWidget();
+//            }
+//        }, this.getSlideDuration());
     },
 
 
@@ -252,6 +256,8 @@ var WidgetApp = React.createClass({
 
         if (this.state.settings.notes.length === 0 || this.getNumOfVisibleNotes() === 0) {
             notecontent = {msg: DEFAULT_NOTE_TEXT, link: {url:"", target:""}};
+        } else if (this.state.slideIndex === -1) {
+            notecontent = {msg: "", link: {url:"", target:""}};;
         } else {
             notecontent = this.state.settings.notes[this.state.slideIndex];
         }
