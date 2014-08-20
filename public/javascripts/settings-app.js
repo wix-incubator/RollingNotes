@@ -1,13 +1,28 @@
-/**
- * Created by elanas on 7/16/14.
- */
 
+/********************************************************************
+ * Settings UI
+ *
+ * Includes all functionality for settings interface.
+ * Used to customize/style rolling notes widget.
+ *
+ * Uses Angular for model.
+ * Corresponds to views/settings.ejs.
+ *
+ ********************************************************************/
+
+/* Grabbing note templates */
 var templates = require("./defaultTemplates");
 var siteColorStyles;
 
 (function(){
+
+    /*
+     *   Initializing angular app called 'settingsApp'.
+     *   Uses two external angular libraries: ui.sortable and ngAnimate
+     */
     var app = angular.module("settingsApp", ['ui.sortable','ngAnimate']);
 
+    /* Initializing angular controller to be used in views/settings.ejs */
     app.controller('settingsController', ['$window', '$scope', '$http', '$timeout', function($window, $scope, $http, $timeout) {
 
         /**********************************

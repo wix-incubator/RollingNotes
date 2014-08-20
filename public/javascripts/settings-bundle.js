@@ -1,10 +1,15 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"/Users/Adam_Cole/Documents/WixApps/rolling-notes/public/javascripts/defaultTemplates.js":[function(require,module,exports){
-/********************************
- * Exports initial settings for default templates
- * chosen at the top of settings
- *******************************/
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"/Users/elanas/Desktop/Wix Projects/rolling-notes/public/javascripts/defaultTemplates.js":[function(require,module,exports){
+
+/********************************************************************
+ * DEFAULT NOTE TEMPLATES
+ *
+ * Includes four pre-loaded note templates.
+ * Each template is exported to be used in settings-app to load widget.
+ *
+ ********************************************************************/
 
 
+/* Note template that corresponds to user's site color scheme  */
 exports.defaultNote = {
     "design" : {
         "template" : "defaultNote",
@@ -38,6 +43,7 @@ exports.defaultNote = {
     "notes":[]
 };
 
+/* Note template that looks like a spiral notepad  */
 exports.spiralNote = {
     "design" : {
         "template" : "spiralNote",
@@ -71,7 +77,7 @@ exports.spiralNote = {
     "notes":[]
 };
 
-
+/* Note template that looks like a postit note */
 exports.postitNote = {
     "design" : {
         "template" : "postitNote",
@@ -104,7 +110,7 @@ exports.postitNote = {
     "notes":[]
 };
 
-
+/* Note template that looks like a chalkboard  */
 exports.chalkboardNote = {
     "design" : {
         "template" : "chalkboardNote",
@@ -137,17 +143,32 @@ exports.chalkboardNote = {
 
     "notes":[]
 };
-},{}],"/Users/Adam_Cole/Documents/WixApps/rolling-notes/public/javascripts/settings-app.js":[function(require,module,exports){
-/**
- * Created by elanas on 7/16/14.
- */
+},{}],"/Users/elanas/Desktop/Wix Projects/rolling-notes/public/javascripts/settings-app.js":[function(require,module,exports){
 
+/********************************************************************
+ * Settings UI
+ *
+ * Includes all functionality for settings interface.
+ * Used to customize/style rolling notes widget.
+ *
+ * Uses Angular for model.
+ * Corresponds to views/settings.ejs.
+ *
+ ********************************************************************/
+
+/* Grabbing note templates */
 var templates = require("./defaultTemplates");
 var siteColorStyles;
 
 (function(){
+
+    /*
+     *   Initializing angular app called 'settingsApp'.
+     *   Uses two external angular libraries: ui.sortable and ngAnimate
+     */
     var app = angular.module("settingsApp", ['ui.sortable','ngAnimate']);
 
+    /* Initializing angular controller to be used in views/settings.ejs */
     app.controller('settingsController', ['$window', '$scope', '$http', '$timeout', function($window, $scope, $http, $timeout) {
 
         /**********************************
@@ -628,4 +649,4 @@ var siteColorStyles;
 
 
 
-},{"./defaultTemplates":"/Users/Adam_Cole/Documents/WixApps/rolling-notes/public/javascripts/defaultTemplates.js"}]},{},["/Users/Adam_Cole/Documents/WixApps/rolling-notes/public/javascripts/settings-app.js"]);
+},{"./defaultTemplates":"/Users/elanas/Desktop/Wix Projects/rolling-notes/public/javascripts/defaultTemplates.js"}]},{},["/Users/elanas/Desktop/Wix Projects/rolling-notes/public/javascripts/settings-app.js"]);

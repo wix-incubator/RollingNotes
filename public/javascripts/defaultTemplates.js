@@ -1,9 +1,14 @@
-/********************************
- * Exports initial settings for default templates
- * chosen at the top of settings
- *******************************/
+
+/********************************************************************
+ * DEFAULT NOTE TEMPLATES
+ *
+ * Includes four pre-loaded note templates.
+ * Each template is exported to be used in settings-app to load widget.
+ *
+ ********************************************************************/
 
 
+/* Note template that corresponds to user's site color scheme  */
 exports.defaultNote = {
     "design" : {
         "template" : "defaultNote",
@@ -37,6 +42,7 @@ exports.defaultNote = {
     "notes":[]
 };
 
+/* Note template that looks like a spiral notepad  */
 exports.spiralNote = {
     "design" : {
         "template" : "spiralNote",
@@ -70,7 +76,7 @@ exports.spiralNote = {
     "notes":[]
 };
 
-
+/* Note template that looks like a postit note */
 exports.postitNote = {
     "design" : {
         "template" : "postitNote",
@@ -103,7 +109,7 @@ exports.postitNote = {
     "notes":[]
 };
 
-
+/* Note template that looks like a chalkboard  */
 exports.chalkboardNote = {
     "design" : {
         "template" : "chalkboardNote",
