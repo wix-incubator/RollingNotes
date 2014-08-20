@@ -2,7 +2,6 @@
 
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
-var previewNotesInterval;
 var playNotesInterval;
 var hoverTimeout;
 
@@ -113,7 +112,7 @@ var WidgetApp = React.createClass({
 
     handleMouseLeave: function(e) {
         $(e.target).closest('.note-widget').css({"background-color":this.state.settings.design.background.color});
-        this.hoverOffPlay();
+        this.resumePlayNotes();
     },
 
     /*****************************
@@ -128,7 +127,7 @@ var WidgetApp = React.createClass({
       window.location.reload();
     },
 
-    hoverOffPlay: function() {
+    resumePlayNotes: function() {
         var that = this;
         if (this.state.mode === PLAY) {
             return;
@@ -140,13 +139,11 @@ var WidgetApp = React.createClass({
         },2000);
     },
 
-    //TODO add toggleNote method instead of play/pause notes
     playNotes: function() {
         var that = this;
         if (this.state.mode === PLAY) {
             this.pauseNotes();
         }
-        this.setState({mode: PLAY});
         playNotesInterval = setInterval(function() {
             that.nextNote();
         }, this.getSlideDuration());
@@ -162,10 +159,13 @@ var WidgetApp = React.createClass({
     },
 
     previewRollingNotes: function() {
-        this.setState({mode:CLEARNOTE});
-        this.setState({mode:PLAY,slideIndex:-1});
-        this.setState({slideIndex: this.getFirstVisibleNoteIndex()});
+        this.clearNote();
+        this.nextNote();
         this.pauseNotes();
+    },
+
+    clearNote: function() {
+        this.setState({mode:CLEARNOTE, slideIndex:-1});
     },
 
 
@@ -204,7 +204,9 @@ var WidgetApp = React.createClass({
     },
 
     nextNote: function() {
+        if (this.state.mode !== PLAY) this.setState({mode: PLAY});
         if (this.state.settings.notes.length <= 1) {
+            this.setState({slideIndex: 0});
             return;
         }
         var nextVisibleSlide = ((this.state.slideIndex) + 1) % this.state.settings.notes.length;;
