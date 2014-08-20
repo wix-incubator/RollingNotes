@@ -8,6 +8,7 @@ var previewNotesInterval;
 var playNotesInterval;
 var hoverTimeout;
 
+var PLAY  = 'play';
 var PAUSE = 'pause';
 
 var WidgetApp = React.createClass({

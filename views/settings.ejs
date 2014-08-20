@@ -21,6 +21,30 @@ Includes design settings, template settings and the manage notes screen.
             outline-color: {{color-9}};
         }
 
+        #defaultNoteTemplateIcon {
+            background-color: {{color-8}};
+            border:2px solid {{color-6}};
+            width: 93%;
+            height: 90%;
+            box-sizing: border-box;
+            overflow: visible;
+            margin-left: 3%;
+        }
+
+        #defaultNoteTemplateIcon p {
+            color: {{color-1}};
+            font-family: Arial Narrow, Helvetica Neue,Helvetica,Arial;
+            width: 50%;
+            height: auto;
+            display: block;
+            white-space: normal;
+            text-align: left;
+            line-height: 12px;
+            font-size: 11.5px;
+            margin-top: 10.5px;
+            margin-left: 6px;
+        }
+
         /*site-template-colors:hover {*/
             /*background-color: {{color-9}};*/
         /*}*/
@@ -59,7 +83,7 @@ Includes design settings, template settings and the manage notes screen.
                             <li class="li-group">
                                 <!-- Template skins, using wix ui lib with custom images in CSS -->
                                 <div class="skins-group" wix-model="template" wix-ctrl="ButtonGroup" wix-options="{value:'{{ctrl.settings.design.template}}'}">
-                                    <button value="defaultNote"></button>
+                                    <button value="defaultNote"><div id="defaultNoteTemplateIcon"><p>This is a note.</p></div></button>
                                     <button value="spiralNote"></button>
                                     <button value="postitNote"></button>
                                     <button value="chalkboardNote"></button>
@@ -215,8 +239,9 @@ Includes design settings, template settings and the manage notes screen.
                 </div>
                 <!-- List of all existing notes, added drag and drop functionality, updated dynamically with angular ng-repeat directive -->
                 <div ng-show="ctrl.settings.notes.length > 0" class="addNoteLine"></div>
-                <ul ui:sortable ng-model="ctrl.settings.notes" id="manage-notes-content" class="box"
+                <ul  ng-model="ctrl.settings.notes" id="manage-notes-content" class="box scrollable-notes-area"
                     ng-class="{'empty-notes-background':ctrl.settings.notes.length == 0}">
+                    <div ui:sortable>
                     <li ng-repeat="note in ctrl.settings.notes" class="note-container" ng-class="{'disabled' : popupVisible}">
                         <div class="content-row" >
                             <div class="drag-container">
@@ -245,6 +270,7 @@ Includes design settings, template settings and the manage notes screen.
                                 <a ng-click="ctrl.showLinkPopup(note)" ng-show="note.link.display" class="note-link-display">{{note.link.display}}</a>
                         </div>
                     </li>
+                    </div>
                 </ul>
             </div>
         </div>
@@ -262,8 +288,8 @@ Includes design settings, template settings and the manage notes screen.
         <script type="text/javascript" src="/javascripts/bower_components/deep-diff/releases/deep-diff-0.2.0.min.js"></script>
         <script type="text/javascript" src="/javascripts/bower_components/angular-animate/angular-animate.js"></script>
         <script type="text/javascript" src="/javascripts/bower_components/lodash/dist/lodash.js"></script>
+        <script type="text/javascript" src="/javascripts/bower_components/slimScroll/jquery.slimscroll.js"></script>
         <script type="text/javascript" src="/javascripts/settings-bundle.js"></script>
-
         <!-- get global settings JSON  from database -->
         <script type="text/javascript">
             var settings = <%- settings %>;
@@ -280,6 +306,11 @@ Includes design settings, template settings and the manage notes screen.
                     imagesToSync: 0,
                     imageLink: false
                 });
+            });
+
+            $('.scrollable-notes-area').slimScroll({
+                height: 'auto',
+                color: '#a3daf8'
             });
         </script>
     </div>
