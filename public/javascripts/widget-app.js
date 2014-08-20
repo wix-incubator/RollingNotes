@@ -21,50 +21,46 @@ var WidgetApp = React.createClass({
         return {settings: this.props.settings, mode: PAUSE, slideIndex: 0};
     },
 
-    componentWillMount: function() {
-        this.setState({slideIndex: this.getFirstVisibleNoteIndex()});
+    addEventListeners : function () {
+        var that = this;
+        Wix.addEventListener(Wix.Events.SETTINGS_UPDATED, function(updatedSettings){
+            that.setState({settings: updatedSettings});
+            that.setState({slideIndex: that.getFirstVisibleNoteIndex()});
+            if (that.state.settings.transition.preview === true) {
+                that.previewRollingNotes();
+            }
+        });
+
+        Wix.addEventListener(Wix.Events.EDIT_MODE_CHANGE, function(data) {
+            if (data.editMode === 'preview') {
+                that.playNotes();
+            }
+            if (data.editMode === 'editor') {
+                that.refreshWidget();
+            }
+        });
+
     },
 
     componentDidMount: function() {
         var that = this;
         var viewMode = Wix.Worker.Utils.getViewMode();
-        //TODO extract to common utils, I've seen this before
 
-        // add event listeners to connect updated settings to widget
         if (viewMode === 'editor') {
-            Wix.addEventListener(Wix.Events.SETTINGS_UPDATED, function(updatedSettings){
-                that.setState({settings: updatedSettings});
-                that.setState({slideIndex: that.getFirstVisibleNoteIndex()});
-                if (that.state.settings.transition.preview === true) {
-                    that.previewRollingNotes();
-                }
-            });
-            //TODO make button interval and preview the same to avoid hacky code
-            Wix.addEventListener(Wix.Events.EDIT_MODE_CHANGE, function(data) {
-                if (data.editMode === 'preview') {
-                    that.playNotes();
-                }
-                if (data.editMode === 'editor') {
-                    that.refreshWidget();
-                }
-            });
+            this.addEventListeners();
         }
 
         Visibility.change(function(e, state) {
-            var viewMode = Wix.Worker.Utils.getViewMode();
-            if(state === 'hidden') {
-                if(previewNotesInterval != null) {
-                    that.refreshWidget();
-                } else if (viewMode ==='preview' ||  viewMode === 'site') {
-                    that.pauseNotes();
-                }
-            } else if (state === 'visible' && (viewMode === 'preview' || viewMode === 'site')){
-                that.playNotes();
+            if (viewMode === 'edit') {
+                return;
+            } else if(state === 'hidden') {
+                    this.pauseNotes();
+            } else if (state === 'visible'){
+                this.playNotes();
             }
         });
 
         that.setState({slideIndex: that.getFirstVisibleNoteIndex()});
-
         if (viewMode === 'site') {
             this.playNotes();
         }
@@ -182,7 +178,7 @@ var WidgetApp = React.createClass({
     previewRollingNotes: function() {
         this.setState({mode:CLEARNOTE});
         this.setState({mode:PLAY,slideIndex:-1});
-        this.setState({slideIndex: 0});
+        this.setState({slideIndex: this.getFirstVisibleNoteIndex()});
         this.pauseNotes();
     },
 
