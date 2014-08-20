@@ -185,9 +185,15 @@ var WidgetApp = React.createClass({
     },
 
     previewRollingNotes: function() {
+        var that = this;
         console.log("did we preview?");
-        this.setState({mode: PREVIEW, slideIndex: -1});
-        this.nextNote();
+        this.setState({mode:PREVIEW});
+        setTimeout(function() {
+            that.setState({mode:PLAY,slideIndex:-1});
+            setTimeout(function() {that.setState({slideIndex:0})}, 0);
+        }, 0);
+
+//        this.nextNote();
 
 //        if (this.state.mode !== PAUSE) {
 //            this.refreshWidget();
@@ -253,11 +259,10 @@ var WidgetApp = React.createClass({
 
     getNoteContent: function() {
         var notecontent;
-
         if (this.state.settings.notes.length === 0 || this.getNumOfVisibleNotes() === 0) {
             notecontent = {msg: DEFAULT_NOTE_TEXT, link: {url:"", target:""}};
         } else if (this.state.slideIndex === -1) {
-            notecontent = {msg: "", link: {url:"", target:""}};;
+            notecontent = {msg: "", key:"thisisthetestkey", link: {url:"", target:""}};;
         } else {
             notecontent = this.state.settings.notes[this.state.slideIndex];
         }
@@ -268,12 +273,13 @@ var WidgetApp = React.createClass({
      * Widget UI rendered whenever widget state changed
      ************************/
     render: function() {
-        return <a href={this.getNoteContent().link.url || "javascript:;"} target={this.getNoteContent().link.target || ''} style={this.updateAnchorStyle()}>
+
+        if (this.state.mode !== PREVIEW) return <a href={this.getNoteContent().link.url || "javascript:;"} target={this.getNoteContent().link.target || ''} style={this.updateAnchorStyle()}>
             <div className={"note-widget " + this.state.settings.design.template} style={this.updateStyles()}
                     onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
                     <div  className="note-header" style={this.updateHeaderStyle()}></div>
                     <div className="note-content">
-                        <ReactCSSTransitionGroup  transitionName={this.state.mode}>
+                        <ReactCSSTransitionGroup  transitionName={PLAY}>
                          <div className={'rSlides ' + this.state.settings.transition.effect} key={this.getNoteContent().key}>
                               <p>{this.getNoteContent().msg}</p>
                          </div>
@@ -281,6 +287,15 @@ var WidgetApp = React.createClass({
                     </div>
                </div>
             </a>;
+
+        else return <a href={this.getNoteContent().link.url || "javascript:;"} target={this.getNoteContent().link.target || ''} style={this.updateAnchorStyle()}>
+            <div className={"note-widget " + this.state.settings.design.template} style={this.updateStyles()}
+            onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
+                <div  className="note-header" style={this.updateHeaderStyle()}></div>
+                <div className="note-content">
+                </div>
+            </div>
+        </a>;
     }
 });
 

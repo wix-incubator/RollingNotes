@@ -260,7 +260,10 @@ var siteColorStyles;
 
         Wix.UI.onChange('transition', function(newSettings){
             settings.transition.effect = newSettings.value;
+            settings.transition.preview = true;
             $scope.updateComponent(settings);
+            settings.transition.preview = false;
+            console.log('chaging transition');
         });
 
         Wix.UI.onChange('duration', function(newSettings){
