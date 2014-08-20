@@ -54,7 +54,7 @@ function getCompByKey(key) {
         if(!widget) {
 
             /* sets new widget settings to default */
-            comp = defaultNote.defaultNote;
+            comp = defaultNote;
 
             /* assigns new widget unique key */
             comp._id = key;
