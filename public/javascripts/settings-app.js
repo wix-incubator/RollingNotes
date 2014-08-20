@@ -349,10 +349,10 @@ var siteColorStyles;
                 case 1:
                 {
                     this.noteForLink.link.display = link;
-                    if (this.noteForLink.link.targetVal === 0) {
-                        this.noteForLink.link.target = '_blank';
-                    } else {
+                    if (this.noteForLink.link.targetVal === 1) {
                         this.noteForLink.link.target = '_top';
+                    } else {
+                        this.noteForLink.link.target = '_blank';
                     }
                     break;
                 }

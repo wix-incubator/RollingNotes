@@ -31,7 +31,6 @@ router.get('/settings', function(req, res) {
 router.post('/updateComponent', function(req, res) {
     req.query.instance = req.body.instance
     auth.authenticate(req,res);
-    console.log(JSON.stringify(req.body));
     db.updateComponent(req.body);
 });
 
