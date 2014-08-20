@@ -47,27 +47,37 @@ var defaultNote = require("../public/javascripts/defaultTemplates").defaultNote;
 function getCompByKey(key) {
     var deferred = q.defer();
     return db.rollingnotes.findOne({_id: key
-    }).then(function(doc) {
+    }).then(function(note) {
         var comp;
-        if(!doc) {
+
+        /* if note does not exist in db */
+        if(!note) {
+
+            /* sets new note settings to default */
             comp = defaultNote.defaultNote;
 
-            // assign new component unique key
+            /* assigns new note unique key */
             comp._id = key;
 
-            // insert new comp instance in db
+            /* inserts new note in db */
             db.rollingnotes.insert(comp).then(function(comp) {
-                "use strict";
                 deferred.resolve(comp);
             });
 
+        /* if note already exists in db */
         } else {
             console.log('Comp Doc existed and returned');
-            comp = doc;
+
+            /* loads note */
+            comp = note;
             deferred.resolve(comp);
         }
+
+        /* returns note */
         return deferred.promise;
+
     }, function(err) {
+        /* called if error in database */
         console.log('Error in getCompByKey')
         deferred.reject(err);
     });
@@ -75,15 +85,16 @@ function getCompByKey(key) {
 
 /**
  * Updates database with updated note-component.
- * Uses 'updatedComp.id' to find note to update.
- * Sets old note to 'updatedComp'.
+ * Uses 'updatedNote.id' to find note to update.
+ * Sets old note to 'updatedNote'.
  *
  * Uses promise instead of callback.
  *
- * @param updatedComp - updated note-component to be saved in db.
+ * @param updatedNote - updated note-component to be saved in db.
  */
-function updateComponent(updatedComp) {
-    db.rollingnotes.save(updatedComp).then(function(data) {
+function updateComponent(updatedNote) {
+    /* updates database with new note data */
+    db.rollingnotes.save(updatedNote).then(function(data) {
             console.log('db successfully updated')
     }, function(err) {
         console.log('Error: ' + err);
