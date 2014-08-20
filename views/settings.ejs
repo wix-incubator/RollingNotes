@@ -217,8 +217,8 @@ Includes design settings, template settings and the manage notes screen.
                 <div ng-show="ctrl.settings.notes.length > 0" class="addNoteLine"></div>
                 <ul ui:sortable ng-model="ctrl.settings.notes" id="manage-notes-content" class="box"
                     ng-class="{'empty-notes-background':ctrl.settings.notes.length == 0}">
-                    <li ng-repeat="note in ctrl.settings.notes" class="note-container" ng-class="{'disabled' : popupVisible}">
-                        <div class="content-row" >
+                    <li ng-repeat="note in ctrl.settings.notes" class="note-container" ng-class="{'disabled' : popupVisible}" ng-mouseenter="showIcons = true" ng-mouseleave="showIcons = false">
+                        <div class="content-row">
                             <div class="drag-container">
                                 <img class="drag-img" src="/images/drag-icon.png" />
                             </div>
@@ -230,7 +230,7 @@ Includes design settings, template settings and the manage notes screen.
                                 <div class="character-count-normal" ng-class="{'character-count-max':note.msg.length >= 140}">
                                     {{note.msg.length}}/140</div>
                                 </div>
-                            <div class="edit-icons-container">
+                            <div class="edit-icons-container" ng-show="showIcons == true">
                                 <a class="icon-edit" ng-click="ctrl.editNoteButton($event, $index)"></a>
                                 <a ng-click="ctrl.deleteNote(ctrl.settings.notes, $index)"><img id="trash-icon" src="/images/trash-icon.png" /></a>
                                 <a ng-click="note.visibility = !note.visibility; updateComponent(ctrl.settings)"

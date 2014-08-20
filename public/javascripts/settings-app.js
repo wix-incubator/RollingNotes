@@ -239,16 +239,12 @@ var siteColorStyles;
         };
 
         $scope.hiddenNote = false;
-        this.toggleWatch = function(element, index) {
-            $scope.hiddenNote = !$scope.hiddenNote;
-//            settings.notes[index].visibility = !$scope.hiddenNote;
-            if($scope.hiddenNote) {
-                settings.notes[index].visibility = false;
-            } else {
-                settings.notes[index].visibility = true;
-            }
-            $scope.updateComponent(settings);
-        };
+
+        $scope.showIcons = false;
+//        this.showNoteIcons = function() {
+//            $scope.showIcons = true;
+//        }
+
 
         /**********************************
          *  Transition Settings (second tab of settings)
@@ -502,8 +498,6 @@ var siteColorStyles;
                 settings.design = getTemplateDesign('defaultNote');
             }
         });
-
-
 
     }]);
 
