@@ -171,32 +171,78 @@ var siteColorStyles;
     /* Initializing angular controller to be used in views/settings.ejs */
     app.controller('settingsController', ['$window', '$scope', '$http', '$timeout', function($window, $scope, $http, $timeout) {
 
-        /**********************************
+        /**************************************************
          *  Design Settings (first tab of settings)
-         **********************************/
+         **************************************************/
 
+        /* Represents JSON of all settings for note-widget instance.
+         * Grabbed from the database to index/routes.js to settings.ejs to here*/
         this.settings = $window.settings;
 
+        /**
+         * Takes the widget unique id and grabs only the widget component id.
+         * Used when communicating from Settings to Widget.
+         *
+         * @param key - widget unique id
+         * @returns string - represents widget component id
+         */
         var parseCompId = function(key){
             return key.substring(key.indexOf(".") + 1);
         }
 
+        /**
+         * Returns app settings instance.
+         * Used to properly authenticate '/updateComponent' POST request.
+         *
+         * @returns string - settings instance
+         */
+        var parseSettingsInstance = function() {
+            var instance = window.location.search.substring(window.location.search.indexOf('instance') + 9, window.location.search.indexOf('&'));
+            return instance;
+        }
+
+        /**
+         * Updates the database and the Widget with settings changes.
+         *
+         * @param newSettings
+         */
         $scope.updateComponent = function(newSettings) {
+            /* replacing old settings JSON with updated settings */
             this.settings = newSettings;
 
-            var instance = window.location.search.substring(window.location.search.indexOf('instance') + 9, window.location.search.indexOf('&'));
-            this.settings.instance = instance;
+            /* Sets settings instance to be used in POST request authentication below */
+            this.settings.instance = parseSettingsInstance();
+
+            /*
+             * Sends a POST request to routes/index.js.
+             * POSTs new settings data to database.
+             * This is how settings updates/changes are saved.
+             */
             $http.post('/updateComponent', this.settings).success(function() {
                 console.log('posting');
             }).error(function(data, status, headers, config) {
                  console.log("OH NO! WE FAILED TO POST!!!!!");
                  console.log("data: " + data + "; status: " + status);
             });
+
+            /* Triggers the widget UI to refresh with settings changes */
             Wix.Settings.triggerSettingsUpdatedEvent(settings, parseCompId(settings._id));
         };
 
+        /**
+         * Returns a pre-load JSON based on the
+         * widget template name in the parameter.
+         *
+         * @param templateName - name of widget-template to return
+         * @returns JSON representing widget template settings
+         */
         var getTemplateDesign = function(templateName) {
             var template = JSON.parse(JSON.stringify(templates[templateName].design));
+
+            /*
+             * SPECIAL CASE: 'defaultNote' loads to the color scheme of the site it was added to.
+             * These settings are saved in the variable 'siteColorStyles'.
+             */
             if (templateName === 'defaultNote') {
                 template.text.color = siteColorStyles['color'];
                 template.background.color = siteColorStyles['background-color'];
@@ -206,6 +252,19 @@ var siteColorStyles;
             return template;
         };
 
+        /**
+         * Sets Settings UI to template specifications.
+         * Uses Wix.UI with wix-model to change Settings components.
+         *
+         * Example:
+         *      Wix.UI.set('wix-model-name', {key, value});
+         *      'wix-model-name': set in settings.ejs for each Wix UI component.
+         *      'key': specific to which Wix UI component is being set.
+         *          Keys can be returned/printed with Wix.UI.get('wix-model-name').
+         *          Look at Wix UI Lib for more information.
+         *
+         * @param template
+         */
         var setDesignOptions = function (template) {
             Wix.UI.set('color', {cssColor: template.text.color});
             Wix.UI.set('bcolorWOpacity', {rgba: template.background.color, opacity:template.background.opacity});
@@ -216,50 +275,97 @@ var siteColorStyles;
             Wix.UI.set('borderWidth', template.border.width);
             Wix.UI.set('radius', template.border.radius);
             Wix.UI.set('hoverCheckbox', template.hover.selected);
-            return template;
         };
 
+        /**
+         * Corresponds to 'Reset Design' button in Settings UI.
+         * Resets changes made in Settings to current template's defaults.
+         * Resets WidgetUI as well.
+         */
         this.resetTemplate = function() {
             var template = getTemplateDesign(settings.design.template);
-            settings.design = setDesignOptions(template);
+            setDesignOptions(template);
+            settings.design = template;
             $scope.updateComponent(settings);
         };
 
+        /**
+         * Changes settings from old template to new template
+         * keeping user changes in tact.
+         *
+         * @param newSettings - new template data
+         */
+        var applySettingsChangesToNewTemplate = function(newSettings) {
 
-        Wix.UI.onChange('template', function(newSettings){
-            console.log('original template: ' +  JSON.stringify(settings.design));
-            getTemplateDesign(newSettings.value);
-            var that = this;
-            // get instance of the original template values
+            /* Get instance of former default template settings */
             var originalDesign = getTemplateDesign(settings.design.template);
-            // get instance of the current user values
-            var customDesign = JSON.parse(JSON.stringify(settings.design));
-            // get instance of selected template
+
+            /* Get instance of new default template */
             var template = getTemplateDesign(newSettings.value);
 
-            // iterate over all changes between the original template values and current user values
-            // to determine where the user made changes to the defaults
+            /* Get instance of user's current template settings */
+            var customDesign = JSON.parse(JSON.stringify(settings.design));
+
+            /*
+             * Iterates over all changes between the original template values and current user values
+             * to determine where the user made changes to the defaults
+             */
             DeepDiff.observableDiff(originalDesign, customDesign, function (difference) {
                 // apply the change to the newly selected template
                 DeepDiff.applyChange(template,template, difference);
             });
 
-            // set the design options in the Settings UI
-            settings.design = setDesignOptions(template);
-            console.log('changed template: ' + JSON.stringify(settings.design));
+            /* Setting new template data */
+            setDesignOptions(template);
+            settings.design = template;
+        }
+
+        /********************************************************************************
+         * EVENT LISTENERS for all changes in design tab of settings.
+         * Uses Wix UI Lib and wix-models to listen to changes and
+         * update settings data.
+         *
+         * Example:
+         *      Wix.UI.onChange('wix-model-name', doSomethingWith(newSettings){});
+         *          'wix-model-name' - set in settings.ejs for each Wix UI component
+         *           doSomethingWith - callback that does something with updated data
+         *           newSettings - JSON representing change to wix-model component
+         *
+         * Changes are persisted to WidgetUI via updateComponent(newSettings)
+         *******************************************************************************/
+
+        /**
+         * Event listener for template wix-model changes.
+         * Corresponds to the four template options at the
+         * top of Settings Design tab.
+         *
+         * Updates Widget UI to template change with updateComponent(newSettings).
+         *
+         * @param newSettings - new template data
+         *
+         */
+        Wix.UI.onChange('template', function(newSettings){
+            applySettingsChangesToNewTemplate(newSettings);
             $scope.updateComponent(settings);
         });
 
-        // event listeners for changing settings in design tab, uses wix ui lib
-
+        /**
+         * Event listener for text color changes.
+         * Read section heading 'EVENT LISTENERS' for more info.
+         *
+         * @param newSettings - new color data
+         */
         Wix.UI.onChange('color', function(newSettings){
             settings.design.text.color = newSettings.cssColor;
-            Wix.Styles.getStyleParams( function(styleParams) {
-                console.log(JSON.stringify(styleParams));
-            });
             $scope.updateComponent(settings);
         });
 
+        /**
+         * Event listener for text-align changes.
+         * Read section heading 'EVENT LISTENERS' for more info.
+         *
+         * @param newSettings - new text-align data
+         */
         Wix.UI.onChange('textAlignGroup', function(newSettings){
             settings.design.text.alignment = newSettings.value;
             $scope.updateComponent(settings);
@@ -270,38 +376,82 @@ var siteColorStyles;
             return rgba.substring(5, rgba.length-1).replace(/ /g, '').split(',');
         }
 
-
+        /**
+         * Event listener for background color picker changes.
+         * Read section heading 'EVENT LISTENERS' for more info.
+         *
+         * @param newSettings - new background color data
+         */
         Wix.UI.onChange('bcolorWOpacity', function(newSettings){
+            /* Color and opacity are saved with separate keys*/
             settings.design.background.color = newSettings.rgba;
             settings.design.background.opacity = newSettings.opacity;
+
+            /* Updates opacity spinner with new opacity data */
             Wix.UI.set('bOpacitySpinner', settings.design.background.opacity * 100);
             $scope.updateComponent(settings);
         });
 
-
+        /**
+         * Event listener for opacity spinner changes.
+         * Read section heading 'EVENT LISTENERS' for more info.
+         *
+         * @param newSettings - new opacity data
+         */
         Wix.UI.onChange('bOpacitySpinner', function(newSettings){
             var currRGBA = parseRBGA(settings.design.background.color);
             settings.design.background.color = "rgba(" + currRGBA[0] + "," + currRGBA[1] + "," + currRGBA[2] + "," + newSettings/100 + ")";
             settings.design.background.opacity = newSettings/100;
+
+            /* Updates background color picker with new opacity data */
             Wix.UI.set('bcolorWOpacity',{rgba: settings.design.background.color, opacity:settings.design.background.opacity});
             $scope.updateComponent(settings);
         });
 
+        /**
+         * Event listener for hover checkbox changes.
+         * Read section heading 'EVENT LISTENERS' for more info.
+         *
+         * @param newSettings - new checkbox data
+         */
         Wix.UI.onChange('hoverCheckbox', function(newSettings){
             settings.design.hover.selected = newSettings;
             $scope.updateComponent(settings);
         });
 
+        /**
+         * Event listener for hover color picker changes.
+         * Read section heading 'EVENT LISTENERS' for more info.
+         *
+         * @param newSettings - new hover color data
+         */
         Wix.UI.onChange('hcolorWOpacity', function(newSettings){
-            if (!settings.design.hover.selected) Wix.UI.set('hoverCheckbox', true);
+            /* Automatically toggles hover checkbox to on if hover color selected */
+            if (!settings.design.hover.selected) {
+                Wix.UI.set('hoverCheckbox', true);
+            }
+
+            /* Color and opacity saved as separate values */
             settings.design.hover.color = newSettings.rgba;
             settings.design.hover.opacity = newSettings.opacity;
+
+            /* Updates hover opacity slider to new opacity data */
             Wix.UI.set('hOpacitySlider', settings.design.hover.opacity * 100);
             $scope.updateComponent(settings);
         });
 
+        /**
+         * Event listener for hover opacity slider changes.
+         * Read section heading 'EVENT LISTENERS' for more info.
+         *
+         * @param newSettings - new opacity data
+         */
         Wix.UI.onChange('hOpacitySlider', function(newSettings){
-            if (!settings.design.hover.selected) Wix.UI.set('hoverCheckbox', true);
+            /* Automatically toggles hover checkbox to on if hover opacity changed */
+            if (!settings.design.hover.selected) {
+                Wix.UI.set('hoverCheckbox', true);
+            }
+
             var currRGBA = parseRBGA(settings.design.hover.color);
             settings.design.hover.color = "rgba(" + currRGBA[0] + "," + currRGBA[1] + "," + currRGBA[2] + "," + newSettings/100 + ")";
             settings.design.hover.opacity = newSettings/100;
@@ -309,18 +459,34 @@ var siteColorStyles;
             $scope.updateComponent(settings);
         });
 
+        /**
+         * Event listener for border color picker changes.
+         * Read section heading 'EVENT LISTENERS' for more info.
+         *
+         * @param newSettings - new border color data
+         */
         Wix.UI.onChange('borderColor', function(newSettings){
             settings.design.border.color = newSettings.cssColor;
             $scope.updateComponent(settings);
         });
 
-
+        /**
+         * Event listener for border width slider changes.
+         * Read section heading 'EVENT LISTENERS' for more info.
+         *
+         * @param newSettings - new border width data
+         */
         Wix.UI.onChange('borderWidth', function(newSettings){
             settings.design.border.width = newSettings;
             $scope.updateComponent(settings);
         });
 
-
+        /**
+         * Event listener for corner radius changes.
+         * Read section heading 'EVENT LISTENERS' for more info.
+         *
+         * @param newSettings - new corner radius data
+         */
         Wix.UI.onChange('radius', function(newSettings){
             settings.design.border.radius = newSettings;
             $scope.updateComponent(settings);
