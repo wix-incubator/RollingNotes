@@ -223,15 +223,15 @@ Includes design settings, template settings and the manage notes screen.
                                 <img class="drag-img" src="/images/drag-icon.png" />
                             </div>
                             <div class="note-text-container">
-                                <textarea ng-model="note.msg" ng-blur="ctrl.blur()" ng-trim="false"
+                                <textarea ng-model="note.msg" ng-blur="this.blur(); isFocused = false" ng-trim="false" ng-focus="isFocused = true"
                                         rows="0" class="note-text" ng-class="{'unwatched-note': note.visibility == false,
                                         'note-text-max-count': (note.msg.length >= 140)}" type="text" maxlength="140"
-                                        placeholder="This is a note. Click to edit"></textarea>
+                                         placeholder="This is a note. Click to edit"></textarea>
                                 <div class="character-count-normal" ng-class="{'character-count-max':note.msg.length >= 140}">
                                     {{note.msg.length}}/140</div>
                                 </div>
                             <div class="edit-icons-container" ng-show="showIcons == true">
-                                <a class="icon-edit" ng-click="ctrl.editNoteButton($event, $index)"></a>
+                                <a class="icon-edit" ng-click="ctrl.editNoteButton($event, $index)" ng-show="isFocused == false"></a>
                                 <a ng-click="ctrl.deleteNote(ctrl.settings.notes, $index)"><img id="trash-icon" src="/images/trash-icon.png" /></a>
                                 <a ng-click="note.visibility = !note.visibility; updateComponent(ctrl.settings)"
                                    ng-class="{'icon-watch' : note.visibility === true, 'icon-unwatch' : note.visibility === false}"></a>

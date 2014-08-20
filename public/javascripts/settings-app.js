@@ -180,7 +180,7 @@ var siteColorStyles;
             $scope.visibleManageNotes = false;
         };
 
-        this.blur = function() {
+        $scope.blur = function() {
             $('.character-count-normal').removeClass('character-count-max');
             $('textarea').removeClass('note-text-max-count');
             $scope.updateComponent(settings);
@@ -241,9 +241,11 @@ var siteColorStyles;
         $scope.hiddenNote = false;
 
         $scope.showIcons = false;
-//        this.showNoteIcons = function() {
-//            $scope.showIcons = true;
-//        }
+        $scope.isFocused = false;
+        this.test = function() {
+            "use strict";
+            console.log('WORKING');
+        }
 
 
         /**********************************
