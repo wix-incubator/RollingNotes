@@ -356,17 +356,24 @@ Manage Notes Screen Styles
   margin-left: -6px;
 }
 
+.note-container:first-child {
+  margin-top: 13px;
+}
+
 #manage-notes-content:hover {
   overflow-y:scroll;
 }
 
 .addNoteLine {
-  margin-top:5px;
-  margin-bottom: 10px;
+  margin-top: 5px;
+  margin-bottom: -6px;
   display: block;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #eee;
   position: relative;
   top: 48px;
+  box-shadow: 0px 2px 4px #ddd;
+  z-index: 999;
+
 }
 
 .empty-notes-background {
