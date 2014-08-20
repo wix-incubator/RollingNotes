@@ -230,15 +230,14 @@ Includes design settings, template settings and the manage notes screen.
                                 <div class="character-count-normal" ng-class="{'character-count-max':note.msg.length >= 140}" ng-show="isFocused == true">
                                     {{note.msg.length}}/140</div>
                                 </div>
-                            <div class="edit-icons-container" ng-show="showIcons == true">
-                                <a class="icon-edit" ng-click="ctrl.editNoteButton($event, $index)" ng-show="isFocused == false"></a>
-                                <a ng-click="ctrl.deleteNote(ctrl.settings.notes, $index)"><img id="trash-icon" src="/images/trash-icon.png" /></a>
+                            <div class="edit-icons-container">
+                                <a class="icon-edit" ng-click="ctrl.editNoteButton($event, $index)" ng-show="showIcons == true && isFocused == false && note.visibility === true"></a>
+                                <a ng-click="ctrl.deleteNote(ctrl.settings.notes, $index)"><img id="trash-icon" src="/images/trash-icon.png" ng-show="showIcons == true && note.visibility === true"/></a>
                                 <a ng-click="note.visibility = !note.visibility; updateComponent(ctrl.settings)"
-                                   ng-class="{'icon-watch' : note.visibility === true, 'icon-unwatch' : note.visibility === false}"></a>
+                                   ng-class="{'icon-watch' : note.visibility === true, 'icon-unwatch' : note.visibility === false}" ng-show="showIcons == true || note.visibility === false"></a>
                             </div>
                         </div>
                         <div class="link-container">
-
                                 <a ng-click="ctrl.showLinkPopup(note)"><img class="link-icon" src="/images/link-icon.png"/></a>
                                 <!--<a ng-click="ctrl.showLinkPopup(note)">{{note.link.display || "Add a link" }}</a>-->
                                 <a ng-click="ctrl.showLinkPopup(note)" ng-show="!note.link.display">Add a link</a>
