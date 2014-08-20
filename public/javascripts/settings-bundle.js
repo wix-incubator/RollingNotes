@@ -10,7 +10,7 @@ exports.defaultNote = {
         "template" : "defaultNote",
         "text" : {
             "color" : "color-1",
-            "preset": "Heading-M",
+            "preset": "Body-L",
             "alignment" : "center"
         },
         "background" : {
@@ -24,7 +24,7 @@ exports.defaultNote = {
         },
         "border" : {
             "color" : "color-6",
-            "width" : "5",
+            "width" : "4",
             "radius" : "0"
         }
     },
@@ -593,11 +593,10 @@ var siteColorStyles;
             var styles = ['color', 'background-color', 'border-color'];
             siteColorStyles = $('site-template-colors').css(styles);
             siteColorStyles.hover = $('site-template-colors').css('outline-color');
-//            if (settings.design.color = 'color-1') {
-//                settings.design = getTemplateDesign('defaultNote');
-//            }
+            if (settings.design.color = 'color-1') {
+                settings.design = getTemplateDesign('defaultNote');
+            }
         });
-
     }]);
 
     app.directive('httpPrefix', function() {
