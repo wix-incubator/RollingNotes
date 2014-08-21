@@ -646,10 +646,12 @@ var siteColorStyles;
             /* Resets the other links back to blank strings */
             clearLinks(this.noteForLink);
 
+
+
+
             /* Sets note to chosen link and url */
             this.noteForLink[chosenLink] = link;
             this.noteForLink.link.url = link;
-
 
             /* Each type of link require different construction */
             /* link.display is what is seen by the user after the link is added */
@@ -693,6 +695,10 @@ var siteColorStyles;
                 case 4: //doc-link
                 {
                     this.noteForLink.link.target = '_blank';
+
+                    /* This allows the Widget to know if it should grab the static Wix
+                        url from the relative Uri provided through its media upload dialog. */
+                    this.noteForLink.link.doc = true;
                     break;
                 }
             }
@@ -724,6 +730,7 @@ var siteColorStyles;
             note.pageLink = "";
             note.emailLink = "";
             note.docLink = "";
+            note.link.doc = false;
             note.link.subject = "";
             note.link.url = "";
         }
@@ -783,15 +790,16 @@ var siteColorStyles;
             /* Opens Wix's document uplaod dialog */
             Wix.Settings.openMediaDialog( Wix.Settings.MediaType.DOCUMENT, false, function(data) {
                 var documentUrl = Wix.Utils.Media.getDocumentUrl(data.relativeUri);
-                that.noteForLink.docLink = documentUrl;
+//                that.noteForLink.docLink = documentUrl;
+                that.noteForLink.docLink = data.relativeUri;
 
                 /* SPECIAL CASE: Needed by Angular to detect when variables are changed
                 * to update immediately */
                 $scope.$apply(function () {
                     that.noteForLink.link.display = data.fileName;
                     that.noteForLink.link.display = that.noteForLink.link.display.substring(0, 30);
+                    scope.updateComponent(settings);
                 });
-                scope.updateComponent(settings);
             });
         }
 

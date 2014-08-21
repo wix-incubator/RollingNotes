@@ -369,7 +369,10 @@ var WidgetApp = React.createClass({
      */
     getNoteLinkURL: function() {
         note = this.getNote();
-        // TODO get document link here
+        if(note.link.doc === true ) {
+            note.link.url = Wix.Utils.Media.getDocumentUrl(note.link.url);
+            note.link.doc = false;
+        }
         return note.link.url ? note.link.url : 'javascript:;';
     },
 
