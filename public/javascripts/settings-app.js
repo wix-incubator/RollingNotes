@@ -196,7 +196,6 @@ var siteColorStyles;
          * Updates Widget UI to template change with updateComponent(newSettings).
          *
          * @param newSettings - new template data
-         *
          */
         Wix.UI.onChange('template', function(newSettings){
             applySettingsChangesToNewTemplate(newSettings);
@@ -346,40 +345,100 @@ var siteColorStyles;
             $scope.updateComponent(settings);
         });
 
-        /**********************************
+        /****************************************************
          *  Manage Notes Screen
-         **********************************/
+         ****************************************************/
 
+        /**
+         * Shows the manage notes screen.
+         * Corresponds to 'Manage Notes' button in Settings.
+         *
+         * Uses angular's ng-show/hide via $scope.visibleManageNotes boolean.
+         */
         $scope.visibleManageNotes = false;
         this.showManageNotes = function() {
+            /* Set to true when manage notes screen should be visible */
             $scope.visibleManageNotes = true;
+
+            /*
+             * JQuery needed to remove max-character notification when the
+             * user reopens the settings panel. This is a personal
+             * design preference
+             */
             $('.character-count-normal').removeClass('character-count-max');
             $('textarea').removeClass('note-text-max-count');
-
         };
 
+        /**
+         * Hides the manage notes screen.
+         * Corresponds to 'Back to Settings' button in manage notes screen.
+         *
+         * Uses angular's ng-show/hide via $scope.visibleManageNotes boolean.
+         */
         this.hideManageNotes = function() {
+            /* Set to false when manage notes screen should be hidden */
             $scope.visibleManageNotes = false;
         };
 
+        /**
+         * Updates database and Widget upon textarea blur.
+         * Saves new text, displays in widget.
+         */
         this.blur = function() {
+            /*
+             * JQuery needed to remove max-character notification when the
+             * user blurs away from a textarea. This is a personal
+             * design preference.
+             */
             $('.character-count-normal').removeClass('character-count-max');
             $('textarea').removeClass('note-text-max-count');
+
             $scope.updateComponent(settings);
 
         };
 
+        /* SPECIAL CASE: $scope.settings needed for $watchCollection below. Nowhere else.*/
         $scope.settings = $window.settings;
 
+        /**
+         * Watches for any changes in the 'settings.notes' array.
+         * I.e. notes that are added, deleted, or swapped places.
+         *
+         * Saves the changes with updateComponent.
+         *
+         * @param 'settings.note' - collection to be watched
+         * @param callback - do something when change detected
+         */
         $scope.$watchCollection('settings.notes', function() {
             $scope.updateComponent(settings);
         });
 
+        /**
+         * Adds a new note to manage notes screen.
+         * Corresponds to 'Add a note' button.
+         */
         this.addNote = function () {
-            settings.notes.push({"visibility" : true, "msg" : "", key:uniqueNoteKey(), link:{type:"",url:"",display:"", targetVal:"0"}});
+            /*
+             * Pushes a new note, with default settings, to settings.notes array.
+             * Automatically updates Manage Notes UI via angular watch function.
+             */
+            settings.notes.push({"visibility" : true, "msg" : "", key : uniqueNoteKey(),
+                link:{type:"",url:"",display:"", targetVal:"0"}});
+
+            /* Autofocuses newly added note */
             focusNewNote();
         };
 
+        /**
+         * Returns a unique key id to be assigned to each note as they are added.
+         *
+         * Needed in order to properly transition notes in
+         * Preview and Publish.  This unique key is how the
+         * ReactCSSTransitions keep track of which note is
+         * transition in and which note is tranition out.
+         *
+         * @returns string - unique key id
+         */
         var uniqueNoteKey = function() {
             var key;
             function s4() {
@@ -392,7 +451,11 @@ var siteColorStyles;
             return key;
         };
 
+        /**
+         * Autofocuses new note's textarea when it is added to manage notes screen.
+         */
         var focusNewNote = function () {
+            /* Uses a timeout to confirm function runs after new note is added & saved */
             $timeout(function() {
                 var array = $("textarea");
                 var el = $(array[array.length-1]);
@@ -401,13 +464,31 @@ var siteColorStyles;
 
         };
 
+        /**
+         * Focuses the textarea of specified note textarea.
+         * Corresponds to edit-button on right of note in manage notes screen.
+         *
+         * @param e - element to focus
+         * @param index - index in settings.notes array of specified note
+         */
         this.editNoteButton = function(e, index) {
-          if (this.settings.notes[index].visibility) {
-            this.focusText(e);
-          }
+            /* Checks to make sure note visibility is true. Don't want to focus hidden note. */
+            if (this.settings.notes[index].visibility) {
+                this.focusText(e);
+            }
         };
 
+        /**
+         * Blurs away from current focused textarea and focuses
+         * on the newly clicked textarea.
+         *
+         * This function is needed to save changes made in the
+         * formerly focused textarea before focusing on a new one.
+         *
+         * @param element - textarea to focus
+         */
         this.focusText = function (element) {
+            /* Uses a timeout to confirm function runs after new note is added & saved */
             $timeout(function() {
                 if (!($("textarea:focus")) ) {
                     $("textarea:focus").blur();
@@ -416,82 +497,134 @@ var siteColorStyles;
             }, 0, false);
         };
 
-        this.deleteNote = function(array, index) {
-            array.splice(index, 1);
+        /**
+         * Removes note settings.notes array.
+         * The watchCollection function ensures note removed from Manage Notes screen as well.
+         *
+         * @param notes - array of notes
+         * @param index - index of note to be removed
+         */
+        this.deleteNote = function(notes, index) {
+            notes.splice(index, 1);
         };
 
+        /**
+         * Variables used in settings.ejs with angular's ng-show/hide
+         * to show note-icons on hover.
+         */
         $scope.hiddenNote = false;
-
         $scope.showIcons = false;
-//        $scope.isFocused = false;
 
-        this.printFocus = function(i) {
-            console.log('isFocused: ' + i)
-//            console.log('scope: ' + $scope.isFocused);
-//            console.log('printing focus: ' + $scope.isFocused);
-            return !i;
-        }
-
-
-        /**********************************
+        /****************************************************
          *  Transition Settings (second tab of settings)
-         **********************************/
+         ****************************************************/
 
-        var shouldPreviewRun = true;
-        var timeout;
 
+        /********************************************************************************
+         * EVENT LISTENERS for all changes in transition tab of settings.
+         * Uses Wix UI Lib and wix-models to listen to changes and
+         * update settings data.
+         *
+         * Example:
+         *      Wix.UI.onChange('wix-model-name', doSomethingWith(newSettings){});
+         *          'wix-model-name' - set in settings.ejs for each Wix UI component
+         *           doSomethingWith - callback that does something with updated data
+         *           newSettings - JSON representing change to wix-model component
+         *
+         * Changes are persisted to WidgetUI via updateComponent(newSettings)
+         *******************************************************************************/
+
+        /**
+         * Event listener for transition wix-model changes.
+         * Corresponds to the four transition options at the
+         * top of Settings Transition tab.
+         *
+         * Plays a preview of the selected transition on click.
+         *
+         * @param newSettings - new transition data
+         */
+        var that = this;
         Wix.UI.onChange('transition', function(newSettings){
             settings.transition.effect = newSettings.value;
-            settings.transition.preview = true;
-            $scope.updateComponent(settings);
-            settings.transition.preview = false;
+            that.playPreview();
         });
 
+        /**
+         * Event listener for transition duration wix-model changes.
+         * Corresponds to the duration slider in transition tab.
+         *
+         * Updates Widget UI to duration changes with updateComponent(newSettings).
+         *
+         * @param newSettings - new duration slider data
+         */
         Wix.UI.onChange('duration', function(newSettings){
             settings.transition.duration = Math.round(newSettings);
             $scope.updateComponent(settings);
         });
 
-
-        var getNumVisibleNotes = function() {
-            var count = 0;//TODO FOREACH ME
-            for (var i = 0; i < this.settings.notes.length; i++) {
-                if (this.settings.notes[i].visibility === true) count++;
-            }
-            return count;
-        };
-
-        this.replayPreview = function() {
+        /**
+         * Replays preview when transition option is re-clicked
+         */
+        this.playPreview = function() {
+            /* Sets preview to true in order to preview note in WidgetUI.
+             * Sets preview back to false to stop playing notes once preview is finished */
             settings.transition.preview = true;
             $scope.updateComponent(settings);
             settings.transition.preview = false;
         }
 
-        /**********************************
+        /*********************************************
          *  Add Link Popup dialog box
-         **********************************/
+         *********************************************/
 
+        /**
+         * Scoped variables used with angular directives
+         * to display link popup and its components.
+         */
         $scope.popupVisible = false;
         $scope.upperTextVisible = false;
         $scope.buttonsVisible = false;
         $scope.optionsVisible = false;
         $scope.linkOption = 0;
 
+        /**
+         * Shows link popup.
+         * Corresponds to the 'Add a Link' button at the bottom of each note on hover.
+         *
+         * @param note - note the added link corresponds to
+         */
         this.showLinkPopup = function(note) {
             this.noteForLink = note;
+
+            /* These changes trigger angular directives to show
+             * and hide various HTML Dom elements accordingly */
             $scope.popupVisible = true;
             $scope.buttonsVisible = true;
             $scope.linkOption = 0;
+
+            /* Loading an array of the user's site pages. Used if the user wants to add a site link. */
             loadPageDropdown();
         };
 
+        /**
+         * Shows the specified link option.
+         * Corresponds to which button the user picks in the link popup.
+         *
+         * @param type - which link option to show
+         */
         this.showLink = function(type) {
+            /* These changes trigger angular directives to show
+             * and hide various HTML Dom elements accordingly */
             $scope.buttonsVisible = false;
             $scope.optionsVisible = true;
             $scope.linkOption = type;
-            //TODO auto focus email and web links
         }
 
+        /**
+         * Closes the link popup dialog.
+         *
+         * Uses angular scoped variables and directives to hide HTML elements.
+         */
         this.closeLinkPopup = function(){
             $scope.popupVisible = false;
             $scope.upperTextVisible = false;
@@ -500,66 +633,92 @@ var siteColorStyles;
             $scope.linkOption = 0;
         };
 
-        //when OK button clicked, will construct link chosen or none
+        /**
+         * Saves and constructs the selected link and connects it to the note it was added to.
+         * Corresponds to the 'OK' button in the link popup.
+         */
         this.setLink = function() {
+            /* Saves the link url that was created by the user */
             $scope.options = {1 : 'webLink', 2: 'pageLink', 3: 'emailLink', 4: 'docLink'};
-
             var chosenLink = $scope.options[$scope.linkOption];
             var link = this.noteForLink[chosenLink];
+
+            /* Resets the other links back to blank strings */
             clearLinks(this.noteForLink);
 
+            /* Sets note to chosen link and url */
             this.noteForLink[chosenLink] = link;
             this.noteForLink.link.url = link;
-            //TODO SWITCH ME
+
+
+            /* Each type of link require different construction */
+            /* link.display is what is seen by the user after the link is added */
+            /* link.url is what is put in the href */
             switch($scope.linkOption) {
-                case 1:
+                case 1: //web-link
                 {
                     this.noteForLink.link.display = link;
-                    if (this.noteForLink.link.targetVal === 1) {
+                    console.log('targetVal: ' + this.noteForLink.link.targetVal);
+                    if (this.noteForLink.link.targetVal === '1') {
                         this.noteForLink.link.target = '_top';
                     } else {
                         this.noteForLink.link.target = '_blank';
                     }
+                    console.log('Target: ' + this.noteForLink.link.target);
+                    break;
+                }
+                case 2: //page-link
+                {
+                    var that = this;
+                    var scope = $scope;
+
+                    var index = settings.pages.indexOf(this.noteForLink.pageLink);
+                    this.noteForLink.link.display = link;
+                    this.noteForLink.link.target = '_top';
+
+                    /* Grabbing and contructing page-link url from Wix site */
+                    Wix.Worker.getSiteInfo(function (siteInfo) {
+                        that.noteForLink.link.url = siteInfo.baseUrl + '#!/' + that.settings.pageIds[index];
+                        scope.updateComponent(that.settings);
+                    });
+                    break;
+                }
+                case 3: //email-link
+                {
+                    this.noteForLink.link.url = mailLink(this.noteForLink.emailLink,{subject: this.noteForLink.link.subject});
+                    this.noteForLink.link.display = "mail to: " + this.noteForLink.emailLink;
+                    this.noteForLink.link.target = '';
+                    break;
+                }
+                case 4: //doc-link
+                {
+                    this.noteForLink.link.target = '_blank';
                     break;
                 }
             }
 
-
-            if ($scope.linkOption === 2) {
-                var that = this;
-                var scope = $scope;
-
-                var index = settings.pages.indexOf(this.noteForLink.pageLink);
-                this.noteForLink.link.display = link;
-                this.noteForLink.link.target = '_top';
-
-                Wix.Worker.getSiteInfo(function(siteInfo) {
-                    // do something with the siteInfo
-                    that.noteForLink.link.url = siteInfo.baseUrl + '#!/' + that.settings.pageIds[index];
-                    scope.updateComponent(that.settings);
-                });
-            } else if ($scope.linkOption === 3) {
-                this.noteForLink.link.url = mailLink(this.noteForLink.emailLink,{subject: this.noteForLink.link.subject});
-                this.noteForLink.link.display = "mail to: " + this.noteForLink.emailLink;
-                this.noteForLink.link.target = '';
-
-            } else if ($scope.linkOption === 4) {
-                this.noteForLink.link.target = '_blank';
-            }
-
+            /* Cuts the display link to only 30 characters for aesthetics */
             this.noteForLink.link.display = this.noteForLink.link.display.substring(0, 30);
 
             $scope.updateComponent(settings);
-
             this.closeLinkPopup();
         }
 
+        /**
+         * Returns to Link options in popup.
+         * Corresponds to 'Back to link options' button in link popup.
+         */
         this.backToOptions = function() {
             $scope.optionsVisible = false;
             $scope.buttonsVisible = true;
             $scope.linkOption = 0;
         }
 
+        /**
+         * Resets link data to blank string.
+         *
+         * @param note - the note the link corresponds to
+         */
         var clearLinks = function(note) {
             note.webLink = "";
             note.pageLink = "";
@@ -569,6 +728,11 @@ var siteColorStyles;
             note.link.url = "";
         }
 
+        /**
+         * Clears the link while also clearing the link-display on the note itself.
+         *
+         * @param note
+         */
         this.removeLink = function(note) {
             clearLinks(note);
             note.link.display = "";
@@ -576,6 +740,9 @@ var siteColorStyles;
             this.closeLinkPopup();
         }
 
+        /**
+         * Loads the user's site pages for picking a page link.
+         */
         var loadPageDropdown = function() {
             Wix.getSitePages(function (sitePages) {
                 settings.pages = _.pluck(sitePages, 'title');
@@ -583,7 +750,14 @@ var siteColorStyles;
             });
         };
 
-
+        /**
+         * Constructs a mail-to url for if the user wants to
+         * and an email-link from link popup.
+         *
+         * @param recepient
+         * @param opts
+         * @returns {string}
+         */
         var mailLink = function(recepient, opts) {
             var link = "mailto:";
             link += window.encodeURIComponent(recepient);
@@ -597,13 +771,22 @@ var siteColorStyles;
             return link;
         };
 
-
+        /**
+         * Opens up Wix's document upload popup.
+         * Configures the attachment's url and saves
+         * the url and display data.
+         */
         this.docLink = function() {
             var that = this;
             var scope = $scope;
+
+            /* Opens Wix's document uplaod dialog */
             Wix.Settings.openMediaDialog( Wix.Settings.MediaType.DOCUMENT, false, function(data) {
                 var documentUrl = Wix.Utils.Media.getDocumentUrl(data.relativeUri);
                 that.noteForLink.docLink = documentUrl;
+
+                /* SPECIAL CASE: Needed by Angular to detect when variables are changed
+                * to update immediately */
                 $scope.$apply(function () {
                     that.noteForLink.link.display = data.fileName;
                     that.noteForLink.link.display = that.noteForLink.link.display.substring(0, 30);
@@ -612,21 +795,12 @@ var siteColorStyles;
             });
         }
 
-        this.backToOptions = function() {
-            $scope.optionsVisible = false;
-            $scope.buttonsVisible = true;
-            $scope.linkOption = 0;
-        }
-
-        var clearLinks = function(note) {
-            note.webLink = "";
-            note.pageLink = "";
-            note.emailLink = "";
-            note.docLink = "";
-            note.link.subject = "";
-            note.link.url = "";
-        }
-
+        /**
+         * SPECIAL CASE: Creates a custom HTML tag that saves
+         * the user's color theme.  This is needed to create a
+         * default note template that reflects each site's custom
+         * color theme.
+         */
         $(document).ready(function( ){
             //Loading/Saving color scheme for default note color.. no easy way to do this
             var siteTemplateColor = document.registerElement('site-template-colors');
@@ -642,6 +816,10 @@ var siteColorStyles;
         });
     }]);
 
+    /**
+     * Custom Angular directive that validates web-links to make
+     * sure they include the https prefix.
+     */
     app.directive('httpPrefix', function() {
         return {
             restrict: 'A',
