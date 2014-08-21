@@ -342,7 +342,6 @@ var siteColorStyles;
          * Updates Widget UI to template change with updateComponent(newSettings).
          *
          * @param newSettings - new template data
-         *
          */
         Wix.UI.onChange('template', function(newSettings){
             applySettingsChangesToNewTemplate(newSettings);
@@ -492,40 +491,100 @@ var siteColorStyles;
             $scope.updateComponent(settings);
         });
 
-        /**********************************
+        /****************************************************
          *  Manage Notes Screen
-         **********************************/
+         ****************************************************/
 
+        /**
+         * Shows the manage notes screen.
+         * Corresponds to 'Manage Notes' button in Settings.
+         *
+         * Uses angular's ng-show/hide via $scope.visibleManageNotes boolean.
+         */
         $scope.visibleManageNotes = false;
         this.showManageNotes = function() {
+            /* Set to true when manage notes screen should be visible */
             $scope.visibleManageNotes = true;
+
+            /*
+             * JQuery needed to remove max-character notification when the
+             * user reopens the settings panel. This is a personal
+             * design preference
+             */
             $('.character-count-normal').removeClass('character-count-max');
             $('textarea').removeClass('note-text-max-count');
-
         };
 
+        /**
+         * Hides the manage notes screen.
+         * Corresponds to 'Back to Settings' button in manage notes screen.
+         *
+         * Uses angular's ng-show/hide via $scope.visibleManageNotes boolean.
+         */
         this.hideManageNotes = function() {
+            /* Set to false when manage notes screen should be hidden */
             $scope.visibleManageNotes = false;
         };
 
+        /**
+         * Updates database and Widget upon textarea blur.
+         * Saves new text, displays in widget.
+         */
         this.blur = function() {
+            /*
+             * JQuery needed to remove max-character notification when the
+             * user blurs away from a textarea. This is a personal
+             * design preference.
+             */
             $('.character-count-normal').removeClass('character-count-max');
             $('textarea').removeClass('note-text-max-count');
+
             $scope.updateComponent(settings);
 
         };
 
+        /* SPECIAL CASE: $scope.settings needed for $watchCollection below. Nowhere else.*/
         $scope.settings = $window.settings;
 
+        /**
+         * Watches for any changes in the 'settings.notes' array.
+         * I.e. notes that are added, deleted, or swapped places.
+         *
+         * Saves the changes with updateComponent.
+         *
+         * @param 'settings.note' - collection to be watched
+         * @param callback - do something when change detected
+         */
         $scope.$watchCollection('settings.notes', function() {
             $scope.updateComponent(settings);
         });
 
+        /**
+         * Adds a new note to manage notes screen.
+         * Corresponds to 'Add a note' button.
+         */
         this.addNote = function () {
-            settings.notes.push({"visibility" : true, "msg" : "", key:uniqueNoteKey(), link:{type:"",url:"",display:"", targetVal:"0"}});
+            /*
+             * Pushes a new note, with default settings, to settings.notes array.
+             * Automatically updates Manage Notes UI via angular watch function.
+             */
+            settings.notes.push({"visibility" : true, "msg" : "", key : uniqueNoteKey(),
+                link:{type:"",url:"",display:"", targetVal:"0"}});
+
+            /* Autofocuses newly added note */
             focusNewNote();
         };
 
+        /**
+         * Returns a unique key id to be assigned to each note as they are added.
+         *
+         * Needed in order to properly transition notes in
+         * Preview and Publish.  This unique key is how the
+         * ReactCSSTransitions keep track of which note is
+         * transition in and which note is tranition out.
+         *
+         * @returns string - unique key id
+         */
         var uniqueNoteKey = function() {
             var key;
             function s4() {
@@ -538,7 +597,11 @@ var siteColorStyles;
             return key;
         };
 
+        /**
+         * Autofocuses new note's textarea when it is added to manage notes screen.
+         */
         var focusNewNote = function () {
+            /* Uses a timeout to confirm function runs after new note is added & saved */
             $timeout(function() {
                 var array = $("textarea");
                 var el = $(array[array.length-1]);
@@ -547,13 +610,31 @@ var siteColorStyles;
 
         };
 
+        /**
+         * Focuses the textarea of specified note textarea.
+         * Corresponds to edit-button on right of note in manage notes screen.
+         *
+         * @param e - element to focus
+         * @param index - index in settings.notes array of specified note
+         */
         this.editNoteButton = function(e, index) {
-          if (this.settings.notes[index].visibility) {
-            this.focusText(e);
-          }
+            /* Checks to make sure note visibility is true. Don't want to focus hidden note. */
+            if (this.settings.notes[index].visibility) {
+                this.focusText(e);
+            }
         };
 
+        /**
+         * Blurs away from current focused textarea and focuses
+         * on the newly clicked textarea.
+         *
+         * This function is needed to save changes made in the
+         * formerly focused textarea before focusing on a new one.
+         *
+         * @param element - textarea to focus
+         */
         this.focusText = function (element) {
+            /* Uses a timeout to confirm function runs after new note is added & saved */
             $timeout(function() {
                 if (!($("textarea:focus")) ) {
                     $("textarea:focus").blur();
@@ -562,52 +643,77 @@ var siteColorStyles;
             }, 0, false);
         };
 
-        this.deleteNote = function(array, index) {
-            array.splice(index, 1);
+        /**
+         * Removes note settings.notes array.
+         * The watchCollection function ensures note removed from Manage Notes screen as well.
+         *
+         * @param notes - array of notes
+         * @param index - index of note to be removed
+         */
+        this.deleteNote = function(notes, index) {
+            notes.splice(index, 1);
         };
 
+        /**
+         * Variables used in settings.ejs with angular's ng-show/hide
+         * to show note-icons on hover.
+         */
         $scope.hiddenNote = false;
-
         $scope.showIcons = false;
-//        $scope.isFocused = false;
 
-        this.printFocus = function(i) {
-            console.log('isFocused: ' + i)
-//            console.log('scope: ' + $scope.isFocused);
-//            console.log('printing focus: ' + $scope.isFocused);
-            return !i;
-        }
-
-
-        /**********************************
+        /****************************************************
          *  Transition Settings (second tab of settings)
-         **********************************/
+         ****************************************************/
 
-        var shouldPreviewRun = true;
-        var timeout;
 
+        /********************************************************************************
+         * EVENT LISTENERS for all changes in transition tab of settings.
+         * Uses Wix UI Lib and wix-models to listen to changes and
+         * update settings data.
+         *
+         * Example:
+         *      Wix.UI.onChange('wix-model-name', doSomethingWith(newSettings){});
+         *          'wix-model-name' - set in settings.ejs for each Wix UI component
+         *           doSomethingWith - callback that does something with updated data
+         *           newSettings - JSON representing change to wix-model component
+         *
+         * Changes are persisted to WidgetUI via updateComponent(newSettings)
+         *******************************************************************************/
+
+        /**
+         * Event listener for transition wix-model changes.
+         * Corresponds to the four transition options at the
+         * top of Settings Transition tab.
+         *
+         * Plays a preview of the selected transition on click.
+         *
+         * @param newSettings - new transition data
+         */
+        var that = this;
         Wix.UI.onChange('transition', function(newSettings){
             settings.transition.effect = newSettings.value;
-            settings.transition.preview = true;
-            $scope.updateComponent(settings);
-            settings.transition.preview = false;
+            that.playPreview();
         });
 
+        /**
+         * Event listener for transition duration wix-model changes.
+         * Corresponds to the duration slider in transition tab.
+         *
+         * Updates Widget UI to duration changes with updateComponent(newSettings).
+         *
+         * @param newSettings - new duration slider data
+         */
         Wix.UI.onChange('duration', function(newSettings){
             settings.transition.duration = Math.round(newSettings);
             $scope.updateComponent(settings);
         });
 
-
-        var getNumVisibleNotes = function() {
-            var count = 0;//TODO FOREACH ME
-            for (var i = 0; i < this.settings.notes.length; i++) {
-                if (this.settings.notes[i].visibility === true) count++;
-            }
-            return count;
-        };
-
-        this.replayPreview = function() {
+        /**
+         * Replays preview when transition option is re-clicked
+         */
+        this.playPreview = function() {
+            /* Sets preview to true in order to preview note in WidgetUI.
+             * Sets preview back to false to stop playing notes once preview is finished */
             settings.transition.preview = true;
             $scope.updateComponent(settings);
             settings.transition.preview = false;
