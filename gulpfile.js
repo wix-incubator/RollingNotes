@@ -55,6 +55,19 @@ gulp.task('copy-html-files', function () {
 });
 
 gulp.task('settingsBundle', function() {
+    gulp.src([
+        "public/javascripts/settings-app.js",
+    ])
+        .pipe(browserify({
+            insertGlobals: true,
+            debug: true
+        }))
+        .pipe(concat("settingsBundle.js"))
+        .pipe(uglify())
+        .pipe(gulp.dest('dist/javascripts/'));
+});
+
+gulp.task('bowerComponents', function() {
       gulp.src([
          "public/javascripts/bower_components/jquery/dist/jquery.min.js",
          "public/javascripts/bower_components/jqueryui/jquery-ui.min.js",
@@ -62,15 +75,13 @@ gulp.task('settingsBundle', function() {
          "public/javascripts/bower_components/angular-ui-sortable/sortable.min.js",
           "public/javascripts/bower_components/wix-ui-lib2/ui-lib.js",
           "public/javascripts/bower_components/angular-mailto/angular-mailto.js",
-          "public/javascripts/bower_components/visibilityjs/lib/visibility.core.js",
-          "public/javascripts/bower_components/visibilityjs/lib/visibility.timers.js",
           "public/javascripts/bower_components/deep-diff/releases/deep-diff-0.2.0.min.js",
           "publi/javascripts/bower_components/angular-animate/angular-animate.js",
           "public/javascripts/bower_components/lodash/dist/lodash.js",
           "public/javascripts/bower_components/slimScroll/jquery.slimscroll.js",
-          "public/javascripts/settings-bundle.js"
      ])
-         .pipe(concat("settingsBundle.js"))
+
+         .pipe(concat("bowerComponents.js"))
          .pipe(uglify())
          .pipe(gulp.dest('dist/javascripts/'));
 });
@@ -109,5 +120,5 @@ gulp.task('default',
 
 // build task
 gulp.task('build',
-    ['lint', 'minify-css', "minify-images", 'settingsBundle', 'widgetBundle', 'copy-html-files']
+    ['lint', 'minify-css', "minify-images", 'bowerComponents', 'settingsBundle', 'widgetBundle', 'copy-html-files']
 );

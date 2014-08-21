@@ -12,21 +12,6 @@
 
 
 
-
-//var $ = require('jquery')(window);
-//require("./bower_components/jqueryui/jquery-ui.min.js");
-//require("./bower_components/angular/angular.min.js");
-//require("./bower_components/angular-ui-sortable/sortable.min.js");
-//require("./bower_components/wix-ui-lib2/ui-lib.js");
-//require("./bower_components/visibilityjs/lib/visibility.core.js");
-//require("./bower_components/visibilityjs/lib/visibility.timers.js");
-//require("./bower_components/deep-diff/releases/deep-diff-0.2.0.min.js");
-//require("./bower_components/angular-animate/angular-animate.js");
-//require("./bower_components/lodash/dist/lodash.js");
-//require("./bower_components/angular-animate/angular-animate.js");
-//
-
-
 /* Grabbing note templates */
 var templates = require("./defaultTemplates");
 var siteColorStyles;
