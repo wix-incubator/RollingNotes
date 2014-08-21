@@ -15,6 +15,8 @@ var browserify = require('gulp-browserify');
 var imagemin = require('gulp-imagemin');
 var pngcrush = require('imagemin-pngcrush');
 
+var gzip = require('gulp-gzip');
+
 
 // tasks
 gulp.task('lint', function() {
@@ -23,6 +25,12 @@ gulp.task('lint', function() {
         .pipe(jshint.reporter('default'))
         .pipe(jshint.reporter('fail'));
 });
+
+//gulp.task('compress', function() {
+//    gulp.src('./dist/javascripts/*.js')
+//        .pipe(gzip())
+//        .pipe(gulp.dest('./public/scripts'));
+//});
 
 gulp.task('clean', function() {
     gulp.src('./dist/*')
@@ -64,6 +72,7 @@ gulp.task('settingsBundle', function() {
         }))
         .pipe(concat("settingsBundle.js"))
         .pipe(uglify())
+        .pipe(gzip())
         .pipe(gulp.dest('dist/javascripts/'));
 });
 

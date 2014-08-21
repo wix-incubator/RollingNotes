@@ -15,12 +15,10 @@
     "debug": "~0.7.4",
     "ejs": "*",
     "express": "~4.2.0",
-    "formidable": "*",
     "gulp": "^3.8.7",
     "gulp-browserify": "^0.5.0",
     "gulp-clean": "^0.3.1",
     "gulp-concat": "^2.3.4",
-    "gulp-connect": "^2.0.6",
     "gulp-jshint": "^1.8.4",
     "gulp-minify-css": "^0.3.7",
     "gulp-react": "^1.0.0",
@@ -28,10 +26,7 @@
     "jade": "~1.3.0",
     "jquery": "*",
     "less-middleware": "1.0.x",
-    "main-bower-files": "*",
     "mocha": "*",
-    "mongodb": "*",
-    "mongojs": "*",
     "morgan": "~1.0.0",
     "openapi-node": "*",
     "promised-mongo": "*",
@@ -39,6 +34,7 @@
     "static-favicon": "~1.0.0",
     "watchify": "*",
     "gulp-imagemin": "*",
-    "imagemin-pngcrush":"*"
+    "imagemin-pngcrush":"*",
+    "gulp-gzip": "*"
   }
 }
