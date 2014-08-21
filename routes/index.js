@@ -1,7 +1,5 @@
 var express = require('express');
 var db = require('../data/database');
-var formidable = require('formidable');
-var sys = require('sys');
 var auth = require('../authenticate');
 var router = express.Router();
 

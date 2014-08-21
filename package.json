@@ -25,6 +25,7 @@
     "mocha": "*",
     "chai": "*",
     "q": "*",
-    "promised-mongo": "*"
+    "promised-mongo": "*",
+    "gulp" : "latest"
   }
 }

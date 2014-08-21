@@ -14,7 +14,7 @@ exports.defaultNote = {
         "template" : "defaultNote",
         "text" : {
             "color" : "color-1",
-            "preset": "Body-L",
+            "preset": "5",
             "alignment" : "center"
         },
         "background" : {
