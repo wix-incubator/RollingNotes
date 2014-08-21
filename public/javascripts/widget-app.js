@@ -277,10 +277,4 @@ var darkerShadeFromRGBA = function (rgbaString) {
         RGBA[3] + ")";
 };
 
-var getDocLink = function(relativeUri) {
-    console.log('Relative Uri: ' + relativeUri);
-    var url =  Wix.Utils.Media.getDocumentUrl(relativeUri);
-//    console.log('Long URL: ' + url);
-}
-
 React.renderComponent(<WidgetApp settings={window.settings} />, document.getElementById('content'));

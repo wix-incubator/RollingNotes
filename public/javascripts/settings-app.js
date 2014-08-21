@@ -695,6 +695,9 @@ var siteColorStyles;
                 case 4: //doc-link
                 {
                     this.noteForLink.link.target = '_blank';
+
+                    /* This allows the Widget to know if it should grab the static Wix
+                        url from the relative Uri provided through its media upload dialog. */
                     this.noteForLink.link.doc = true;
                     break;
                 }
@@ -795,8 +798,8 @@ var siteColorStyles;
                 $scope.$apply(function () {
                     that.noteForLink.link.display = data.fileName;
                     that.noteForLink.link.display = that.noteForLink.link.display.substring(0, 30);
+                    scope.updateComponent(settings);
                 });
-                scope.updateComponent(settings);
             });
         }
 
