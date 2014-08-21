@@ -804,11 +804,13 @@ var siteColorStyles;
                 case 1: //web-link
                 {
                     this.noteForLink.link.display = link;
-                    if (this.noteForLink.link.targetVal === 1) {
+                    console.log('targetVal: ' + this.noteForLink.link.targetVal);
+                    if (this.noteForLink.link.targetVal === '1') {
                         this.noteForLink.link.target = '_top';
                     } else {
                         this.noteForLink.link.target = '_blank';
                     }
+                    console.log('Target: ' + this.noteForLink.link.target);
                     break;
                 }
                 case 2: //page-link
