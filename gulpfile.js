@@ -1,5 +1,4 @@
 var gulp = require('gulp');
-var browserify = require('gulp-browserify');
 var concat = require('gulp-concat');
 
 // plugins
@@ -8,13 +7,14 @@ var uglify = require('gulp-uglify');
 var minifyCSS = require('gulp-minify-css');
 var clean = require('gulp-clean');
 
-var browserify = require('gulp-browserify');
 
 
 var react = require('gulp-react');
+var browserify = require('gulp-browserify');
 
+var imagemin = require('gulp-imagemin');
+var pngcrush = require('imagemin-pngcrush');
 
-var mainBowerFiles = require('main-bower-files');
 
 // tasks
 gulp.task('lint', function() {
@@ -31,9 +31,12 @@ gulp.task('clean', function() {
 
 gulp.task('minify-css', function() {
     var opts = {comments:true,spare:true};
-    gulp.src(['./public/stylesheets/*.css', '!./app/bower_components/**'])
+    gulp.src([
+        './public/stylesheets/*.css',
+        "./public/javascripts/bower_components/wix-ui-lib2/ui-lib.min.css"
+    ])
         .pipe(minifyCSS(opts))
-        .pipe(gulp.dest('./dist/'))
+        .pipe(gulp.dest('./dist/stylesheets'));
 });
 
 gulp.task('minify-js', function() {
@@ -48,23 +51,9 @@ gulp.task('minify-js', function() {
 
 gulp.task('copy-html-files', function () {
     gulp.src('./views/*.ejs')
-        .pipe(gulp.dest('dist/'));
+        .pipe(gulp.dest('dist/views'));
 });
-//
-//<script type="text/javascript" src="javascripts/bower_components/jqueryui/jquery-ui.min.js"></script>
-//    <script type="text/javascript" src="//sslstatic.wix.com/services/js-sdk/1.33.0/js/Wix.js"></script>
-//    <script type="text/javascript" src="javascripts/bower_components/angular/angular.min.js"></script>
-//    <script type="text/javascript" src="javascripts/bower_components/angular-ui-sortable/sortable.min.js"></script>
-//    <script type="text/javascript" src="/javascripts/bower_components/wix-ui-lib2/ui-lib.js"></script>
-//    <script type="text/javascript" src="/javascripts/bower_components/angular-mailto/angular-mailto.js"></script>
-//    <script type="text/javascript" src="/javascripts/bower_components/visibilityjs/lib/visibility.core.js"></script>
-//    <script type="text/javascript" src="/javascripts/bower_components/visibilityjs/lib/visibility.timers.js"></script>
 
-//    <script type="text/javascript" src="/javascripts/bower_components/deep-diff/releases/deep-diff-0.2.0.min.js"></script>
-//    <script type="text/javascript" src="/javascripts/bower_components/angular-animate/angular-animate.js"></script>
-//    <script type="text/javascript" src="/javascripts/bower_components/lodash/dist/lodash.js"></script>
-//    <script type="text/javascript" src="/javascripts/bower_components/slimScroll/jquery.slimscroll.js"></script>
-//    <script type="text/javascript" src="/javascripts/settings-bundle.js"></script>
 gulp.task('settingsBundle', function() {
       gulp.src([
          "public/javascripts/bower_components/jquery/dist/jquery.min.js",
@@ -83,7 +72,7 @@ gulp.task('settingsBundle', function() {
      ])
          .pipe(concat("settingsBundle.js"))
          .pipe(uglify())
-         .pipe(gulp.dest('dist/'));
+         .pipe(gulp.dest('dist/javascripts/'));
 });
 
 
@@ -99,7 +88,17 @@ gulp.task('widgetBundle', function() {
         .pipe(react())
         .pipe(concat("widgetBundle.js"))
         .pipe(uglify())
-        .pipe(gulp.dest('./public/javascripts/'));
+        .pipe(gulp.dest('./dist/javascripts/'));
+});
+
+gulp.task('minify-images', function () {
+    return gulp.src('./public/images/*')
+        .pipe(imagemin({
+            progressive: true,
+            svgoPlugins: [{removeViewBox: false}],
+            use: [pngcrush()]
+        }))
+        .pipe(gulp.dest('dist/images'));
 });
 
 
@@ -110,5 +109,5 @@ gulp.task('default',
 
 // build task
 gulp.task('build',
-    ['lint', 'minify-css', 'minify-js',  'copy-html-files']
+    ['lint', 'minify-css', "minify-images", 'settingsBundle', 'widgetBundle', 'copy-html-files']
 );
