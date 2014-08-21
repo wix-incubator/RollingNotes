@@ -44,5 +44,6 @@ exports.authenticate = function authenticate(req, res) {
         title = "Wix API init failed. Check your app key, secret and instance Id";
         console.log( title );
         res.send( title );
+
     }
 }

@@ -86,21 +86,17 @@ var WidgetApp = React.createClass({
 
     updateAnchorStyle: function() {
         var anchorStyle = {};
-        anchorStyle.cursor = this.getNoteMessage().link.url ? 'pointer' : 'default';
+        anchorStyle.cursor = this.getNote().link.url ? 'pointer' : 'default';
         return anchorStyle;
     },
 
     updateHeaderStyle: function() {
-      var headerStyle = {};
-      if (this.state.settings.design.template === "postitNote") {
-          var currRGBA = parseRBGA(this.state.settings.design.background.color);
-          headerStyle.backgroundColor = "rgba(" +
-              Math.abs((currRGBA[0] - 26) % 255) + "," +
-              Math.abs((currRGBA[1] - 26) % 255) + "," +
-              Math.abs((currRGBA[2] - 26) % 255) + "," +
-              currRGBA[3] + ")";
-      }
-      return headerStyle;
+        var headerStyle = {};
+        var design = this.state.settings.design;
+        if (this.state.settings.design.template === "postitNote") {
+            headerStyle.backgroundColor = darkerShadeFromRGBA(design.background.color)
+        }
+        return headerStyle;
     },
 
     handleMouseEnter: function(e) {
@@ -122,9 +118,12 @@ var WidgetApp = React.createClass({
       return (this.state.settings.transition.duration * 1000) + 2000;
     },
 
-
     refreshWidget: function() {
       window.location.reload();
+    },
+
+    clearNote: function() {
+        this.setState({mode:CLEARNOTE, slideIndex:-1});
     },
 
     resumePlayNotes: function() {
@@ -164,11 +163,6 @@ var WidgetApp = React.createClass({
         this.pauseNotes();
     },
 
-    clearNote: function() {
-        this.setState({mode:CLEARNOTE, slideIndex:-1});
-    },
-
-
     /*****************************
      * Notes view logic
      *****************************/
@@ -184,56 +178,61 @@ var WidgetApp = React.createClass({
     },
 
     getFirstVisibleNoteIndex: function() {
-//        var i;
-//        this.state.settings.notes.forEach(function(value, index) {
-//            console.log("Index: " + value.visibility);
-//            if (value.visibility === true) {
-//                console.log('returning index: ' + index);
-//                return index;
-//            }
-//        });
-
-
         for (var i = 0; i < this.state.settings.notes.length; i++) {
             if (this.state.settings.notes[i].visibility === true) {
                 return i;
             }
         };
-
         return 0;
     },
 
+    getNextVisibleNote : function () {
+        var notes =  this.state.settings.notes;
+        var nextVisibleSlide = ((this.state.slideIndex) + 1) % notes.length;
+        while (notes[nextVisibleSlide].visibility === false) {
+            nextVisibleSlide = (nextVisibleSlide +1) % notes.length;
+            console.log(nextVisibleSlide);
+        }
+        return nextVisibleSlide;
+    },
+
     nextNote: function() {
-        if (this.state.mode !== PLAY) this.setState({mode: PLAY});
-        if (this.state.settings.notes.length <= 1) {
+        if (this.state.mode !== PLAY) {
+            this.setState({mode: PLAY});
+        }
+        if (this.getNumOfVisibleNotes() <= 1) {
             this.setState({slideIndex: 0});
             return;
         }
-        var nextVisibleSlide = ((this.state.slideIndex) + 1) % this.state.settings.notes.length;;
-        while (this.state.settings.notes[nextVisibleSlide].visibility === false) {
-            nextVisibleSlide = (nextVisibleSlide +1) % this.state.settings.notes.length;
-        }
-        this.setState({slideIndex: nextVisibleSlide});
+        this.setState({slideIndex: this.getNextVisibleNote()});
     },
 
-    getNoteMessage: function() {
-        var notecontent;
+    getNoteLinkURL: function() {
+        note = this.getNote();
+        // TODO get document link here
+        return note.link.url ? note.link.url : 'javascript:;';
+    },
+
+    getNote: function() {
+        var note;
+
 
         if (this.state.slideIndex === -1) {
-            notecontent = {msg: "", key:"thisisthetestkey", link: {url:"", target:""}};;
+            note = {msg: "", key:"thisisthetestkey", link: {url:"", target:""}};;
         } else if (this.state.settings.notes.length === 0 || this.getNumOfVisibleNotes() === 0) {
-            notecontent = {msg: DEFAULT_NOTE_TEXT, key:"defaultNote", link: {url:"", target:""}};
+            note = {msg: DEFAULT_NOTE_TEXT, key:"defaultNote", link: {url:"", target:""}};
         } else {
-            notecontent = this.state.settings.notes[this.state.slideIndex];
+            note = this.state.settings.notes[this.state.slideIndex];
         }
-        return notecontent;
+
+        return note;
     },
 
-    getNoteContent: function() {
+    getNoteWrapper: function() {
       if (this.state.mode !== CLEARNOTE ) return  (
           <ReactCSSTransitionGroup  transitionName={this.state.mode}>
-                  <div className={'rSlides ' + this.state.settings.transition.effect} key={this.getNoteMessage().key}>
-                      <p>{this.getNoteMessage().msg}</p>
+                  <div className={'rSlides ' + this.state.settings.transition.effect} key={this.getNote().key}>
+                      <p>{this.getNote().msg}</p>
                   </div>
            </ReactCSSTransitionGroup>
           );
@@ -245,12 +244,12 @@ var WidgetApp = React.createClass({
      * Widget UI rendered whenever widget state changed
      ************************/
     render: function() {
-         return <a href={this.getNoteMessage().link.url || "javascript:;"} target={this.getNoteMessage().link.target || ''} style={this.updateAnchorStyle()}>
+         return <a href={this.getNoteLinkURL()} target={this.getNote().link.target || ''} style={this.updateAnchorStyle()}>
             <div className={"note-widget " + this.state.settings.design.template} style={this.updateStyles()}
                     onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
                     <div  className="note-header" style={this.updateHeaderStyle()}></div>
                     <div className="note-content">
-                         {this.getNoteContent()}
+                         {this.getNoteWrapper()}
                     </div>
                </div>
             </a>;
@@ -261,10 +260,18 @@ var WidgetApp = React.createClass({
  * helper methods
  *****************************/
 
-//TODO common utils method
 var parseRBGA = function(rgba) {
     if (rgba) return rgba.substring(5, rgba.length-1).replace(/ /g, '').split(',');
     else return [255,255,255,1];
 }
+
+var darkerShadeFromRGBA = function (rgbaString) {
+    var RGBA = parseRBGA(this.state.settings.design.background.color);
+    return "rgba(" +
+        Math.abs((RGBA[0] - 26) % 255) + "," +
+        Math.abs((RGBA[1] - 26) % 255) + "," +
+        Math.abs((RGBA[2] - 26) % 255) + "," +
+        RGBA[3] + ")";
+};
 
 React.renderComponent(<WidgetApp settings={window.settings} />, document.getElementById('content'));
