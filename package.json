@@ -35,6 +35,7 @@
     "promised-mongo": "*",
     "q": "*",
     "static-favicon": "~1.0.0",
-    "watchify": "*"
+    "watchify": "*",
+    "main-bower-files" : "*"
   }
 }
