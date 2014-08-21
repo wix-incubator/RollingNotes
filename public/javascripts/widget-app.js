@@ -84,6 +84,9 @@ var WidgetApp = React.createClass({
      * Adds the appropriate event listeners, sets the visible note and
      * play state
      */
+    componentWillMount: function() {
+        console.log(JSON.stringify(this.state.settings));
+    },
     componentDidMount: function() {
         var that = this;
 

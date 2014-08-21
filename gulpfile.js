@@ -11,6 +11,9 @@ var clean = require('gulp-clean');
 var browserify = require('gulp-browserify');
 
 
+var react = require('gulp-react');
+
+
 var mainBowerFiles = require('main-bower-files');
 
 // tasks
@@ -82,6 +85,23 @@ gulp.task('settingsBundle', function() {
          .pipe(uglify())
          .pipe(gulp.dest('dist/'));
 });
+
+
+gulp.task('widgetBundle', function() {
+    gulp.src([
+        "public/javascripts/bower_components/jquery/dist/jquery.min.js",
+        "public/javascripts//bower_components/react/react-with-addons.js",
+        "public/javascripts/bower_components/react/JSXTransformer.js",
+        "public/javascripts/bower_components/visibilityjs/lib/visibility.core.js",
+        "public/javascripts/bower_components/visibilityjs/lib/visibility.timers.js",
+        "public/javascripts/widget-app.js"
+    ])
+        .pipe(react())
+        .pipe(concat("widgetBundle.js"))
+        .pipe(uglify())
+        .pipe(gulp.dest('./public/javascripts/'));
+});
+
 
 // default task
 gulp.task('default',
