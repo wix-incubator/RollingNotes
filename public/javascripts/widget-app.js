@@ -59,7 +59,7 @@ var WidgetApp = React.createClass({
             that.setState({slideIndex: that.getFirstVisibleNoteIndex()});
 
             /*If preview was set to true in settings, play preview of transition*/
-            if (that.state.settings.transition.preview === true) {
+            if (that.state.settings.transition.preview) {
                 that.previewRollingNotes();
             }
         });
@@ -85,9 +85,7 @@ var WidgetApp = React.createClass({
      * Adds the appropriate event listeners, sets the visible note and
      * play state
      */
-    componentWillMount: function() {
-        console.log(JSON.stringify(this.state.settings));
-    },
+
     componentDidMount: function() {
         var that = this;
 

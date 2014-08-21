@@ -16,9 +16,6 @@ var routes = require('./routes/index');
 
 var app = express();
 
-//database setup
-var db = require("./data/database");
-
 //authenticate with wix
 var auth = require('./authenticate');
 
