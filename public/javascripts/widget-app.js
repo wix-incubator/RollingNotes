@@ -209,7 +209,10 @@ var WidgetApp = React.createClass({
 
     getNoteLinkURL: function() {
         note = this.getNote();
-        // TODO get document link here
+        if(note.link.doc === true ) {
+            note.link.url = Wix.Utils.Media.getDocumentUrl(note.link.url);
+            note.link.doc = false;
+        }
         return note.link.url ? note.link.url : 'javascript:;';
     },
 
@@ -273,5 +276,11 @@ var darkerShadeFromRGBA = function (rgbaString) {
         Math.abs((RGBA[2] - 26) % 255) + "," +
         RGBA[3] + ")";
 };
+
+var getDocLink = function(relativeUri) {
+    console.log('Relative Uri: ' + relativeUri);
+    var url =  Wix.Utils.Media.getDocumentUrl(relativeUri);
+//    console.log('Long URL: ' + url);
+}
 
 React.renderComponent(<WidgetApp settings={window.settings} />, document.getElementById('content'));
