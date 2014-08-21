@@ -17,6 +17,7 @@ var gulp = require('gulp');
 var concat = require('gulp-concat');
 var jshint = require('gulp-jshint');
 var uglify = require('gulp-uglify');
+var prefix = require('gulp-autoprefixer');
 var minifyCSS = require('gulp-minify-css');
 var clean = require('gulp-clean');
 var react = require('gulp-react');
@@ -25,7 +26,7 @@ var imagemin = require('gulp-imagemin');
 var pngcrush = require('imagemin-pngcrush');
 var gzip = require('gulp-gzip');
 
-// lint task -- checks javascripts for errors
+/*lint task -- checks javascripts for errors*/
 gulp.task('lint', function() {
     gulp.src([
         './public/javascripts/settings-app.js'
@@ -37,33 +38,25 @@ gulp.task('lint', function() {
         .pipe(jshint.reporter('fail'));
 });
 
+/*clean task -- deletes all files in the*/
 gulp.task('clean', function() {
     gulp.src('./dist/*')
         .pipe(clean({force: true}));
 });
 
+/*minfiy-css -- compiles less files, adds browser prefixes, minifies the css */
 gulp.task('minify-css', function() {
     var opts = {comments:true,spare:true};
     gulp.src([
         './public/stylesheets/*.css',
         "./public/javascripts/bower_components/wix-ui-lib2/ui-lib.min.css"
     ])
+        .pipe(prefix("last 1 version", "> 1%", "ie 8", "ie 7"))
         .pipe(minifyCSS(opts))
         .pipe(gulp.dest('./dist/stylesheets'));
 });
 
-gulp.task('minify-js', function() {
-    gulp.src(['./public/javascripts/settings-app.js', '!./public/javascripts/bower_components/**'])
-        .pipe(uglify({}))
-        .pipe(gulp.dest('./dist/'))
-});
-
-
-gulp.task('copy-html-files', function () {
-    gulp.src('./views/*.ejs')
-        .pipe(gulp.dest('dist/views'));
-});
-
+/*settingsBundle -- browserifies, concats, and minifies settings-app files */
 gulp.task('settingsBundle', function() {
     gulp.src([
         "public/javascripts/settings-app.js",
@@ -87,10 +80,12 @@ gulp.task('settingsBundleGzip', function() {
         }))
         .pipe(concat("settingsBundle.js"))
         .pipe(uglify())
-//        .pipe(gzip())
+        .pipe(gzip())
         .pipe(gulp.dest('dist/javascripts/'));
 });
 
+
+/*bowerComponents -- concats and minifies bower components relavant to settings-app*/
 gulp.task('bowerComponents', function() {
       gulp.src([
          "public/javascripts/bower_components/jquery/dist/jquery.min.js",
@@ -109,7 +104,7 @@ gulp.task('bowerComponents', function() {
          .pipe(gulp.dest('dist/javascripts/'));
 });
 
-
+/*widgetBundle -- JSX transforms, concatenates and minfies files related to widget*/
 gulp.task('widgetBundle', function() {
     gulp.src([
         "public/javascripts/bower_components/jquery/dist/jquery.min.js",
@@ -125,7 +120,10 @@ gulp.task('widgetBundle', function() {
         .pipe(gulp.dest('./dist/javascripts/'));
 });
 
+/*minify-images -- minfies images and puts in proper folder*/
 gulp.task('minify-images', function () {
+
+    /*minify images that go in /public/images */
     gulp.src([
         './public/images/*'
     ])
@@ -137,6 +135,7 @@ gulp.task('minify-images', function () {
         .pipe(gulp.dest('dist/images'));
 
 
+    /*minify wix ui lib images that go in /public/stylesheets/images */
     gulp.src([
         './public/javascripts/bower_components/wix-ui-lib2/images/**'
     ])
@@ -149,12 +148,7 @@ gulp.task('minify-images', function () {
 });
 
 
-// default task
-gulp.task('default',
-    ['lint']
-);
-
-// general build task
+// build -- complete build build task
 gulp.task('build',
-    ['lint', 'minify-css', "minify-images", 'bowerComponents', 'settingsBundle', 'widgetBundle', 'copy-html-files']
+    ['lint', 'minify-css', "minify-images", 'bowerComponents', 'settingsBundle', 'widgetBundle']
 );

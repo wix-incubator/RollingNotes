@@ -37,6 +37,7 @@
     "imagemin-pngcrush":"*",
     "gulp-gzip": "*",
     "compression": "*",
-    "connect": "*"
+    "connect": "*",
+    "gulp-autoprefixer": "*"
   }
 }
