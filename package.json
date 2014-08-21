@@ -35,6 +35,8 @@
     "watchify": "*",
     "gulp-imagemin": "*",
     "imagemin-pngcrush":"*",
-    "gulp-gzip": "*"
+    "gulp-gzip": "*",
+    "compression": "*",
+    "connect": "*"
   }
 }

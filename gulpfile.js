@@ -1,36 +1,41 @@
+
+/********************************************************************
+ * Gulp Build File
+ *
+ * Creates a distribution folder with minified and
+ * concatenated scripts.
+ *
+ * Uses Gulp + Gulp plug-ins to build application.
+ * Each task represents a separate build task to be
+ * run by Gulp with the command 'gulp build'
+ *
+ * Individual tasks are run with the command: 'gulp 'task-name''
+ *
+ ********************************************************************/
+
 var gulp = require('gulp');
 var concat = require('gulp-concat');
-
-// plugins
 var jshint = require('gulp-jshint');
 var uglify = require('gulp-uglify');
 var minifyCSS = require('gulp-minify-css');
 var clean = require('gulp-clean');
-
-
-
 var react = require('gulp-react');
 var browserify = require('gulp-browserify');
-
 var imagemin = require('gulp-imagemin');
 var pngcrush = require('imagemin-pngcrush');
-
 var gzip = require('gulp-gzip');
 
-
-// tasks
+// lint task -- checks javascripts for errors
 gulp.task('lint', function() {
-    gulp.src(['./public/javascripts/settings-app.js', '!./public/javascripts/bower_components/**'])
+    gulp.src([
+        './public/javascripts/settings-app.js'
+//        './public/javascripts/widget-app.js'
+    ])
+        .pipe(react())
         .pipe(jshint())
         .pipe(jshint.reporter('default'))
         .pipe(jshint.reporter('fail'));
 });
-
-//gulp.task('compress', function() {
-//    gulp.src('./dist/javascripts/*.js')
-//        .pipe(gzip())
-//        .pipe(gulp.dest('./public/scripts'));
-//});
 
 gulp.task('clean', function() {
     gulp.src('./dist/*')
@@ -49,10 +54,7 @@ gulp.task('minify-css', function() {
 
 gulp.task('minify-js', function() {
     gulp.src(['./public/javascripts/settings-app.js', '!./public/javascripts/bower_components/**'])
-        .pipe(uglify({
-            // inSourceMap:
-            // outSourceMap: "app.js.map"
-        }))
+        .pipe(uglify({}))
         .pipe(gulp.dest('./dist/'))
 });
 
@@ -72,7 +74,20 @@ gulp.task('settingsBundle', function() {
         }))
         .pipe(concat("settingsBundle.js"))
         .pipe(uglify())
-        .pipe(gzip())
+        .pipe(gulp.dest('dist/javascripts/'));
+});
+
+gulp.task('settingsBundleGzip', function() {
+    gulp.src([
+        "public/javascripts/settings-app.js",
+    ])
+        .pipe(browserify({
+            insertGlobals: true,
+            debug: true
+        }))
+        .pipe(concat("settingsBundle.js"))
+        .pipe(uglify())
+//        .pipe(gzip())
         .pipe(gulp.dest('dist/javascripts/'));
 });
 
@@ -89,7 +104,6 @@ gulp.task('bowerComponents', function() {
           "public/javascripts/bower_components/lodash/dist/lodash.js",
           "public/javascripts/bower_components/slimScroll/jquery.slimscroll.js",
      ])
-
          .pipe(concat("bowerComponents.js"))
          .pipe(uglify())
          .pipe(gulp.dest('dist/javascripts/'));
@@ -112,13 +126,26 @@ gulp.task('widgetBundle', function() {
 });
 
 gulp.task('minify-images', function () {
-    return gulp.src('./public/images/*')
+    gulp.src([
+        './public/images/*'
+    ])
         .pipe(imagemin({
             progressive: true,
             svgoPlugins: [{removeViewBox: false}],
             use: [pngcrush()]
         }))
         .pipe(gulp.dest('dist/images'));
+
+
+    gulp.src([
+        './public/javascripts/bower_components/wix-ui-lib2/images/**'
+    ])
+        .pipe(imagemin({
+            progressive: true,
+            svgoPlugins: [{removeViewBox: false}],
+            use: [pngcrush()]
+        }))
+        .pipe(gulp.dest('dist/stylesheets/images/'));
 });
 
 
@@ -127,7 +154,7 @@ gulp.task('default',
     ['lint']
 );
 
-// build task
+// general build task
 gulp.task('build',
     ['lint', 'minify-css', "minify-images", 'bowerComponents', 'settingsBundle', 'widgetBundle', 'copy-html-files']
 );

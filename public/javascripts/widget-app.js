@@ -1,4 +1,5 @@
 /** @jsx React.DOM */
+/*jshint scripturl:true*/
 
 /********************************************************************
  * Widget UI
@@ -144,7 +145,7 @@ var WidgetApp = React.createClass({
         widgetStyle.borderWidth = design.border.width;
         widgetStyle.borderRadius = design.border.radius;
 
-        return widgetStyle
+        return widgetStyle;
     },
 
     /**
@@ -170,7 +171,7 @@ var WidgetApp = React.createClass({
         /*If widget template is postit note, sets the header color to darker shade
         * of background color*/
         if (this.state.settings.design.template === "postitNote") {
-            headerStyle.backgroundColor = darkerShadeFromRGBA(design.background.color)
+            headerStyle.backgroundColor = darkerShadeFromRGBA(design.background.color);
         }
         return headerStyle;
     },
@@ -326,7 +327,7 @@ var WidgetApp = React.createClass({
             if (this.state.settings.notes[i].visibility === true) {
                 return i;
             }
-        };
+        }
         return 0;
     },
 
@@ -391,7 +392,7 @@ var WidgetApp = React.createClass({
 
         /*Sets note to empty note*/
         if (this.state.slideIndex === -1) {
-            note = {msg: "", key:"thisisthetestkey", link: {url:"", target:""}};;
+            note = {msg: "", key:"thisisthetestkey", link: {url:"", target:""}};
         }
 
         /*Sets note to default note*/

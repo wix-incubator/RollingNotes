@@ -10,6 +10,7 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var connect = require('connect');
 
 var routes = require('./routes/index');
 
@@ -25,7 +26,7 @@ var auth = require('./authenticate');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs')
 
-
+app.use(connect.compress());
 app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());
