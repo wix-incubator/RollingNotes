@@ -24,14 +24,16 @@ router.get('/settings', function(req, res) {
 
 });
 
+var handleSettings = function(knjsfns) {
+
+    mfkelmfklamfae
+}
+
 /* Update component. */
-//TODO allow authentication by passing in proper id from other fxn
 router.post('/updateComponent', function(req, res) {
     req.query.instance = req.body.instance
     auth.authenticate(req,res);
     db.updateComponent(req.body);
 });
-
-//TODO use Wix Media thing to upload documents
 
 module.exports = router;
