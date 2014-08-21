@@ -56,20 +56,29 @@ gulp.task('copy-html-files', function () {
 //    <script type="text/javascript" src="/javascripts/bower_components/angular-mailto/angular-mailto.js"></script>
 //    <script type="text/javascript" src="/javascripts/bower_components/visibilityjs/lib/visibility.core.js"></script>
 //    <script type="text/javascript" src="/javascripts/bower_components/visibilityjs/lib/visibility.timers.js"></script>
+
 //    <script type="text/javascript" src="/javascripts/bower_components/deep-diff/releases/deep-diff-0.2.0.min.js"></script>
 //    <script type="text/javascript" src="/javascripts/bower_components/angular-animate/angular-animate.js"></script>
 //    <script type="text/javascript" src="/javascripts/bower_components/lodash/dist/lodash.js"></script>
 //    <script type="text/javascript" src="/javascripts/bower_components/slimScroll/jquery.slimscroll.js"></script>
 //    <script type="text/javascript" src="/javascripts/settings-bundle.js"></script>
-gulp.task('bowerFiles', function() {
+gulp.task('settingsBundle', function() {
       gulp.src([
          "public/javascripts/bower_components/jquery/dist/jquery.min.js",
          "public/javascripts/bower_components/jqueryui/jquery-ui.min.js",
-         "public/javascripts/bower_components/angular/angular.min.js"
-
-
+         "public/javascripts/bower_components/angular/angular.min.js",
+         "public/javascripts/bower_components/angular-ui-sortable/sortable.min.js",
+          "public/javascripts/bower_components/wix-ui-lib2/ui-lib.js",
+          "public/javascripts/bower_components/angular-mailto/angular-mailto.js",
+          "public/javascripts/bower_components/visibilityjs/lib/visibility.core.js",
+          "public/javascripts/bower_components/visibilityjs/lib/visibility.timers.js",
+          "public/javascripts/bower_components/deep-diff/releases/deep-diff-0.2.0.min.js",
+          "publi/javascripts/bower_components/angular-animate/angular-animate.js",
+          "public/javascripts/bower_components/lodash/dist/lodash.js",
+          "public/javascripts/bower_components/slimScroll/jquery.slimscroll.js",
+          "public/javascripts/settings-bundle.js"
      ])
-         .pipe(concat("bower-bundle.js"))
+         .pipe(concat("settingsBundle.js"))
          .pipe(uglify())
          .pipe(gulp.dest('dist/'));
 });
