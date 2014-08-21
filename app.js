@@ -16,9 +16,6 @@ var routes = require('./routes/index');
 
 var app = express();
 
-//database setup
-var db = require("./data/database");
-
 //authenticate with wix
 var auth = require('./authenticate');
 
@@ -35,6 +32,8 @@ app.use(cookieParser());
 app.use(require('less-middleware')(path.join(__dirname, 'dist')));
 app.use(express.static(path.join(__dirname, 'dist')));
 
+
+//TODO authenticate ONCE for each request
 // Add Wix authentication to each server request
 app.use(function(req, res, next){
     auth.authenticate(req, res);
@@ -42,6 +41,8 @@ app.use(function(req, res, next){
 });
 
 app.use('/', routes);
+app.use('/settings', auth.authenticate, routes.handleSettings);
+app.use('/update Comp', routes.udateComp);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -824,10 +824,6 @@ var siteColorStyles;
                 imageLink: false
             });
 
-//            $('.scrollable-notes-area').slimScroll({
-//                height: 'auto',
-//                color: '#a3daf8'
-//            });
             //Loading/Saving color scheme for default note color.. no easy way to do this
             var siteTemplateColor = document.registerElement('site-template-colors');
             document.body.appendChild(new siteTemplateColor());

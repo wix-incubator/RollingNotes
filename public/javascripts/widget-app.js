@@ -35,7 +35,7 @@ var WidgetApp = React.createClass({
     /***************************
      *  Initial values and event listeners for widget
      ****************************/
-
+//TODO define state vars explicitly
     /**
      * Initializes the initial state of the react class on load.
      *
@@ -59,7 +59,7 @@ var WidgetApp = React.createClass({
             that.setState({slideIndex: that.getFirstVisibleNoteIndex()});
 
             /*If preview was set to true in settings, play preview of transition*/
-            if (that.state.settings.transition.preview === true) {
+            if (that.state.settings.transition.preview) {
                 that.previewRollingNotes();
             }
         });
@@ -85,9 +85,7 @@ var WidgetApp = React.createClass({
      * Adds the appropriate event listeners, sets the visible note and
      * play state
      */
-    componentWillMount: function() {
-        console.log(JSON.stringify(this.state.settings));
-    },
+
     componentDidMount: function() {
         var that = this;
 
@@ -222,7 +220,7 @@ var WidgetApp = React.createClass({
     refreshWidget: function() {
       window.location.reload();
     },
-
+//TODO MAKE NAMING CLEARER FOR PREVIEW!!!!!;( :( <3
     /**
      * Clears the widget and shows a blank note
      */
@@ -308,7 +306,7 @@ var WidgetApp = React.createClass({
     getNumOfVisibleNotes: function() {
         var count = 0;
         this.state.settings.notes.forEach(function(value) {
-            if (value.visibility === true) {
+            if (value.visibility) {
                 count++;
             }
         });
@@ -324,7 +322,7 @@ var WidgetApp = React.createClass({
      */
     getFirstVisibleNoteIndex: function() {
         for (var i = 0; i < this.state.settings.notes.length; i++) {
-            if (this.state.settings.notes[i].visibility === true) {
+            if (this.state.settings.notes[i].visibility) {
                 return i;
             }
         }
@@ -337,10 +335,11 @@ var WidgetApp = React.createClass({
      *
      * @returns {number} - index of next visible note
      */
+    //TODO use for loop to avoid infinite loop
     getNextVisibleNote : function () {
         var notes =  this.state.settings.notes;
         var nextVisibleSlide = ((this.state.slideIndex) + 1) % notes.length;
-        while (notes[nextVisibleSlide].visibility === false) {
+        while (!notes[nextVisibleSlide].visibility) {
             nextVisibleSlide = (nextVisibleSlide +1) % notes.length;
         }
         return nextVisibleSlide;
@@ -391,10 +390,12 @@ var WidgetApp = React.createClass({
         var note;
 
         /*Sets note to empty note*/
+        //TODO make clearer (constant instead of -1)
         if (this.state.slideIndex === -1) {
             note = {msg: "", key:"thisisthetestkey", link: {url:"", target:""}};
         }
 
+        // TODO could simplify if statement
         /*Sets note to default note*/
         else if (this.state.settings.notes.length === 0 || this.getNumOfVisibleNotes() === 0) {
             note = {msg: DEFAULT_NOTE_TEXT, key:"defaultNote", link: {url:"", target:""}};
