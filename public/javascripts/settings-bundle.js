@@ -156,20 +156,37 @@ exports.chalkboardNote = {
  *
  ********************************************************************/
 
+
+
+
+//var $ = require('jquery')(window);
+//require("./bower_components/jqueryui/jquery-ui.min.js");
+//require("./bower_components/angular/angular.min.js");
+//require("./bower_components/angular-ui-sortable/sortable.min.js");
+//require("./bower_components/wix-ui-lib2/ui-lib.js");
+//require("./bower_components/visibilityjs/lib/visibility.core.js");
+//require("./bower_components/visibilityjs/lib/visibility.timers.js");
+//require("./bower_components/deep-diff/releases/deep-diff-0.2.0.min.js");
+//require("./bower_components/angular-animate/angular-animate.js");
+//require("./bower_components/lodash/dist/lodash.js");
+//require("./bower_components/angular-animate/angular-animate.js");
+//
+
+
 /* Grabbing note templates */
 var templates = require("./defaultTemplates");
 var siteColorStyles;
 
-(function(){
+(function () {
 
     /*
      *   Initializing angular app called 'settingsApp'.
      *   Uses two external angular libraries: ui.sortable and ngAnimate
      */
-    var app = angular.module("settingsApp", ['ui.sortable','ngAnimate']);
+    var app = angular.module("settingsApp", ['ui.sortable']);
 
     /* Initializing angular controller to be used in views/settings.ejs */
-    app.controller('settingsController', ['$window', '$scope', '$http', '$timeout', function($window, $scope, $http, $timeout) {
+    app.controller('settingsController', ['$window', '$scope', '$http', '$timeout', function ($window, $scope, $http, $timeout) {
 
         /**************************************************
          *  Design Settings (first tab of settings)
@@ -186,9 +203,9 @@ var siteColorStyles;
          * @param key - widget unique id
          * @returns string - represents widget component id
          */
-        var parseCompId = function(key){
+        var parseCompId = function (key) {
             return key.substring(key.indexOf(".") + 1);
-        }
+        };
 
         /**
          * Returns app settings instance.
@@ -196,17 +213,17 @@ var siteColorStyles;
          *
          * @returns string - settings instance
          */
-        var parseSettingsInstance = function() {
+        var parseSettingsInstance = function () {
             var instance = window.location.search.substring(window.location.search.indexOf('instance') + 9, window.location.search.indexOf('&'));
             return instance;
-        }
+        };
 
         /**
          * Updates the database and the Widget with settings changes.
          *
          * @param newSettings
          */
-        $scope.updateComponent = function(newSettings) {
+        $scope.updateComponent = function (newSettings) {
             /* replacing old settings JSON with updated settings */
             this.settings = newSettings;
 
@@ -244,10 +261,10 @@ var siteColorStyles;
              * These settings are saved in the variable 'siteColorStyles'.
              */
             if (templateName === 'defaultNote') {
-                template.text.color = siteColorStyles['color'];
+                template.text.color = siteColorStyles.color;
                 template.background.color = siteColorStyles['background-color'];
                 template.border.color = siteColorStyles['border-color'];
-                template.hover.color = siteColorStyles['hover'];
+                template.hover.color = siteColorStyles.hover;
             }
             return template;
         };
@@ -282,7 +299,7 @@ var siteColorStyles;
          * Resets changes made in Settings to current template's defaults.
          * Resets WidgetUI as well.
          */
-        this.resetTemplate = function() {
+        this.resetTemplate = function () {
             var template = getTemplateDesign(settings.design.template);
             setDesignOptions(template);
             settings.design = template;
@@ -295,7 +312,7 @@ var siteColorStyles;
          *
          * @param newSettings - new template data
          */
-        var applySettingsChangesToNewTemplate = function(newSettings) {
+        var applySettingsChangesToNewTemplate = function (newSettings) {
 
             /* Get instance of former default template settings */
             var originalDesign = getTemplateDesign(settings.design.template);
@@ -318,7 +335,7 @@ var siteColorStyles;
             /* Setting new template data */
             setDesignOptions(template);
             settings.design = template;
-        }
+        };
 
         /********************************************************************************
          * EVENT LISTENERS for all changes in design tab of settings.
@@ -373,7 +390,7 @@ var siteColorStyles;
         //TODO extract to common utils, I've seen this before
         var parseRBGA = function(rgba) {
             return rgba.substring(5, rgba.length-1).replace(/ /g, '').split(',');
-        }
+        };
 
         /**
          * Event listener for background color picker changes.
@@ -717,7 +734,7 @@ var siteColorStyles;
             settings.transition.preview = true;
             $scope.updateComponent(settings);
             settings.transition.preview = false;
-        }
+        };
 
         /*********************************************
          *  Add Link Popup dialog box
@@ -764,7 +781,7 @@ var siteColorStyles;
             $scope.buttonsVisible = false;
             $scope.optionsVisible = true;
             $scope.linkOption = type;
-        }
+        };
 
         /**
          * Closes the link popup dialog.
@@ -854,7 +871,7 @@ var siteColorStyles;
 
             $scope.updateComponent(settings);
             this.closeLinkPopup();
-        }
+        };
 
         /**
          * Returns to Link options in popup.
@@ -864,7 +881,7 @@ var siteColorStyles;
             $scope.optionsVisible = false;
             $scope.buttonsVisible = true;
             $scope.linkOption = 0;
-        }
+        };
 
         /**
          * Resets link data to blank string.
@@ -879,7 +896,7 @@ var siteColorStyles;
             note.link.doc = false;
             note.link.subject = "";
             note.link.url = "";
-        }
+        };
 
         /**
          * Clears the link while also clearing the link-display on the note itself.
@@ -891,7 +908,7 @@ var siteColorStyles;
             note.link.display = "";
             $scope.updateComponent(settings);
             this.closeLinkPopup();
-        }
+        };
 
         /**
          * Loads the user's site pages for picking a page link.
@@ -947,7 +964,7 @@ var siteColorStyles;
                     scope.updateComponent(settings);
                 });
             });
-        }
+        };
 
         /**
          * SPECIAL CASE: Creates a custom HTML tag that saves
@@ -955,7 +972,23 @@ var siteColorStyles;
          * default note template that reflects each site's custom
          * color theme.
          */
+
+
+
+
         $(document).ready(function( ){
+            Wix.UI.initialize({
+                numOfImages: 100,
+                isIconShown: true,
+                imageVisibility: 'show',
+                imagesToSync: 0,
+                imageLink: false
+            });
+
+//            $('.scrollable-notes-area').slimScroll({
+//                height: 'auto',
+//                color: '#a3daf8'
+//            });
             //Loading/Saving color scheme for default note color.. no easy way to do this
             var siteTemplateColor = document.registerElement('site-template-colors');
             document.body.appendChild(new siteTemplateColor());
@@ -981,8 +1014,7 @@ var siteColorStyles;
             link: function(scope, element, attrs, controller) {
                 function ensureHttpPrefix(value) {
                     // Need to add prefix if we don't have http:// prefix already AND we don't have part of it
-                    if(value && !/^(https):\/\//i.test(value)
-                        && 'https://'.indexOf(value) === -1) {
+                    if(value && !/^(https):\/\//i.test(value) && 'https://'.indexOf(value) === -1) {
                         controller.$setViewValue('https://' + value);
                         controller.$render();
                         return 'https://' + value;
