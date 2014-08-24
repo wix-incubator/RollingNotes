@@ -2,7 +2,8 @@
  * Node express app, initializes routes and database
  * uses angular for settings front end and react for widget front end
  *****************************/
-
+var DEV = 'dev';
+var PROD = 'prod';
 
 var express = require('express');
 var path = require('path');
@@ -19,18 +20,24 @@ var app = express();
 //authenticate with wix
 var auth = require('./authenticate');
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs')
-
+if (process.env.NODE_ENV === PROD) {
+    console.log("do i get here?")
+    app.set('views', path.join(__dirname, 'dist/views'));
+    app.set('view engine', 'ejs')
+    app.use(require('less-middleware')(path.join(__dirname, 'dist')));
+    app.use(express.static(path.join(__dirname, 'dist')));
+} else {
+    app.set('views', path.join(__dirname, 'views'));
+    app.set('view engine', 'ejs')
+    app.use(require('less-middleware')(path.join(__dirname, 'public')));
+    app.use(express.static(path.join(__dirname, 'public')));
+}
 app.use(connect.compress());
 app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
-app.use(require('less-middleware')(path.join(__dirname, 'dist')));
-app.use(express.static(path.join(__dirname, 'dist')));
 
 
 //TODO authenticate ONCE for each request

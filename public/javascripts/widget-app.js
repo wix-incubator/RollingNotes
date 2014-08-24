@@ -475,7 +475,7 @@ var parseRBGA = function(rgba) {
  * @returns {string} - String representing a darker CSS rgba value
  */
 var darkerShadeFromRGBA = function (rgbaString) {
-    var RGBA = parseRBGA(this.state.settings.design.background.color);
+    var RGBA = parseRBGA(rgbaString);
     return "rgba(" +
         Math.abs((RGBA[0] - 26) % 255) + "," +
         Math.abs((RGBA[1] - 26) % 255) + "," +
