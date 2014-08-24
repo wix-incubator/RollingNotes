@@ -104,6 +104,22 @@ gulp.task('bowerComponents', function() {
          .pipe(gulp.dest('dist/javascripts/'));
 });
 
+/*bowerComponents -- concats and minifies bower components relavant to settings-app*/
+gulp.task('bowerComponentsGzip', function() {
+    gulp.src([
+        "public/javascripts/bower_components/jqueryui/jquery-ui.min.js",
+        "public/javascripts/bower_components/angular-ui-sortable/sortable.min.js",
+        "public/javascripts/bower_components/wix-ui-lib2/ui-lib.js",
+        "public/javascripts/bower_components/deep-diff/releases/deep-diff-0.2.0.min.js",
+        "public/javascripts/bower_components/lodash/dist/lodash.js",
+        "public/javascripts/bower_components/slimScroll/jquery.slimscroll.js",
+    ])
+        .pipe(concat("bowerComponents.js"))
+        .pipe(uglify())
+        .pipe(gzip())
+        .pipe(gulp.dest('dist/javascripts/'));
+});
+
 /*widgetBundle -- JSX transforms, concatenates and minfies files related to widget*/
 gulp.task('widgetBundle', function() {
     gulp.src([
@@ -113,6 +129,19 @@ gulp.task('widgetBundle', function() {
         .pipe(react())
         .pipe(concat("widgetBundle.js"))
         .pipe(uglify())
+        .pipe(gulp.dest('./dist/javascripts/'));
+});
+
+/*widgetBundle -- JSX transforms, concatenates and minfies files related to widget*/
+gulp.task('widgetBundleGzip', function() {
+    gulp.src([
+        "public/javascripts/bower_components/visibilityjs/lib/visibility.core.js",
+        "public/javascripts/widget-app.js"
+    ])
+        .pipe(react())
+        .pipe(concat("widgetBundle.js"))
+        .pipe(uglify())
+        .pipe(gzip())
         .pipe(gulp.dest('./dist/javascripts/'));
 });
 
@@ -152,4 +181,9 @@ gulp.task('buildJS',
 // build -- complete build build task
 gulp.task('build',
     ['lint', 'minify-css', "minify-images", 'bowerComponents', 'settingsBundle', 'widgetBundle']
+);
+
+// build -- complete build build task
+gulp.task('buildGzip',
+    ['lint', 'minify-css', "minify-images", 'bowerComponentsGzip', 'settingsBundleGzip', 'widgetBundleGzip']
 );
