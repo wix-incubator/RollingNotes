@@ -228,12 +228,12 @@ Includes design settings, template settings and the manage notes screen.
                                 </div>
                                 <div class="note-text-container" ng-init="isFocused = false">
                                     <textarea ng-model="note.msg" ng-blur="ctrl.blur(); isFocused = false" ng-trim="false" ng-focus="isFocused = true"
-                                            rows="0" class="note-text" ng-class="{'unwatched-note': note.visibility == false,
+                                              rows="0" class="note-text" ng-class="{'unwatched-note': note.visibility == false,
                                             'note-text-max-count': (note.msg.length >= 140)}" type="text" maxlength="140"
-                                             placeholder="This is a note. Click to edit"></textarea>
-                                    <div class="character-count-normal" ng-class="{'character-count-max':note.msg.length >= 140}" ng-show="note.msg.length >= 140">
+                                              placeholder="This is a note. Click to edit"></textarea>
+                                    <div class="character-count-normal" ng-class="{'character-count-max':(note.msg.length >= 140)}" ng-show="showIcons">
                                         {{note.msg.length}}/140</div>
-                                    </div>
+                                </div>
                                 <div class="edit-icons-container">
                                     <a class="icon-edit" ng-click="ctrl.editNoteButton($event, $index)" ng-show="showIcons == true && isFocused == false && note.visibility === true"></a>
                                     <a ng-click="ctrl.deleteNote(ctrl.settings.notes, $index)"><img id="trash-icon" src="/images/trash-icon.png" ng-show="showIcons == true && note.visibility === true"/></a>
