@@ -24,10 +24,10 @@ router.get('/settings', function(req, res) {
 
 });
 
-var handleSettings = function(knjsfns) {
-
-    mfkelmfklamfae
-}
+//var handleSettings = function(knjsfns) {
+//
+//    mfkelmfklamfae
+//}
 
 /* Update component. */
 router.post('/updateComponent', function(req, res) {
