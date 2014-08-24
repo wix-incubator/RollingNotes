@@ -12,6 +12,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var connect = require('connect');
+var compression = require('compression')
 
 var routes = require('./routes/index');
 
@@ -36,7 +37,7 @@ if (process.env.NODE_ENV === PROD) {
     app.use(require('less-middleware')(path.join(__dirname, 'public')));
     app.use(express.static(path.join(__dirname, 'public')));
 }
-app.use(connect.compress());
+app.use(compression());
 app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());
