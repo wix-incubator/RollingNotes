@@ -41,8 +41,6 @@ app.use(function(req, res, next){
 });
 
 app.use('/', routes);
-app.use('/settings', auth.authenticate, routes.handleSettings);
-app.use('/update Comp', routes.udateComp);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

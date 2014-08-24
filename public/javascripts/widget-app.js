@@ -1,5 +1,4 @@
 /** @jsx React.DOM */
-/*jshint scripturl:true*/
 
 /********************************************************************
  * Widget UI
@@ -15,7 +14,7 @@
  ********************************************************************/
 
 /* Gets the React CSS Transition addon to add custom css transitions for rolling notes
-* more information here: http://facebook.github.io/react/docs/animation.html */
+ * more information here: http://facebook.github.io/react/docs/animation.html */
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 /* Instantiates the interval that will be used to roll notes */
@@ -35,7 +34,7 @@ var WidgetApp = React.createClass({
     /***************************
      *  Initial values and event listeners for widget
      ****************************/
-//TODO define state vars explicitly
+
     /**
      * Initializes the initial state of the react class on load.
      *
@@ -52,14 +51,14 @@ var WidgetApp = React.createClass({
         var that = this;
 
         /*Listens to settings updated events. When triggered, widget sets the
-        * state to the updated settings and sets the slide shown in the widget to the
-        * first visible note. */
+         * state to the updated settings and sets the slide shown in the widget to the
+         * first visible note. */
         Wix.addEventListener(Wix.Events.SETTINGS_UPDATED, function(updatedSettings){
             that.setState({settings: updatedSettings});
             that.setState({slideIndex: that.getFirstVisibleNoteIndex()});
 
             /*If preview was set to true in settings, play preview of transition*/
-            if (that.state.settings.transition.preview) {
+            if (that.state.settings.transition.preview === true) {
                 that.previewRollingNotes();
             }
         });
@@ -85,7 +84,6 @@ var WidgetApp = React.createClass({
      * Adds the appropriate event listeners, sets the visible note and
      * play state
      */
-
     componentDidMount: function() {
         var that = this;
 
@@ -98,26 +96,28 @@ var WidgetApp = React.createClass({
         }
 
         /* SPECIAL CASE: this event listener is added to prevent a specific bug
-        related to CSS transitions, intervals, and switching tabs. Listens to
-        when user changes tabs: pauses notes when tab with widget is not visible
-        and plays notes when user returns to the tab
+         related to CSS transitions, intervals, and switching tabs. Listens to
+         when user changes tabs: pauses notes when tab with widget is not visible
+         and plays notes when user returns to the tab
          */
         Visibility.change(function(e, state) {
             if (viewMode === 'edit') {
                 return;
             } else if(state === 'hidden') {
-                that.pauseNotes();
+//                that.pauseNotes();
             } else if (state === 'visible'){
-                that.playNotes();
+//                that.playNotes();
+                  that.refreshWidget();
             }
         });
 
         /*Set note shown in widget to first visible note*/
         that.setState({slideIndex: that.getFirstVisibleNoteIndex()});
         /*If page is opened in site mode, play notes on loop*/
-        if (viewMode === 'site') {
+        if (viewMode === 'site' || viewMode === 'preview') {
             this.playNotes();
         }
+        console.log(viewMode);
     },
 
     /*****************************
@@ -143,7 +143,7 @@ var WidgetApp = React.createClass({
         widgetStyle.borderWidth = design.border.width;
         widgetStyle.borderRadius = design.border.radius;
 
-        return widgetStyle;
+        return widgetStyle
     },
 
     /**
@@ -167,9 +167,9 @@ var WidgetApp = React.createClass({
         var headerStyle = {};
         var design = this.state.settings.design;
         /*If widget template is postit note, sets the header color to darker shade
-        * of background color*/
+         * of background color*/
         if (this.state.settings.design.template === "postitNote") {
-            headerStyle.backgroundColor = darkerShadeFromRGBA(design.background.color);
+            headerStyle.backgroundColor = darkerShadeFromRGBA(design.background.color)
         }
         return headerStyle;
     },
@@ -211,16 +211,16 @@ var WidgetApp = React.createClass({
      * @returns {number} - duration in ms between each slide animation
      */
     getSlideDuration: function() {
-      return (this.state.settings.transition.duration * 1000) + 2000;
+        return (this.state.settings.transition.duration * 1000) + 2000;
     },
 
     /**
      * Refreshes widget by reloading the window
      */
     refreshWidget: function() {
-      window.location.reload();
+        window.location.reload();
     },
-//TODO MAKE NAMING CLEARER FOR PREVIEW!!!!!;( :( <3
+
     /**
      * Clears the widget and shows a blank note
      */
@@ -256,7 +256,7 @@ var WidgetApp = React.createClass({
         var that = this;
 
         /*If called while already playing, pause notes. This ensures that only one
-        * interval is running at any given time*/
+         * interval is running at any given time*/
         if (this.state.mode === PLAY) {
             this.pauseNotes();
         }
@@ -306,7 +306,7 @@ var WidgetApp = React.createClass({
     getNumOfVisibleNotes: function() {
         var count = 0;
         this.state.settings.notes.forEach(function(value) {
-            if (value.visibility) {
+            if (value.visibility === true) {
                 count++;
             }
         });
@@ -322,10 +322,10 @@ var WidgetApp = React.createClass({
      */
     getFirstVisibleNoteIndex: function() {
         for (var i = 0; i < this.state.settings.notes.length; i++) {
-            if (this.state.settings.notes[i].visibility) {
+            if (this.state.settings.notes[i].visibility === true) {
                 return i;
             }
-        }
+        };
         return 0;
     },
 
@@ -335,11 +335,10 @@ var WidgetApp = React.createClass({
      *
      * @returns {number} - index of next visible note
      */
-    //TODO use for loop to avoid infinite loop
     getNextVisibleNote : function () {
         var notes =  this.state.settings.notes;
         var nextVisibleSlide = ((this.state.slideIndex) + 1) % notes.length;
-        while (!notes[nextVisibleSlide].visibility) {
+        while (notes[nextVisibleSlide].visibility === false) {
             nextVisibleSlide = (nextVisibleSlide +1) % notes.length;
         }
         return nextVisibleSlide;
@@ -372,10 +371,7 @@ var WidgetApp = React.createClass({
      */
     getNoteLinkURL: function() {
         note = this.getNote();
-        if(note.link.doc === true ) {
-            note.link.url = Wix.Utils.Media.getDocumentUrl(note.link.url);
-            note.link.doc = false;
-        }
+        // TODO get document link here
         return note.link.url ? note.link.url : 'javascript:;';
     },
 
@@ -390,12 +386,10 @@ var WidgetApp = React.createClass({
         var note;
 
         /*Sets note to empty note*/
-        //TODO make clearer (constant instead of -1)
         if (this.state.slideIndex === -1) {
-            note = {msg: "", key:"thisisthetestkey", link: {url:"", target:""}};
+            note = {msg: "", key:"thisisthetestkey", link: {url:"", target:""}};;
         }
 
-        // TODO could simplify if statement
         /*Sets note to default note*/
         else if (this.state.settings.notes.length === 0 || this.getNumOfVisibleNotes() === 0) {
             note = {msg: DEFAULT_NOTE_TEXT, key:"defaultNote", link: {url:"", target:""}};
@@ -421,13 +415,13 @@ var WidgetApp = React.createClass({
      * @returns JSX - wrapper around note message
      */
     getNoteWrapper: function() {
-      if (this.state.mode !== CLEARNOTE ) return  (
-          <ReactCSSTransitionGroup  transitionName={this.state.mode}>
-                  <div className={'rSlides ' + this.state.settings.transition.effect} key={this.getNote().key}>
-                      <p>{this.getNote().msg}</p>
-                  </div>
-           </ReactCSSTransitionGroup>
-          );
+        if (this.state.mode !== CLEARNOTE ) return  (
+            <ReactCSSTransitionGroup  transitionName={this.state.mode}>
+                <div className={'rSlides ' + this.state.settings.transition.effect} key={this.getNote().key}>
+                    <p>{this.getNote().msg}</p>
+                </div>
+            </ReactCSSTransitionGroup>
+            );
     },
 
 
@@ -446,15 +440,15 @@ var WidgetApp = React.createClass({
      * @returns JSX - returns the JSX/HTML that displays the current state of the widget
      */
     render: function() {
-         return <a href={this.getNoteLinkURL()} target={this.getNote().link.target || ''} style={this.updateAnchorStyle()}>
+        return <a href={this.getNoteLinkURL()} target={this.getNote().link.target || ''} style={this.updateAnchorStyle()}>
             <div className={"note-widget " + this.state.settings.design.template} style={this.updateStyles()}
-                    onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
-                    <div  className="note-header" style={this.updateHeaderStyle()}></div>
-                    <div className="note-content">
+            onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
+                <div  className="note-header" style={this.updateHeaderStyle()}></div>
+                <div className="note-content">
                          {this.getNoteWrapper()}
-                    </div>
-               </div>
-            </a>;
+                </div>
+            </div>
+        </a>;
     }
 });
 
@@ -483,7 +477,7 @@ var parseRBGA = function(rgba) {
  * @returns {string} - String representing a darker CSS rgba value
  */
 var darkerShadeFromRGBA = function (rgbaString) {
-    var RGBA = parseRBGA(rgbaString);
+    var RGBA = parseRBGA(this.state.settings.design.background.color);
     return "rgba(" +
         Math.abs((RGBA[0] - 26) % 255) + "," +
         Math.abs((RGBA[1] - 26) % 255) + "," +

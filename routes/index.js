@@ -24,11 +24,6 @@ router.get('/settings', function(req, res) {
 
 });
 
-var handleSettings = function(knjsfns) {
-
-    mfkelmfklamfae
-}
-
 /* Update component. */
 router.post('/updateComponent', function(req, res) {
     req.query.instance = req.body.instance
