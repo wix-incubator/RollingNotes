@@ -104,9 +104,8 @@ var WidgetApp = React.createClass({
             if (viewMode === 'edit') {
                 return;
             } else if(state === 'hidden') {
-//                that.pauseNotes();
+                that.pauseNotes();
             } else if (state === 'visible'){
-//                that.playNotes();
                   that.refreshWidget();
             }
         });
@@ -117,7 +116,6 @@ var WidgetApp = React.createClass({
         if (viewMode === 'site' || viewMode === 'preview') {
             this.playNotes();
         }
-        console.log(viewMode);
     },
 
     /*****************************
