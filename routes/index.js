@@ -3,6 +3,9 @@ var db = require('../data/database');
 var auth = require('../authenticate');
 var router = express.Router();
 
+var connect = require('connect'),
+    gzip = require('connect-gzip');
+
 function handleRequest(req, res, compId, template) {
     auth.authenticate(req, res);
     var key = req.instanceId  + '.' + compId;
