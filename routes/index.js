@@ -24,6 +24,7 @@ router.get('/settings', function(req, res) {
 
 });
 
+
 /* Update component. */
 router.post('/updateComponent', function(req, res) {
     req.query.instance = req.body.instance
