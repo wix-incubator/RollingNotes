@@ -20,8 +20,12 @@ var app = express();
 //authenticate with wix
 var auth = require('./authenticate');
 
+/**
+ * To run widget in development environment: type 'NODE_ENV=dev npm start' or 'npm start' in terminal with no quotations.
+ *
+ * To run widget in production environment: type 'NODE_ENV=prod npm start' in terminal with no quotations
+ */
 if (process.env.NODE_ENV === PROD) {
-    console.log("do i get here?")
     app.set('views', path.join(__dirname, 'dist/views'));
     app.set('view engine', 'ejs')
     app.use(require('less-middleware')(path.join(__dirname, 'dist')));
