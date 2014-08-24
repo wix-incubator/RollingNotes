@@ -21,7 +21,6 @@ var app = express();
 var auth = require('./authenticate');
 
 if (process.env.NODE_ENV === PROD) {
-    console.log("do i get here?")
     app.set('views', path.join(__dirname, 'dist/views'));
     app.set('view engine', 'ejs')
     app.use(require('less-middleware')(path.join(__dirname, 'dist')));
