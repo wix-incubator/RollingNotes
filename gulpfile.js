@@ -40,7 +40,11 @@ gulp.task('lint', function() {
 
 /*clean task -- deletes all files in the*/
 gulp.task('clean', function() {
-    gulp.src('./dist/*')
+    gulp.src([
+        './dist/images/*',
+        './dist/javascripts/*',
+        './dist/stylesheets/*'
+    ])
         .pipe(clean({force: true}));
 });
 
@@ -88,14 +92,10 @@ gulp.task('settingsBundleGzip', function() {
 /*bowerComponents -- concats and minifies bower components relavant to settings-app*/
 gulp.task('bowerComponents', function() {
       gulp.src([
-         "public/javascripts/bower_components/jquery/dist/jquery.min.js",
-         "public/javascripts/bower_components/jqueryui/jquery-ui.min.js",
-         "public/javascripts/bower_components/angular/angular.min.js",
-         "public/javascripts/bower_components/angular-ui-sortable/sortable.min.js",
+          "public/javascripts/bower_components/jqueryui/jquery-ui.min.js",
+          "public/javascripts/bower_components/angular-ui-sortable/sortable.min.js",
           "public/javascripts/bower_components/wix-ui-lib2/ui-lib.js",
-          "public/javascripts/bower_components/angular-mailto/angular-mailto.js",
           "public/javascripts/bower_components/deep-diff/releases/deep-diff-0.2.0.min.js",
-          "publi/javascripts/bower_components/angular-animate/angular-animate.js",
           "public/javascripts/bower_components/lodash/dist/lodash.js",
           "public/javascripts/bower_components/slimScroll/jquery.slimscroll.js",
      ])
@@ -107,11 +107,7 @@ gulp.task('bowerComponents', function() {
 /*widgetBundle -- JSX transforms, concatenates and minfies files related to widget*/
 gulp.task('widgetBundle', function() {
     gulp.src([
-        "public/javascripts/bower_components/jquery/dist/jquery.min.js",
-        "public/javascripts//bower_components/react/react-with-addons.js",
-        "public/javascripts/bower_components/react/JSXTransformer.js",
         "public/javascripts/bower_components/visibilityjs/lib/visibility.core.js",
-        "public/javascripts/bower_components/visibilityjs/lib/visibility.timers.js",
         "public/javascripts/widget-app.js"
     ])
         .pipe(react())
@@ -147,6 +143,11 @@ gulp.task('minify-images', function () {
         .pipe(gulp.dest('dist/stylesheets/images/'));
 });
 
+
+// buildJS -- builds only the Javascript files
+gulp.task('buildJS',
+    ['bowerComponents', 'settingsBundle', 'widgetBundle']
+);
 
 // build -- complete build build task
 gulp.task('build',
