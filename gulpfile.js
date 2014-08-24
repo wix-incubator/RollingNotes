@@ -24,7 +24,7 @@ var react = require('gulp-react');
 var browserify = require('gulp-browserify');
 var imagemin = require('gulp-imagemin');
 var pngcrush = require('imagemin-pngcrush');
-var gzip = require('gulp-gzip');
+var htmlreplace = require('gulp-html-replace');
 
 /*lint task -- checks javascripts for errors*/
 gulp.task('lint', function() {
@@ -41,9 +41,7 @@ gulp.task('lint', function() {
 /*clean task -- deletes all files in the*/
 gulp.task('clean', function() {
     gulp.src([
-        './dist/images/*',
-        './dist/javascripts/*',
-        './dist/stylesheets/*'
+        './dist/*'
     ])
         .pipe(clean({force: true}));
 });
@@ -74,21 +72,6 @@ gulp.task('settingsBundle', function() {
         .pipe(gulp.dest('dist/javascripts/'));
 });
 
-gulp.task('settingsBundleGzip', function() {
-    gulp.src([
-        "public/javascripts/settings-app.js",
-    ])
-        .pipe(browserify({
-            insertGlobals: true,
-            debug: true
-        }))
-        .pipe(concat("settingsBundle.js"))
-        .pipe(uglify())
-        .pipe(gzip())
-        .pipe(gulp.dest('dist/javascripts/'));
-});
-
-
 /*bowerComponents -- concats and minifies bower components relavant to settings-app*/
 gulp.task('bowerComponents', function() {
       gulp.src([
@@ -104,22 +87,6 @@ gulp.task('bowerComponents', function() {
          .pipe(gulp.dest('dist/javascripts/'));
 });
 
-/*bowerComponents -- concats and minifies bower components relavant to settings-app*/
-gulp.task('bowerComponentsGzip', function() {
-    gulp.src([
-        "public/javascripts/bower_components/jqueryui/jquery-ui.min.js",
-        "public/javascripts/bower_components/angular-ui-sortable/sortable.min.js",
-        "public/javascripts/bower_components/wix-ui-lib2/ui-lib.js",
-        "public/javascripts/bower_components/deep-diff/releases/deep-diff-0.2.0.min.js",
-        "public/javascripts/bower_components/lodash/dist/lodash.js",
-        "public/javascripts/bower_components/slimScroll/jquery.slimscroll.js",
-    ])
-        .pipe(concat("bowerComponents.js"))
-        .pipe(uglify())
-        .pipe(gzip())
-        .pipe(gulp.dest('dist/javascripts/'));
-});
-
 /*widgetBundle -- JSX transforms, concatenates and minfies files related to widget*/
 gulp.task('widgetBundle', function() {
     gulp.src([
@@ -129,19 +96,6 @@ gulp.task('widgetBundle', function() {
         .pipe(react())
         .pipe(concat("widgetBundle.js"))
         .pipe(uglify())
-        .pipe(gulp.dest('./dist/javascripts/'));
-});
-
-/*widgetBundle -- JSX transforms, concatenates and minfies files related to widget*/
-gulp.task('widgetBundleGzip', function() {
-    gulp.src([
-        "public/javascripts/bower_components/visibilityjs/lib/visibility.core.js",
-        "public/javascripts/widget-app.js"
-    ])
-        .pipe(react())
-        .pipe(concat("widgetBundle.js"))
-        .pipe(uglify())
-        .pipe(gzip())
         .pipe(gulp.dest('./dist/javascripts/'));
 });
 
@@ -172,6 +126,19 @@ gulp.task('minify-images', function () {
         .pipe(gulp.dest('dist/stylesheets/images/'));
 });
 
+gulp.task('copyViews', function() {
+    gulp.src([
+        './views/widget.ejs',
+        './views/settings.ejs'
+    ])
+        .pipe(htmlreplace({
+            'widget-scripts': '/javascripts/widgetBundle.js',
+            'settings-bower-components': '/javascripts/bowerComponents.js',
+            'settings-bundle': '/javascripts/settingsBundle.js',
+            'settings-css': '/stylesheets/ui-lib.min.css'
+        }))
+        .pipe(gulp.dest('dist/views'));
+});
 
 // buildJS -- builds only the Javascript files
 gulp.task('buildJS',
@@ -180,10 +147,5 @@ gulp.task('buildJS',
 
 // build -- complete build build task
 gulp.task('build',
-    ['lint', 'minify-css', "minify-images", 'bowerComponents', 'settingsBundle', 'widgetBundle']
-);
-
-// build -- complete build build task
-gulp.task('buildGzip',
-    ['lint', 'minify-css', "minify-images", 'bowerComponentsGzip', 'settingsBundleGzip', 'widgetBundleGzip']
+    ['lint', 'minify-css', "minify-images", 'bowerComponents', 'settingsBundle', 'widgetBundle', 'copyViews']
 );
