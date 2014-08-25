@@ -22,9 +22,6 @@ var APP_ID = config.APP_ID;
  * in between every server request made by the Rolling Notes Settings
  * or Widget endpoint.
  *
- * THIS STEP IS NECESSARY TO PROPERLY AUTHENTICATE WIDGET-APP REQUESTS AND
- * COMMUNICATE WITH WIX.  THIS CODE SHOULD BE COPIED.git
- *
  * @param req - server request
  * @param res - server response
  */
@@ -43,12 +40,18 @@ exports.authenticate = function authenticate(req, res) {
         /* Get a shortcut for the Wix RESTful API */
         wixAPI = wix.getAPI(APP_SECRET, APP_ID, instanceId);
 
+        console.log("Once you've reached this point you're good to use the Wix API, otherwise an exception will be thrown.");
+
+        console.log('Authentication Successful');
+
         /* save instanceId and compId in request to be used in routes/index.js*/
         req.instanceId = instanceId;
         req.compId = req.query.compId;
         req.origCompId = req.query.origCompId;
     } catch(e) {
         console.log(e);
-        console.log('Wix authentication error.');
+        title = "Wix API init failed. Check your app key, secret and instance Id";
+        console.log( title );
+        res.send( title );
     }
 }

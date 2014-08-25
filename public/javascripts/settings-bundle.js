@@ -269,6 +269,7 @@ var siteColorStyles;
          */
         var setDesignOptions = function (template) {
             Wix.UI.set('color', {cssColor: template.text.color});
+            Wix.UI.set('textAlignGroup', {index: 1});
             Wix.UI.set('bcolorWOpacity', {rgba: template.background.color, opacity:template.background.opacity});
             Wix.UI.set('bOpacitySpinner', template.background.opacity * 100);
             Wix.UI.set('hcolorWOpacity', {rgba: template.hover.color, opacity:template.hover.opacity});

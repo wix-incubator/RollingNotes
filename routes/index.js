@@ -44,13 +44,9 @@ router.get('/settings', function(req, res) {
  *  This is to avoid unauthorized access to the database.
  **/
 router.post('/updateComponent', function(req, res) {
-    if(req.body.instance) {
         req.query.instance = req.body.instance
         auth.authenticate(req, res);
         db.updateComponent(req.body);
-    } else {
-        console.log('Authentication Error. Did not post to database.')
-    }
 });
 
 module.exports = router;
