@@ -23,7 +23,6 @@ var auth = require('./authenticate');
 
 /**
  * To run widget in development environment: type 'NODE_ENV=dev npm start' or 'npm start' in terminal with no quotations.
- *
  * To run widget in production environment: type 'NODE_ENV=prod npm start' in terminal with no quotations
  */
 if (process.env.NODE_ENV === PROD) {
@@ -37,6 +36,10 @@ if (process.env.NODE_ENV === PROD) {
     app.use(require('less-middleware')(path.join(__dirname, 'public')));
     app.use(express.static(path.join(__dirname, 'public')));
 }
+
+/**
+ * Express Middleware.
+ */
 app.use(compression());
 app.use(favicon());
 app.use(logger('dev'));
@@ -45,16 +48,20 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 
 
-//TODO authenticate ONCE for each request
-// Add Wix authentication to each server request
+/**
+ * Important: Adds Wix authentication to each server request.
+ * The server will not post to the database without successful
+ * authentication.  Look at authentication.js for details.
+ *
+ * This is necessary for EVERY request to and from the Widget.
+ **/
 app.use(function(req, res, next){
     auth.authenticate(req, res);
     next();
 });
 
+/* Sends all requests starting with '/' to routes/index.js */
 app.use('/', routes);
-
-
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -87,5 +94,5 @@ app.use(function(err, req, res, next) {
     });
 });
 
-
+/* Used to start server in bin/www */
 module.exports = app;

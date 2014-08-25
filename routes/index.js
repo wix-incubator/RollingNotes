@@ -3,11 +3,7 @@ var db = require('../data/database');
 var auth = require('../authenticate');
 var router = express.Router();
 
-var connect = require('connect'),
-    gzip = require('connect-gzip');
-
 function handleRequest(req, res, compId, template) {
-    auth.authenticate(req, res);
     var key = req.instanceId  + '.' + compId;
     // get settings object from db based on key
     db.getCompByKey(key).then(function (data) {
@@ -30,9 +26,13 @@ router.get('/settings', function(req, res) {
 
 /* Update component. */
 router.post('/updateComponent', function(req, res) {
-    req.query.instance = req.body.instance
-    auth.authenticate(req,res);
-    db.updateComponent(req.body);
+    if(req.body.instance) {
+        req.query.instance = req.body.instance
+        auth.authenticate(req, res);
+        db.updateComponent(req.body);
+    } else {
+        console.log('Authentication Error. Did not post to database.')
+    }
 });
 
 module.exports = router;
