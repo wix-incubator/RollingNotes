@@ -40,13 +40,14 @@ router.get('/settings', function(req, res) {
  *
  *  Request must hold proper instance id for the request
  *  to be properly authenticated and saved to the database.
+ *  Instance id is added to request query in the updateComponent
+ *  function of settings-app.js.
  *
  *  This is to avoid unauthorized access to the database.
  **/
 router.post('/updateComponent', function(req, res) {
-        req.query.instance = req.body.instance
-        auth.authenticate(req, res);
         db.updateComponent(req.body);
+        res.end();
 });
 
 module.exports = router;
