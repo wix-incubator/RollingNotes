@@ -8,7 +8,6 @@
 var express = require('express');
 var app = express();
 var wix = require('openapi-node');
-
 var config = require('./config');
 
 //heroku

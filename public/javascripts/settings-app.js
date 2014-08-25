@@ -270,7 +270,9 @@ var siteColorStyles;
          * @param newSettings - new checkbox data
          */
         Wix.UI.onChange('hoverCheckbox', function(newSettings){
+            console.log(newSettings);
             settings.design.hover.selected = newSettings;
+            console.log("hover: " + settings.design.hover.selected);
             $scope.updateComponent(settings);
         });
 

@@ -6,13 +6,14 @@ var DEV = 'dev';
 var PROD = 'prod';
 
 var express = require('express');
-var compression = require('compression')
 
 var path = require('path');
 var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var compression = require('compression');
+
 
 var routes = require('./routes/index');
 

@@ -95,7 +95,7 @@ Includes design settings, template settings and the manage notes screen.
                             </li>
                             <!-- hover color toggle, color, and opacity-->
                             <li class="li-group">
-                                <div class="hover-check" wix-model="hoverCheckbox" wix-ctrl="Checkbox" wix-options="{preLabel:'', checked:{{ctrl.settings.design.hover.selected || 'true'}}}"></div>
+                                <div class="hover-check" wix-model="hoverCheckbox" wix-ctrl="Checkbox" wix-options="{preLabel:'', checked:{{ctrl.settings.design.hover.selected || false}}}"></div>
                                 <span wix-label="Hover Color"></span>
                                 <div wix-model="hcolorWOpacity" wix-ctrl="ColorPickerWithOpacity" wix-options="{startWithColor: '{{ctrl.settings.design.hover.color || '#ffffff'}}', startWithOpacity:'{{('' + ctrl.settings.design.hover.opacity*100) || '100'}}'}"></div>
                                 <div wix-model="hOpacitySlider" wix-ctrl="Spinner" wix-options="{minValue: 0, maxValue:100,  value:'{{100 *ctrl.settings.design.hover.opacity || '100'}}' }"></div>

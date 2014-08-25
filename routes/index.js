@@ -3,6 +3,7 @@ var db = require('../data/database');
 var auth = require('../authenticate');
 var router = express.Router();
 
+<<<<<<< HEAD
 /**
  * Handles GET requests for widget and settings.
  * Grabs widget data from the database via unique id and sends
@@ -13,6 +14,8 @@ var router = express.Router();
  * @param compId - unique widget id
  * @param template - either 'widget.ejs' or 'settings.ejs'
  */
+=======
+>>>>>>> 9347c59d1375b5ffbc9452be9990939712fc0436
 function handleRequest(req, res, compId, template) {
     var key = req.instanceId  + '.' + compId;
     // get settings object from db based on key
