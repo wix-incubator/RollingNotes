@@ -20,7 +20,7 @@
 11 error There is likely additional logging output above.
 12 error System Darwin 13.3.0
 13 error command "node" "/usr/local/bin/npm" "start"
-14 error cwd /Users/Adam_Cole/Documents/WixApps/rolling-notes
+14 error cwd /Users/elanas/Desktop/Wix Projects/rolling-notes
 15 error node -v v0.10.29
 16 error npm -v 1.4.18
 17 error code ELIFECYCLE
