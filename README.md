@@ -1,8 +1,14 @@
-Rolling Notes Application: example of how to use a Node.js backend and 
-angular/react frontend to produce a Wix Third Party Application.
+Rolling Notes - Wix Third Party App
+=====
 
-Settings frontend handled via angular.js.
+Intro
+-----
+This is an intro.
 
-Widget UI created via React.js.
+About
+-----
+This is an about.
 
-Node.js backend created via Express project.
+Setup & Run
+----- 
+This is setup and run instructions.
