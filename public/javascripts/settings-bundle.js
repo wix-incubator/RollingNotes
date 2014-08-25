@@ -212,19 +212,20 @@ var siteColorStyles;
             /* replacing old settings JSON with updated settings */
             this.settings = newSettings;
 
-            /* Sets settings instance to be used in POST request authentication below */
-            this.settings.instance = parseSettingsInstance();
-
             /*
              * Sends a POST request to routes/index.js.
              * POSTs new settings data to database.
              * This is how settings updates/changes are saved.
              */
-            $http.post('/updateComponent', this.settings).success(function() {
-                console.log('posting');
+
+            /* builds encoded url to post settings to database by adding the instance param to the query*/
+            var url = '/updateComponent?instance=' + parseSettingsInstance();
+            var encoded_url = encodeURI(url);
+
+            $http.post(encoded_url, this.settings).success(function() {
+                /* placeholder for success of posting */
             }).error(function(data, status, headers, config) {
-                 console.log("OH NO! WE FAILED TO POST!!!!!");
-                 console.log("data: " + data + "; status: " + status);
+                 console.log("failed to post to database");
             });
 
             /* Triggers the widget UI to refresh with settings changes */
