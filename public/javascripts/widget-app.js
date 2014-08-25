@@ -98,12 +98,10 @@ var WidgetApp = React.createClass({
         /* SPECIAL CASE: this event listener is added to prevent a specific bug
          related to CSS transitions, intervals, and switching tabs. Listens to
          when user changes tabs: pauses notes when tab with widget is not visible
-         and plays notes when user returns to the tab
+         and plays notes when user returns to the tab.
          */
         Visibility.change(function(e, state) {
-            if (viewMode === 'edit') {
-                return;
-            } else if(state === 'hidden') {
+            if(state === 'hidden') {
                 that.pauseNotes();
             } else if (state === 'visible'){
                   that.refreshWidget();
