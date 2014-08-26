@@ -37,7 +37,7 @@ And then install all the bower components for the UI:
 
 Begin Server
 ----- 
-Before running the server, make sure to run your mongodb server with the command:
+Before running the server, make sure to run your mongodb database with the command:
 > mongod  
 
 The app can be run in a development or production environment. 
