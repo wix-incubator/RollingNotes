@@ -18,12 +18,13 @@ How To Install
 
 After downloading or cloning the app to your local drive, in your command prompt navigate to the root "rolling-notes" folder. 
 
- Make sure you have npm, node and MongoDB installed with the following commands:
-> node -v 
-> npm -v 
-> bower -v
-> gulp -v
-> mongo --version
+ Make sure you have npm, node and MongoDB installed globally with the following commands:
+> node -v  
+> npm -v  
+> bower -v  
+> gulp -v  
+> mongo --version  
+
 If not, make sure to install the latest versions of each globally. 
 
 Install the node package dependencies using the following command:
@@ -36,6 +37,9 @@ And then install all the bower components for the UI:
 
 Begin Server
 ----- 
+Before running the server, make sure to run your mongodb server with the command:
+> mongod  
+
 The app can be run in a development or production environment. 
 
 To run in dev mode, run the following command: 
