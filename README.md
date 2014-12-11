@@ -55,12 +55,12 @@ Then to run the server, enter the following command:
 
 > NODE_ENV=prod npm start
 
-Run App
+Registering and Running the App
 ----- 
-To begin using the app, first register an account at [dev.wix.com](http://dev.wix.com/).
-
-Then follow the site instructions to create a new widget app. Set the following settings in "Register Your App" page. 
-
+1. Go to [Wix Developer Center](http://dev.wix.com/) and click "add your app".
+2. Enter a name for the app, for example "RollingNotes", and click "register".
+3. Copy the app-key and app-secret-key to config.js (in the RollingNotes folder). 
+4. Create a new widget app and set the following settings in "Register Your App" page.
  - App Endpoints: 'Widget'
  - Set App Endpoints:
 	 - Widget URL: http://localhost:8000/widget
@@ -71,7 +71,12 @@ Then follow the site instructions to create a new widget app. Set the following 
 	 - Default width: 600
 	 - Default height: 750
 
-Then click save and continue. You are now free to click the "Test Your App" button. In order to load the app, click the "App Market" button once the test site is loaded. Then select the "Developer Apps" tab from the left sidebar and add the rolling notes app to the site. 
+5. Click "save" or "save and continue". 
 
-Make sure your server is running as described above.   
+You are now ready to run the RollingNotes app. 
 
+1. Click the "Test Your App" button. Then a new browser tab will open with the Wix Editor, and you should see the RollingNotes app in the On the "Developer Apps" tab.
+2.  Add the RollingNotes app to the site.
+3.  Double click the app to open settings
+
+Make sure your server (both NoteJS & MongoDB) is running as described above.
