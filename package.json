@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "body-parser": "~1.0.0",
@@ -31,7 +33,7 @@
     "q": "*",
     "watchify": "*",
     "gulp-imagemin": "*",
-    "imagemin-pngcrush":"*",
+    "imagemin-pngcrush": "*",
     "gulp-gzip": "*",
     "compression": "*",
     "connect": "*",
@@ -39,6 +41,8 @@
     "gulp-html-replace": "*",
     "static-favicon": "~1.0.0",
     "morgan": "~1.0.0",
-    "cookie-parser": "~1.0.1"
-  }
+    "cookie-parser": "~1.0.1",
+    "snyk": "^1.317.0"
+  },
+  "snyk": true
 }
